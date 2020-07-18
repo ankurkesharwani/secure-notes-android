@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryLight">#C5CAE9</color>
+    <color name="colorAccent">#ff4081</color>
+
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#757575</color>
+
+    <color name="text1">#454545</color>
+    <color name="text2">#777777</color>
+    <color name="text3">#AAAAAA</color>
+    <color name="text4">#CCCCCC</color>
+    <color name="text5">#ffffff</color>
+
+    <color name="bg1">#dcffffff</color>
+
+
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="blackOverlay">#66000000</color>
+    <color name="windowColor">#FFFFFF</color>
+
+    <color name="refresh_progress_1">@color/colorAccent</color>
+    <color name="refresh_progress_2">@color/colorPrimary</color>
+</resources>
