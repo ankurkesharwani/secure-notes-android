@@ -35,7 +35,7 @@ data class PasswordEntity(var id: Int?,
 
 
         const val CREATE = """
-            CREATE TABLE $TABLE_NAME (,
+            CREATE TABLE $TABLE_NAME (
                 "$COLUMN_ID" TEXT PRIMARY KEY,
 	            "$COLUMN_TITLE "TEXT NOT NULL UNIQUE,
 	            "$COLUMN_USERNAME "NUMERIC NOT NULL,

@@ -52,7 +52,7 @@ class SerialTaskExecutor: Task.ExecutorListener {
         if (handlerThread == null) {
             handlerThread = HandlerThread(newHandlerThreadName())
             handlerThread?.start()
-            workerHandler = Handler(handlerThread?.looper)
+            workerHandler = Handler(handlerThread!!.looper)
         }
 
         taskIdMap[task.name] = ++latestStartId

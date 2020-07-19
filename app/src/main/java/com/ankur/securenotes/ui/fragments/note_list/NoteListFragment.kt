@@ -36,8 +36,6 @@ class NoteListFragment : Fragment(),
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        getActivity()
-
         activity = context as Activity
     }
 

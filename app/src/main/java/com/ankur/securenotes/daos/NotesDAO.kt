@@ -2,14 +2,13 @@ package com.ankur.securenotes.daos
 
 import android.database.sqlite.SQLiteDatabase
 import com.ankur.securenotes.entities.NoteEntity
-import com.ankur.securenotes.ui.activities.NoteEditorActivity
 import java.util.*
 
 object NotesDAO {
-    fun findOneByUUID(UUID: String, db: SQLiteDatabase): NoteEntity? {
+    fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
         val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"
-            WHERE "${NoteEntity.COLUMN_UUID}" = "$UUID"
+            WHERE "${NoteEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
         val cursor = db.rawQuery(query, null)
@@ -42,12 +41,12 @@ object NotesDAO {
     }
 
     fun createNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
-        val UUID = UUID.randomUUID().toString()
+        val id = UUID.randomUUID().toString()
         val current = Date()
         val query = """
             INSERT INTO "${NoteEntity.TABLE_NAME}"
             (
-                "${NoteEntity.COLUMN_UUID}",
+                "${NoteEntity.COLUMN_ID}",
                 "${NoteEntity.COLUMN_TITLE}",
                 "${NoteEntity.COLUMN_BODY}",
                 "${NoteEntity.COLUMN_ARCHIVED}",
@@ -56,7 +55,7 @@ object NotesDAO {
             ) 
             VALUES 
             (
-                "$UUID",
+                "$id",
                 "${note.title}",
                 "${note.body}",
                 "${note.archived}",
@@ -67,11 +66,11 @@ object NotesDAO {
 
         db.execSQL(query)
 
-        return findOneByUUID(UUID, db)
+        return findOneById(id, db)
     }
 
     fun updateNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
-        if (note?.id == null || note?.uuid == null) {
+        if (note.id == null) {
             return null
         }
 
@@ -89,6 +88,6 @@ object NotesDAO {
 
         db.execSQL(query)
 
-        return findOneByUUID(note!!.uuid!!, db)
+        return findOneById(note.id!!, db)
     }
 }

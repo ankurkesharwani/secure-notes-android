@@ -18,7 +18,7 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
         notes?.let {
             this.notes = it
         }
-        countItems = this.notes?.count()
+        countItems = this.notes.count()
         hasItemsToShow = countItems > 0
     }
 
@@ -43,7 +43,7 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NoteListItemViewHolder) {
-            holder.configure(notes!![position])
+            holder.configure(notes[position])
         }
     }
 

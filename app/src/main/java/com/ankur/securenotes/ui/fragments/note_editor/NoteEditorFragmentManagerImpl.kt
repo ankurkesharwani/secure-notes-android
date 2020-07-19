@@ -15,10 +15,6 @@ class NoteEditorFragmentManagerImpl: NoteEditorFragmentManager, SerialTaskExecut
     override var context: Context? = null
     override var listener: WeakReference<NoteEditorFragmentManager.Listener>? = null
 
-    override fun setNoteToEdit(note: NoteEntity) {
-        this.note = note
-    }
-
     override fun saveNote() {
         if (note == null || context == null) {
             return

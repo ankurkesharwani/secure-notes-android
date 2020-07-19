@@ -16,7 +16,6 @@ interface NoteEditorFragmentManager {
     var context: Context?
     var listener: WeakReference<Listener>?
 
-    fun setNoteToEdit(note: NoteEntity)
     fun saveNote()
     fun deleteNote()
 }

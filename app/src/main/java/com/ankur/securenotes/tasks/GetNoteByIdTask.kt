@@ -15,7 +15,7 @@ class GetNoteByIdTask(var UUID: String,
 
     override fun exec() {
         result = try {
-            val note = NotesDAO.findOneByUUID(UUID, db)
+            val note = NotesDAO.findOneById(UUID, db)
 
             Result(note)
         } catch (exc: Exception) {

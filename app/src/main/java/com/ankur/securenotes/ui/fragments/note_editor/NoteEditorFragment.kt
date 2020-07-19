@@ -3,13 +3,10 @@ package com.ankur.securenotes.ui.fragments.note_editor
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
@@ -24,19 +21,23 @@ import java.lang.ref.WeakReference
 class NoteEditorFragment : Fragment(),
     NoteEditorFragmentManager.Listener,
     SerialTaskExecutor.Listener {
+
+    // region Declarations
     interface Listener {
         fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>)
         fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>)
     }
-    
+    // endregion
+
+    // region Properties
     private lateinit var activity: Activity
     private lateinit var manager: NoteEditorFragmentManager
     private var listener: WeakReference<Listener>? = null
-
+    // endregion
+    
+    // region Lifecycle
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        getActivity()
 
         activity = context as Activity
     }
@@ -58,11 +59,7 @@ class NoteEditorFragment : Fragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
-
-        etTitleEditText.addTextChangedListener()
-
-        return view
+        return inflater.inflate(R.layout.fragment_note_editor, container, false)
     }
 
     /*
@@ -116,9 +113,10 @@ class NoteEditorFragment : Fragment(),
         super.onDetach()
     }
     */
+    // endregion
 
 
-
+    // region Methods
     fun setListener(listener: Listener) {
         this.listener = WeakReference(listener)
     }
@@ -134,7 +132,7 @@ class NoteEditorFragment : Fragment(),
         etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
     }
 
-    private fun saveNote() {
+    fun saveNote() {
         val title = etTitleEditText.text.toString()
         val body = etBodyEditText.text.toString()
 
@@ -158,7 +156,9 @@ class NoteEditorFragment : Fragment(),
 
         manager.saveNote()
     }
+    // endregion
 
+    // region SerialTaskExecutor.Listener
     override fun onTaskStarted(task: Task) {
 
     }
@@ -167,14 +167,16 @@ class NoteEditorFragment : Fragment(),
         when(task) {
             is GetNoteByIdTask -> {
                 task.result?.note?.let {
-                    manager.setNoteToEdit(it)
+                    manager.note = it
 
                     reloadData()
                 }
             }
         }
     }
+    // endregion
 
+    // region NoteEditorFragmentManager.Listener
     override fun onNoteSavingStarted(note: NoteEntity?, manager: WeakReference<NoteEditorFragmentManager>?) {
 
     }
@@ -190,6 +192,7 @@ class NoteEditorFragment : Fragment(),
             listener?.get()?.onNoteSavingFailed(note, null, WeakReference(this))
         }
     }
+    // endregion
 
     companion object {
 

@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference
 class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     private var mode: String? = EDITOR_MODE_CREATE
-    private var noteUuid: String? = null
+    private var noteId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         mode = intent.extras?.get(EDITOR_MODE_FLAG) as? String
-        noteUuid = intent.extras?.get(EDITOR_NOTE_UUID) as? String
+        noteId = intent.extras?.get(EDITOR_NOTE_ID) as? String
 
         setupToolbar()
         showNoteEditorFragment()
@@ -55,9 +55,9 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         // Add the fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val noteEditorFragment = NoteEditorFragment()
-        if (mode == EDITOR_MODE_EDIT && noteUuid != null) {
+        if (mode == EDITOR_MODE_EDIT && noteId != null) {
             val bundle = Bundle()
-            bundle.putString("noteUuid", noteUuid)
+            bundle.putString(NoteEditorFragment.PARAM_NOTE_ID, noteId)
 
             noteEditorFragment.arguments = bundle
         }
@@ -124,7 +124,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     }
 
     companion object {
-        const val EDITOR_NOTE_UUID = "EDITOR_NOTE_UUID"
+        const val EDITOR_NOTE_ID = "EDITOR_NOTE_UUID"
         const val EDITOR_MODE_FLAG = "EDITOR_MODE_FLAG"
         const val EDITOR_MODE_CREATE = "CREATE"
         const val EDITOR_MODE_EDIT = "EDIT"
