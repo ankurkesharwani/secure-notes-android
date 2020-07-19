@@ -7,8 +7,8 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 import java.lang.Exception
 
-class GetNoteByUUIDTask(var UUID: String,
-                        var db: SQLiteDatabase): Task() {
+class GetNoteByIdTask(var UUID: String,
+                      var db: SQLiteDatabase): Task() {
     data class Result(var note: NoteEntity?, var error: TaskError? = null)
 
     var result: Result? = null

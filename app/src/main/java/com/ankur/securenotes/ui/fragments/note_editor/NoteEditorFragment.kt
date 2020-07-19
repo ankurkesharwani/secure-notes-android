@@ -3,19 +3,27 @@ package com.ankur.securenotes.ui.fragments.note_editor
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.EditText
+import android.widget.TextView
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.shared.Shared
+import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
+import com.ankur.securenotes.taskexecuter.Task
+import com.ankur.securenotes.tasks.GetNoteByIdTask
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import java.lang.ref.WeakReference
 
 
-class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener {
+class NoteEditorFragment : Fragment(),
+    NoteEditorFragmentManager.Listener,
+    SerialTaskExecutor.Listener {
     interface Listener {
         fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>)
         fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>)
@@ -43,10 +51,16 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener {
                 .set(context = activity)
                 .set(listener = this).build() }!!
         }
+
+        arguments?.get(PARAM_NOTE_ID)?.let {
+            fetchNoteToEdit(it as String)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
+
+        etTitleEditText.addTextChangedListener()
 
         return view
     }
@@ -103,15 +117,24 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener {
     }
     */
 
+
+
     fun setListener(listener: Listener) {
         this.listener = WeakReference(listener)
     }
 
-    fun openNote(uuid: String) {
-        
+    private fun fetchNoteToEdit(noteId: String) {
+        val getNoteTask = GetNoteByIdTask(noteId, Shared.getReadableDatabase(activity))
+        Shared.serialTaskExecutor?.exec(getNoteTask, this)
     }
 
-    fun saveNote() {
+    private fun reloadData() {
+        val note = manager.note
+        etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
+        etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
+    }
+
+    private fun saveNote() {
         val title = etTitleEditText.text.toString()
         val body = etBodyEditText.text.toString()
 
@@ -121,13 +144,35 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener {
             return
         }
 
-        val note = NoteEntity()
-        note.title = title
-        note.body = body
-        note.archived = false
+        if(manager.note == null) {
+            val note = NoteEntity()
+            note.title = title
+            note.body = body
+            note.archived = false
 
-        manager.note = note
+            manager.note = note
+        } else {
+            manager.note?.title = title
+            manager.note?.body = body
+        }
+
         manager.saveNote()
+    }
+
+    override fun onTaskStarted(task: Task) {
+
+    }
+
+    override fun onTaskFinished(task: Task) {
+        when(task) {
+            is GetNoteByIdTask -> {
+                task.result?.note?.let {
+                    manager.setNoteToEdit(it)
+
+                    reloadData()
+                }
+            }
+        }
     }
 
     override fun onNoteSavingStarted(note: NoteEntity?, manager: WeakReference<NoteEditorFragmentManager>?) {
@@ -151,6 +196,6 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener {
         @JvmField
         val TAG = this::class.java.name
 
-        const val NOTE_EDITOR_FRAGMENT_PARAM_NOTE_UUID = "noteUuid"
+        const val PARAM_NOTE_ID = "noteId"
     }
 }

@@ -5,7 +5,6 @@ import com.ankur.securenotes.db.DbUtil
 import java.util.*
 
 data class PasswordEntity(var id: Int?,
-                          var uuid: String?,
                           var title: String?,
                           var username: String?,
                           var password: String?,
@@ -15,7 +14,6 @@ data class PasswordEntity(var id: Int?,
 
     fun updateFrom(cursor: Cursor) {
         id = DbUtil.getValue(cursor, COLUMN_ID, id)
-        uuid = DbUtil.getValue(cursor, COLUMN_UUID, uuid)
         title = DbUtil.getValue(cursor, COLUMN_TITLE, title)
         username = DbUtil.getValue(cursor, COLUMN_USERNAME, username)
         password = DbUtil.getValue(cursor, COLUMN_PASSWORD, password)
@@ -28,7 +26,6 @@ data class PasswordEntity(var id: Int?,
         const val TABLE_NAME = "password"
 
         const val COLUMN_ID = "id"
-        const val COLUMN_UUID = "uuid"
         const val COLUMN_TITLE = "title"
         const val COLUMN_USERNAME = "username"
         const val COLUMN_PASSWORD = "password"
@@ -38,9 +35,8 @@ data class PasswordEntity(var id: Int?,
 
 
         const val CREATE = """
-            CREATE TABLE $TABLE_NAME (
-	            "$COLUMN_ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-                "$COLUMN_UUID" TEXT NOT NULL UNIQUE,
+            CREATE TABLE $TABLE_NAME (,
+                "$COLUMN_ID" TEXT PRIMARY KEY,
 	            "$COLUMN_TITLE "TEXT NOT NULL UNIQUE,
 	            "$COLUMN_USERNAME "NUMERIC NOT NULL,
 	            "$COLUMN_PASSWORD" INTEGER NOT NULL DEFAULT 0,

@@ -65,7 +65,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
     override fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>) {
         val intent = Intent(this, NoteEditorActivity::class.java)
         intent.putExtra(NoteEditorActivity.EDITOR_MODE_FLAG, NoteEditorActivity.EDITOR_MODE_EDIT)
-        intent.putExtra(NoteEditorActivity.EDITOR_NOTE_UUID, note.uuid )
+        intent.putExtra(NoteEditorActivity.EDITOR_NOTE_UUID, note.id )
         startActivity(intent)
     }
 }

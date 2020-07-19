@@ -4,8 +4,7 @@ import android.database.Cursor
 import com.ankur.securenotes.db.DbUtil
 import java.util.*
 
-data class NoteEntity(var id: Int? = null,
-                      var uuid: String? = null,
+data class NoteEntity(var id: String? = null,
                       var title: String? = null,
                       var body: String? = null,
                       var archived: Boolean? = null,
@@ -14,7 +13,6 @@ data class NoteEntity(var id: Int? = null,
 
     fun updateFrom(cursor: Cursor) {
         id = DbUtil.getValue(cursor, COLUMN_ID, id)
-        uuid = DbUtil.getValue(cursor, COLUMN_UUID, uuid)
         title = DbUtil.getValue(cursor, COLUMN_TITLE, title)
         body = DbUtil.getValue(cursor, COLUMN_BODY, body)
         archived = DbUtil.getValue(cursor, COLUMN_ARCHIVED, archived)
@@ -26,7 +24,6 @@ data class NoteEntity(var id: Int? = null,
         const val TABLE_NAME = "note"
 
         const val COLUMN_ID = "id"
-        const val COLUMN_UUID = "uuid"
         const val COLUMN_TITLE = "title"
         const val COLUMN_BODY = "body"
         const val COLUMN_ARCHIVED = "archived"
@@ -35,8 +32,7 @@ data class NoteEntity(var id: Int? = null,
 
         const val CREATE = """
             CREATE TABLE $TABLE_NAME (
-	            "$COLUMN_ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-                "$COLUMN_UUID" TEXT NOT NULL UNIQUE,
+                "$COLUMN_ID" TEXT PRIMARY KEY,
 	            "$COLUMN_TITLE" TEXT NOT NULL UNIQUE,
 	            "$COLUMN_BODY" NUMERIC NOT NULL,
 	            "$COLUMN_ARCHIVED" INTEGER NOT NULL DEFAULT 0,
