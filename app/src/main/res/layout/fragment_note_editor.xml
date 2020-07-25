@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.note_editor.NoteEditorFragment">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +27,7 @@
                 android:gravity="start|top"
                 android:hint="What's on your mind?"
                 android:inputType="textMultiLine"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/BrandColor.Text1"
                 android:fontWeight="600"
                 android:textSize="24sp" />
 
@@ -47,7 +46,7 @@
                 android:hint="Let's note something of importance"
                 android:inputType="textMultiLine"
                 android:minHeight="100dp"
-                android:textColor="@color/primaryText"
+                android:textColor="@color/BrandColor.Text1"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

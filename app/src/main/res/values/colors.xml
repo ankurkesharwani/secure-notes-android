@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimaryLight">#C5CAE9</color>
-    <color name="colorAccent">#ff4081</color>
 
-    <color name="primaryText">#212121</color>
-    <color name="secondaryText">#757575</color>
+    <!-- Brand Colors -->
+    <color name="BrandColor.Primary">#8D5FD3</color>
+    <color name="BrandColor.Background.Primary">#F9F9F9</color>
+    <color name="BrandColor.Border.Primary">#CCCCCC</color>
 
-    <color name="text1">#454545</color>
-    <color name="text2">#777777</color>
-    <color name="text3">#AAAAAA</color>
-    <color name="text4">#CCCCCC</color>
-    <color name="text5">#ffffff</color>
+    <color name="BrandColor.Text1">#000000</color>
+    <color name="BrandColor.Text2">#333333</color>
+    <color name="BrandColor.Text3">#666666</color>
+    <color name="BrandColor.Text4">#999999</color>
+    <color name="BrandColor.Text5">#CCCCCC</color>
 
-    <color name="bg1">#dcffffff</color>
+    <!-- System Colors -->
+    <color name="colorPrimary">@color/BrandColor.Text1</color>
+    <color name="colorPrimaryDark">@color/BrandColor.Text1</color>
+    <color name="colorPrimaryLight">@color/BrandColor.Text2</color>
+    <color name="colorAccent">#FF4081</color>
 
-
-    <color name="icons">#FFFFFF</color>
-    <color name="divider">#BDBDBD</color>
-    <color name="blackOverlay">#66000000</color>
-    <color name="windowColor">#FFFFFF</color>
+    <color name="primaryText">@color/BrandColor.Text1</color>
+    <color name="secondaryText">@color/BrandColor.Text2</color>
 
     <color name="refresh_progress_1">@color/colorAccent</color>
-    <color name="refresh_progress_2">@color/colorPrimary</color>
+    <color name="refresh_progress_2">@color/BrandColor.Primary</color>
 </resources>

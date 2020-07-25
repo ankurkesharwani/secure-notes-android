@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="Sample Note Title For Long Text"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/BrandColor.Text1"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
@@ -26,7 +26,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="12dp"
         android:text="July 24, 2020"
-        android:textColor="@color/text1"
+        android:textColor="@color/BrandColor.Text1"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTitleTextView"
         app:layout_constraintStart_toEndOf="@+id/imageView2" />
