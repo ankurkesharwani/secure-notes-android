@@ -30,6 +30,9 @@ class NoteEditorFragment : Fragment(),
     // endregion
 
     // region Properties
+    private var mode: String? = MODE_EDIT
+    private var nodeId: String? = null
+
     private lateinit var activity: Activity
     private lateinit var manager: NoteEditorFragmentManager
     private var listener: WeakReference<Listener>? = null
@@ -45,17 +48,10 @@ class NoteEditorFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
-            Shared.store?.retrieve(TAG, "manager") as NoteEditorFragmentManager
-        } else {
-            context?.let { NoteEditorFragmentManagerBuilder()
-                .set(context = activity)
-                .set(listener = this).build() }!!
-        }
+        setArgs()
+        setDependencies(savedInstanceState)
 
-        arguments?.get(PARAM_NOTE_ID)?.let {
-            fetchNoteToEdit(it as String)
-        }
+        fetchNote()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,6 +68,7 @@ class NoteEditorFragment : Fragment(),
 
         fetchData()
     }
+    */
 
     override fun onResume() {
         super.onResume()
@@ -79,6 +76,7 @@ class NoteEditorFragment : Fragment(),
         reloadData()
     }
 
+    /*
     override fun onPause() {
         super.onPause()
     }
@@ -115,21 +113,19 @@ class NoteEditorFragment : Fragment(),
     */
     // endregion
 
-
     // region Methods
     fun setListener(listener: Listener) {
         this.listener = WeakReference(listener)
     }
 
-    private fun fetchNoteToEdit(noteId: String) {
-        val getNoteTask = GetNoteByIdTask(noteId, Shared.getReadableDatabase(activity))
-        Shared.serialTaskExecutor?.exec(getNoteTask, this)
-    }
+    fun setMode(mode: String) {
+        when(mode) {
+            MODE_EDIT, MODE_VIEW -> {
+                this.mode = mode
+            }
+        }
 
-    private fun reloadData() {
-        val note = manager.note
-        etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
-        etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
+        updateUiState()
     }
 
     fun saveNote() {
@@ -156,6 +152,48 @@ class NoteEditorFragment : Fragment(),
 
         manager.saveNote()
     }
+
+    fun discardChanges() {
+        reloadData()
+    }
+
+    private fun setArgs() {
+        nodeId = arguments?.get(PARAM_NOTE_ID) as? String
+        mode = arguments?.get(PARAM_MODE_FLAG) as? String
+    }
+
+    private fun setDependencies(savedInstanceState: Bundle?) {
+        manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
+            Shared.store?.retrieve(TAG, "manager") as NoteEditorFragmentManager
+        } else {
+            context?.let { NoteEditorFragmentManagerBuilder()
+                .set(context = activity)
+                .set(listener = this).build() }!!
+        }
+    }
+
+    private fun fetchNote() {
+        this.nodeId?.let {
+            val getNoteTask = GetNoteByIdTask(it, Shared.getReadableDatabase(activity))
+            Shared.serialTaskExecutor?.exec(getNoteTask, this)
+        }
+    }
+
+    private fun updateUiState() {
+        if (mode == MODE_VIEW) {
+            etTitleEditText?.isEnabled = false
+            etBodyEditText?.isEnabled = false
+        } else {
+            etTitleEditText?.isEnabled = true
+            etBodyEditText?.isEnabled = true
+        }
+    }
+
+    private fun reloadData() {
+        val note = manager.note
+        etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
+        etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
+    }
     // endregion
 
     // region SerialTaskExecutor.Listener
@@ -169,6 +207,7 @@ class NoteEditorFragment : Fragment(),
                 task.result?.note?.let {
                     manager.note = it
 
+                    updateUiState()
                     reloadData()
                 }
             }
@@ -199,6 +238,10 @@ class NoteEditorFragment : Fragment(),
         @JvmField
         val TAG = this::class.java.name
 
-        const val PARAM_NOTE_ID = "noteId"
+        const val PARAM_MODE_FLAG = "PARAM_MODE_FLAG"
+        const val PARAM_NOTE_ID = "PARAM_NOTE_ID"
+
+        const val MODE_EDIT = "MODE_EDIT"
+        const val MODE_VIEW = "MODE_VIEW"
     }
 }

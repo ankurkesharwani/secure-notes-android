@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.note_editor.NoteEditorFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/etTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:fontWeight="600"
+                android:gravity="start|top"
+                android:textColor="@color/BrandColor.Text1"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/etBodyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:fontWeight="400"
+                android:gravity="start|top"
+                android:minHeight="100dp"
+                android:textColor="@color/BrandColor.Text1"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="BrandColor.Primary">#8D5FD3</color>
+    <color name="BrandColor.Primary">#FF4081</color>
     <color name="BrandColor.Background.Primary">#F9F9F9</color>
     <color name="BrandColor.Border.Primary">#CCCCCC</color>
 
@@ -16,7 +16,7 @@
     <color name="colorPrimary">@color/BrandColor.Text1</color>
     <color name="colorPrimaryDark">@color/BrandColor.Text1</color>
     <color name="colorPrimaryLight">@color/BrandColor.Text2</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/BrandColor.Primary</color> <!-- #FF4081 -->
 
     <color name="primaryText">@color/BrandColor.Text1</color>
     <color name="secondaryText">@color/BrandColor.Text2</color>

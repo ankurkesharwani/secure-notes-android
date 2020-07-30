@@ -58,14 +58,14 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
 
     private fun openNoteEditor() {
         val intent = Intent(this, NoteEditorActivity::class.java)
-        intent.putExtra(NoteEditorActivity.EDITOR_MODE_FLAG, NoteEditorActivity.EDITOR_MODE_CREATE)
+        intent.putExtra(NoteEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_CREATE)
         startActivity(intent)
     }
 
     override fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>) {
         val intent = Intent(this, NoteEditorActivity::class.java)
-        intent.putExtra(NoteEditorActivity.EDITOR_MODE_FLAG, NoteEditorActivity.EDITOR_MODE_EDIT)
-        intent.putExtra(NoteEditorActivity.EDITOR_NOTE_ID, note.id )
+        intent.putExtra(NoteEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
+        intent.putExtra(NoteEditorActivity.PARAM_NOTE_ID, note.id )
         startActivity(intent)
     }
 }
