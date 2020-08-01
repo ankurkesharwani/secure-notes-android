@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
@@ -26,6 +27,9 @@ class NoteEditorFragment : Fragment(),
     interface Listener {
         fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>)
         fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>)
+
+        fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>)
+        fun onNoteDeletionFailed(note: NoteEntity, message: String?, fragment: WeakReference<Fragment>)
     }
     // endregion
 
@@ -133,7 +137,7 @@ class NoteEditorFragment : Fragment(),
         val body = etBodyEditText.text.toString()
 
         if (body.isEmpty()) {
-            listener?.get()?.onNoteSavingFailed(null, "Cannot save an empty note.", WeakReference(this))
+            listener?.get()?.onNoteSavingFailed(null, "Error: Cannot save an empty note.", WeakReference(this))
 
             return
         }
@@ -151,6 +155,10 @@ class NoteEditorFragment : Fragment(),
         }
 
         manager.saveNote()
+    }
+
+    fun deleteNote() {
+        manager.deleteNote()
     }
 
     fun discardChanges() {
@@ -216,20 +224,28 @@ class NoteEditorFragment : Fragment(),
     // endregion
 
     // region NoteEditorFragmentManager.Listener
-    override fun onNoteSavingStarted(note: NoteEntity?, manager: WeakReference<NoteEditorFragmentManager>?) {
+    override fun onNoteSavingStarted(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
 
     }
 
-    override fun onNoteSaved(note: NoteEntity?, manager: WeakReference<NoteEditorFragmentManager>?) {
-        note?.let {
-            listener?.get()?.onNoteSaved(note, WeakReference(this))
-        }
+    override fun onNoteSaved(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
+        listener?.get()?.onNoteSaved(note, WeakReference(this))
     }
 
-    override fun onNoteSavingFailed(note: NoteEntity?, manager: WeakReference<NoteEditorFragmentManager>?) {
-        note?.let {
-            listener?.get()?.onNoteSavingFailed(note, null, WeakReference(this))
-        }
+    override fun onNoteSavingFailed(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
+        listener?.get()?.onNoteSavingFailed(note, "Error: Could not save note.", WeakReference(this))
+    }
+
+    override fun onNoteDeletionStarted(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
+
+    }
+
+    override fun onNoteDeleted(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
+        listener?.get()?.onNoteDeleted(note, WeakReference(this))
+    }
+
+    override fun onNoteDeletionFailed(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
+        listener?.get()?.onNoteDeletionFailed(note, "Error: Could not delete note.", WeakReference(this))
     }
     // endregion
 

@@ -148,8 +148,15 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         invalidateOptionsMenu()
     }
 
-    private fun deleteNote() {
-        Toast.makeText(this, "Deleting Note, Please wait.", Toast.LENGTH_SHORT).show()
+    private fun showDeleteNoteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Note")
+            .setMessage("Are you sure you want to delete this note?")
+            .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                deleteNote()
+            })
+            .setNegativeButton(android.R.string.no, null)
+            .show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
@@ -192,6 +199,12 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         finish()
     }
 
+    private fun deleteNote() {
+        // Set fragment mode
+        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        fragment?.deleteNote()
+    }
+
     // endregion
 
     // region Overridden Methods
@@ -211,7 +224,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
             }
 
             R.id.miDeleteButton -> {
-                deleteNote()
+                showDeleteNoteConfirmationDialog()
 
                 true
             }
@@ -253,11 +266,19 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
     override fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-            return
         }
+    }
 
-        Toast.makeText(this, "Could not save note.", Toast.LENGTH_SHORT).show()
+    override fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>) {
+        Toast.makeText(this, "Note deleted.", Toast.LENGTH_SHORT).show()
+
+        finish()
+    }
+
+    override fun onNoteDeletionFailed(note: NoteEntity, message: String?, fragment: WeakReference<Fragment>) {
+        if (message != null) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
     }
     // endregion
 

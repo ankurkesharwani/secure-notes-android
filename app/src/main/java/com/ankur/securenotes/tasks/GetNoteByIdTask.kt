@@ -7,7 +7,7 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 import java.lang.Exception
 
-class GetNoteByIdTask(var UUID: String,
+class GetNoteByIdTask(var id: String,
                       var db: SQLiteDatabase): Task() {
     data class Result(var note: NoteEntity?, var error: TaskError? = null)
 
@@ -15,7 +15,7 @@ class GetNoteByIdTask(var UUID: String,
 
     override fun exec() {
         result = try {
-            val note = NotesDAO.findOneById(UUID, db)
+            val note = NotesDAO.findOneById(id, db)
 
             Result(note)
         } catch (exc: Exception) {

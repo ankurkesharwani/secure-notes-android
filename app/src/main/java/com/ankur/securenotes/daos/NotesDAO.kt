@@ -19,8 +19,6 @@ object NotesDAO {
             return note
         }
 
-        db.close()
-
         return null
     }
 
@@ -89,5 +87,14 @@ object NotesDAO {
         db.execSQL(query)
 
         return findOneById(note.id!!, db)
+    }
+
+    fun deleteById(id: String, db: SQLiteDatabase) {
+        val query = """
+            DELETE FROM "${NoteEntity.TABLE_NAME}"
+            WHERE "${NoteEntity.COLUMN_ID}" = "$id"
+        """.trimIndent()
+
+        db.execSQL(query)
     }
 }
