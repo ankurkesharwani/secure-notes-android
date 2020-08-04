@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/BrandColor.Background.Primary"
-            app:titleTextAppearance="@style/AppTheme.Toolbar.BrandTitleTextAppearance"
+            app:titleTextAppearance="@style/AppTheme.Toolbar.BrandFont.TitleTextAppearance"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

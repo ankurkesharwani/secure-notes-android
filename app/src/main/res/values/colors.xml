@@ -11,6 +11,7 @@
     <color name="BrandColor.Text3">#666666</color>
     <color name="BrandColor.Text4">#999999</color>
     <color name="BrandColor.Text5">#CCCCCC</color>
+    <color name="BrandColor.Text6">#FFFFFF</color>
 
     <!-- System Colors -->
     <color name="colorPrimary">@color/BrandColor.Text1</color>
