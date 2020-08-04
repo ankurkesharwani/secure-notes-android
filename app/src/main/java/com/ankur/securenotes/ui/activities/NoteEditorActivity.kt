@@ -160,6 +160,13 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
     }
 
     private fun showDiscardChangesConfirmationDialog() {
+        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        if (fragment?.hasEditableChanges() == false) {
+            discardChangesAndSwitchToViewMode()
+
+            return
+        }
+
         AlertDialog.Builder(this)
             .setTitle("Discard Changes")
             .setMessage("Are you sure you want to discard your changes?")
@@ -171,6 +178,13 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
     }
 
     private fun showCancelCreateConfirmationDialog() {
+        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        if (fragment?.hasEditableChanges() == false) {
+            cancelNoteCreate()
+
+            return
+        }
+
         AlertDialog.Builder(this)
             .setTitle("Discard Changes")
             .setMessage("Are you sure you want to discard your changes?")

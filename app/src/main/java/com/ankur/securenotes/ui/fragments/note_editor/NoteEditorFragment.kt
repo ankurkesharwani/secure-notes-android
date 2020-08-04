@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
@@ -35,7 +34,7 @@ class NoteEditorFragment : Fragment(),
 
     // region Properties
     private var mode: String? = MODE_EDIT
-    private var nodeId: String? = null
+    private var noteId: String? = null
 
     private lateinit var activity: Activity
     private lateinit var manager: NoteEditorFragmentManager
@@ -165,8 +164,19 @@ class NoteEditorFragment : Fragment(),
         reloadData()
     }
 
+    fun hasEditableChanges() : Boolean {
+        val title = etTitleEditText.text.toString()
+        val body = etBodyEditText.text.toString()
+
+        return if (noteId == null) {
+            !(title.isEmpty() && body.isEmpty())
+        } else {
+            !(title == manager.note?.title && body == manager.note?.body)
+        }
+    }
+
     private fun setArgs() {
-        nodeId = arguments?.get(PARAM_NOTE_ID) as? String
+        noteId = arguments?.get(PARAM_NOTE_ID) as? String
         mode = arguments?.get(PARAM_MODE_FLAG) as? String
     }
 
@@ -181,7 +191,7 @@ class NoteEditorFragment : Fragment(),
     }
 
     private fun fetchNote() {
-        this.nodeId?.let {
+        this.noteId?.let {
             val getNoteTask = GetNoteByIdTask(it, Shared.getReadableDatabase(activity))
             Shared.serialTaskExecutor?.exec(getNoteTask, this)
         }
