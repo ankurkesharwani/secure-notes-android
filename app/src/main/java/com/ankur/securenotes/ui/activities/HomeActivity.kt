@@ -1,7 +1,10 @@
 package com.ankur.securenotes.ui.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
@@ -9,6 +12,7 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.ui.fragments.note_list.NoteListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.ref.WeakReference
+
 
 class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
 
@@ -20,7 +24,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
         showNoteListFragment()
 
         fabAddNoteButton.setOnClickListener {
-            openNoteEditor()
+            showOptionsDialog()
         }
     }
 
@@ -41,7 +45,8 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val noteListFragment = NoteListFragment()
         noteListFragment.setListener(this)
-        fragmentTransaction.add(R.id.fragmentContainer, noteListFragment,
+        fragmentTransaction.add(
+            R.id.fragmentContainer, noteListFragment,
             NoteListFragment.TAG
         )
         fragmentTransaction.commit()
@@ -65,7 +70,22 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
     override fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>) {
         val intent = Intent(this, NoteEditorActivity::class.java)
         intent.putExtra(NoteEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
-        intent.putExtra(NoteEditorActivity.PARAM_NOTE_ID, note.id )
+        intent.putExtra(NoteEditorActivity.PARAM_NOTE_ID, note.id)
         startActivity(intent)
+    }
+
+    private fun showOptionsDialog() {
+        val items = arrayOf(
+            "Create a note", "Create a password"
+        )
+
+        AlertDialog.Builder(this)
+            .setItems(items, DialogInterface.OnClickListener { dialog, which ->
+            if ("Create a note" == items[which]) {
+                openNoteEditor()
+            } else if ("Create a password" == items[which]) {
+                Toast.makeText(this, "Create password", Toast.LENGTH_SHORT).show()
+            }
+        }).show()
     }
 }
