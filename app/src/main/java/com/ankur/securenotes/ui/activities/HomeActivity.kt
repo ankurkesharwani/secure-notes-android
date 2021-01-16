@@ -84,7 +84,10 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
             if ("Create a note" == items[which]) {
                 openNoteEditor()
             } else if ("Create a password" == items[which]) {
-                Toast.makeText(this, "Create password", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, SampleBottomNavigationActivity::class.java)
+                startActivity(intent)
+
             }
         }).show()
     }

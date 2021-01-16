@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ankur.securenotes.R
 
-object NotContentListItemViewHolderFactory {
+object NoContentListItemViewHolderFactory {
     @JvmStatic
     fun getHolderFor(parent: ViewGroup, viewType: Int): NoContentListItemViewHolder {
         when(viewType)  {

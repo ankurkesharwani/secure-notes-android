@@ -4,10 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.ui.common.viewholders.ListItemViewHolderType
-import com.ankur.securenotes.ui.common.viewholders.NotContentListItemViewHolderFactory
+import com.ankur.securenotes.ui.common.viewholders.NoContentListItemViewHolderFactory
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolderFactory
-import java.lang.ref.WeakReference
 
 class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var notes = listOf<NoteEntity>()
@@ -29,7 +28,7 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
 
             return holder
         } else {
-            NotContentListItemViewHolderFactory.getHolderFor(parent, viewType)
+            NoContentListItemViewHolderFactory.getHolderFor(parent, viewType)
         }
     }
 
@@ -49,7 +48,7 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
 
     override fun getItemViewType(position: Int): Int {
         return if (hasItemsToShow) {
-            ListItemViewHolderType.NOTE_WITH_BODY_LIST_ITEM.ordinal
+            ListItemViewHolderType.NOTE_WITHOUT_BODY_LIST_ITEM.ordinal
         } else {
             ListItemViewHolderType.DEFAULT_NO_CONTENT_LIST_ITEM.ordinal
         }
