@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.ankur.securenotes.entities.NoteEntity
 import java.util.*
 
-object NotesDAO {
+object NotesDao {
     fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
         val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"

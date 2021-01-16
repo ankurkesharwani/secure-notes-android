@@ -99,5 +99,7 @@ class MemStore {
     }
 }
 
-private typealias KeyItemStore = HashMap<String, Any>
 private typealias ContextualStore = HashMap<String, KeyItemStore>
+private typealias KeyItemStore = HashMap<String, Any>
+
+

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_note_editor.*
 import java.lang.ref.WeakReference
 
 
-class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, View.OnClickListener {
+class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     // region Properties
     private var mode: String? = MODE_CREATE
@@ -42,19 +42,19 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
     private fun setupToolbar() {
         when(mode) {
             MODE_VIEW -> {
-                supportActionBar?.title = ""
+                supportActionBar?.title = getString(R.string.note_editor_title_view_note)
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miEditButton, R.id.miDeleteButton)
             }
 
             MODE_CREATE -> {
-                supportActionBar?.title = "New Note"
+                supportActionBar?.title = getString(R.string.note_editor_title_new_note)
                 toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
 
             MODE_EDIT -> {
-                supportActionBar?.title = "Edit Note"
+                supportActionBar?.title = getString(R.string.note_editor_title_edit_note)
                 toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
@@ -103,15 +103,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         noteEditorFragment.setListener(this)
 
         // Set arguments
-        val bundle = Bundle()
-        if ((mode == MODE_EDIT || mode == MODE_VIEW) && noteId != null) {
-            bundle.putString(NoteEditorFragment.PARAM_NOTE_ID, noteId)
-        }
-        if (mode == MODE_VIEW) {
-            bundle.putString(NoteEditorFragment.PARAM_MODE_FLAG, NoteEditorFragment.MODE_VIEW)
-        } else if (mode == MODE_EDIT) {
-            bundle.putString(NoteEditorFragment.PARAM_MODE_FLAG, NoteEditorFragment.MODE_EDIT)
-        }
+        val bundle = getBundleForChildFragment()
         if (bundle.keySet().count() > 0) {
             noteEditorFragment.arguments = bundle
         }
@@ -119,6 +111,32 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         // Show
         fragmentTransaction.add(R.id.fragmentContainer, noteEditorFragment, NoteEditorFragment.TAG)
         fragmentTransaction.commit()
+    }
+
+    private fun getBundleForChildFragment(): Bundle {
+        val bundle = Bundle()
+        if (hasNoteToView()) {
+            bundle.putString(NoteEditorFragment.PARAM_NOTE_ID, noteId)
+        }
+        if (isInViewMode()) {
+            bundle.putString(NoteEditorFragment.PARAM_MODE_FLAG, NoteEditorFragment.MODE_VIEW)
+        } else if (isInEditMode()) {
+            bundle.putString(NoteEditorFragment.PARAM_MODE_FLAG, NoteEditorFragment.MODE_EDIT)
+        }
+
+        return bundle
+    }
+
+    private fun hasNoteToView(): Boolean {
+        return ((mode == MODE_EDIT || mode == MODE_VIEW) && noteId != null)
+    }
+
+    private fun isInViewMode(): Boolean {
+        return (mode == MODE_VIEW)
+    }
+
+    private fun isInEditMode(): Boolean {
+        return (mode == MODE_VIEW)
     }
 
     private fun hideNoteEditorFragment() {
@@ -150,17 +168,17 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
 
     private fun showDeleteNoteConfirmationDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Delete Note")
-            .setMessage("Are you sure you want to delete this note?")
-            .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+            .setTitle(getString(R.string.note_editor_delete_confirmation_dialog_title))
+            .setMessage(getString(R.string.note_editor_delete_confirmation_dialog_body))
+            .setPositiveButton(android.R.string.yes) { _, _ ->
                 deleteNote()
-            })
+            }
             .setNegativeButton(android.R.string.no, null)
             .show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
-        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         if (fragment?.hasEditableChanges() == false) {
             discardChangesAndSwitchToViewMode()
 
@@ -168,11 +186,11 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         }
 
         AlertDialog.Builder(this)
-            .setTitle("Discard Changes")
-            .setMessage("Are you sure you want to discard your changes?")
-            .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+            .setTitle(getString(R.string.note_editor_discard_changes_dialog_title))
+            .setMessage(getString(R.string.note_editor_discard_changes_dialog_body))
+            .setPositiveButton(android.R.string.yes) { _, _ ->
                 discardChangesAndSwitchToViewMode()
-            })
+            }
             .setNegativeButton(android.R.string.no, null)
             .show()
     }
@@ -186,11 +204,11 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         }
 
         AlertDialog.Builder(this)
-            .setTitle("Discard Changes")
-            .setMessage("Are you sure you want to discard your changes?")
-            .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+            .setTitle(getString(R.string.note_editor_cancel_create_dialog_title))
+            .setMessage(getString(R.string.note_editor_cancel_create_dialog_body))
+            .setPositiveButton(android.R.string.yes) { _, _ ->
                 cancelNoteCreate()
-            })
+            }
             .setNegativeButton(android.R.string.no, null)
             .show()
     }
@@ -272,7 +290,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
 
     // region NoteEditorFragment.Listener
     override fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(this, "Note saved.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.note_editor_message_note_saved), Toast.LENGTH_SHORT).show()
 
         finish()
     }
@@ -284,7 +302,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
     }
 
     override fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(this, "Note deleted.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.note_editor_message_note_delete), Toast.LENGTH_SHORT).show()
 
         finish()
     }
@@ -293,11 +311,6 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener, Vie
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
-    }
-    // endregion
-
-    override fun onClick(v: View?) {
-
     }
     // endregion
 

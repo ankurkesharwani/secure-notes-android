@@ -38,7 +38,7 @@
         app:layout_anchorGravity="top|end"
         app:useCompatPadding="true"
         app:layout_anchor="@id/bottomNavigationView"
-        app:layout_behavior=".ui.BottomNavigationFABBehavior"
+        app:layout_behavior=".ui.behaviours.BottomNavigationFABBehavior"
         app:srcCompat="@drawable/ic_create_white_24dp"
         android:contentDescription="@string/fab_create_description" />
 
@@ -52,6 +52,6 @@
         app:itemIconTint="@drawable/selector_bottom_navigation_tint_color"
         app:itemTextColor="@drawable/selector_bottom_navigation_tint_color"
         android:background="?android:attr/windowBackground"
-        app:layout_behavior ="com.ankur.securenotes.ui.BottomNavigationBehavior"
+        app:layout_behavior ="com.ankur.securenotes.ui.behaviours.BottomNavigationBehavior"
         app:menu="@menu/bottom_nav_menu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

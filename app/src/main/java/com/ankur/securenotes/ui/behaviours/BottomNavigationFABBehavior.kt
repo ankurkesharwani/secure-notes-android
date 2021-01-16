@@ -1,4 +1,4 @@
-package com.ankur.securenotes.ui
+package com.ankur.securenotes.ui.behaviours
 
 import android.content.Context
 import android.util.AttributeSet
