@@ -87,7 +87,9 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
                 if ("Create a note" == items[which]) {
                     openNoteEditor()
                 } else if ("Create a password" == items[which]) {
-                    Snackbar.make(coordinatorLayout, "This is a sample snack bar", Snackbar.LENGTH_SHORT).show()
+                    val intent = Intent(this, PasswordEditorActivity::class.java)
+                    intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG, PasswordEditorActivity.MODE_CREATE)
+                    startActivity(intent)
                 }
             }).show()
     }
