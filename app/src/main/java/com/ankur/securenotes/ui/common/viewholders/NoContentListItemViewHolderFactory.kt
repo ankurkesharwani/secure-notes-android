@@ -5,11 +5,9 @@ import android.view.ViewGroup
 import com.ankur.securenotes.R
 
 object NoContentListItemViewHolderFactory {
+
     @JvmStatic
-    fun getHolderFor(
-        parent: ViewGroup,
-        viewType: Int
-    ): NoContentListItemViewHolder {
+    fun getHolderFor(parent: ViewGroup, viewType: Int): NoContentListItemViewHolder {
         when (viewType) {
             ListItemViewHolderType.DEFAULT_NO_CONTENT_LIST_ITEM.ordinal -> {
                 return getDefaultHolder(

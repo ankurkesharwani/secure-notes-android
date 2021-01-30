@@ -6,34 +6,20 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
 class DbHelper(context: Context?) :
-    SQLiteOpenHelper(
-        context,
-        DbConfig.DATABASE_NAME,
-        null,
-        DbConfig.DATABASE_VERSION
-    ) {
+    SQLiteOpenHelper(context, DbConfig.DATABASE_NAME, null, DbConfig.DATABASE_VERSION) {
 
-    override fun onCreate(
-        db: SQLiteDatabase
-    ) {
+    override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(MigrationHistoryEntity.CREATE)
         runMigrations(db)
     }
 
-    override fun onUpgrade(
-        db: SQLiteDatabase,
-        oldVersion: Int,
-        newVersion: Int
-    ) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         runMigrations(db)
     }
 
-    private fun runMigrations(
-        db: SQLiteDatabase
-    ) {
+    private fun runMigrations(db: SQLiteDatabase) {
         val migrationHistory: List<MigrationHistoryEntity> =
-            MigrationHistoryDao().findAll(db)
-                .sortedBy { it.version }
+            MigrationHistoryDao().findAll(db).sortedBy { it.version }
         var lastMigrationVersion: Int = 0
         if (migrationHistory.isNotEmpty()) {
             lastMigrationVersion = migrationHistory.last().version!!
@@ -59,8 +45,7 @@ class DbHelper(context: Context?) :
                 break
             }
             val migrationClass: Class<AbstractMigration> =
-                Class.forName(
-                    "${DbConfig.MIGRATION_PACKAGE}.${i.second}") as Class<AbstractMigration>
+                Class.forName("${DbConfig.MIGRATION_PACKAGE}.${i.second}") as Class<AbstractMigration>
             val migration: AbstractMigration = migrationClass.newInstance()
             Log.d("DbHelper", "Running migration: ${i.second}")
             migration.upgrade(db, i.first)

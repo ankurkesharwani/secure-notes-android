@@ -10,6 +10,7 @@ import com.ankur.securenotes.taskexecuter.TaskError
 class GetAllNotesTask(
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(
         var notes: List<NoteEntity>?,
         var error: TaskError? = null

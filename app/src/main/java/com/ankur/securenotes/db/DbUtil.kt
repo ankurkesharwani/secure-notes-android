@@ -4,11 +4,7 @@ import android.database.Cursor
 import java.util.*
 
 object DbUtil {
-    inline fun <reified T> getValue(
-        cursor: Cursor,
-        name: String,
-        default: T? = null
-    ): T? {
+    inline fun <reified T> getValue(cursor: Cursor, name: String, default: T? = null): T? {
         val columnIndex = cursor.getColumnIndex(name)
         if (columnIndex == -1) {
             return default

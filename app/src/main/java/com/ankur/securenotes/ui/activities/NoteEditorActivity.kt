@@ -15,8 +15,7 @@ import kotlinx.android.synthetic.main.activity_note_editor.*
 import java.lang.ref.WeakReference
 
 
-class NoteEditorActivity : AppCompatActivity(),
-    NoteEditorFragment.Listener {
+class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     // region Properties
     private var mode: String? = MODE_CREATE
@@ -103,9 +102,7 @@ class NoteEditorActivity : AppCompatActivity(),
 
         // Set arguments
         val bundle = getBundleForChildFragment()
-        if (bundle.keySet()
-                .count() > 0
-        ) {
+        if (bundle.keySet().count() > 0) {
             noteEditorFragment.arguments = bundle
         }
 
@@ -290,10 +287,7 @@ class NoteEditorActivity : AppCompatActivity(),
     // endregion
 
     // region NoteEditorFragment.Listener
-    override fun onNoteSaved(
-        note: NoteEntity,
-        fragment: WeakReference<Fragment>
-    ) {
+    override fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(this, getString(R.string.note_editor_message_note_saved), Toast.LENGTH_SHORT)
             .show()
 
@@ -306,21 +300,16 @@ class NoteEditorActivity : AppCompatActivity(),
         fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onNoteDeleted(
-        note: NoteEntity,
-        fragment: WeakReference<Fragment>
-    ) {
+    override fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(
             this,
             getString(R.string.note_editor_message_note_delete),
             Toast.LENGTH_SHORT
-        )
-            .show()
+        ).show()
 
         finish()
     }
@@ -331,8 +320,7 @@ class NoteEditorActivity : AppCompatActivity(),
         fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
     // endregion

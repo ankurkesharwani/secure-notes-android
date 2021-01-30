@@ -11,6 +11,7 @@ class CreatePasswordTask(
     var password: PasswordEntity,
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(
         var password: PasswordEntity?,
         var error: TaskError? = null

@@ -10,13 +10,12 @@ import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.PasswordEntity
-import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
 import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
+import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
 import kotlinx.android.synthetic.main.activity_password_editor.*
 import java.lang.ref.WeakReference
 
-class PasswordEditorActivity : AppCompatActivity(),
-    PasswordEditorFragment.Listener {
+class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Listener {
 
     // region Properties
     private var mode: String? = MODE_CREATE
@@ -290,20 +289,19 @@ class PasswordEditorActivity : AppCompatActivity(),
             }
         }
 
-        menuItemsToRemove.forEach {
-            menu?.removeItem(it)
-        }
+        menuItemsToRemove.forEach { menu?.removeItem(it) }
 
         return super.onPrepareOptionsMenu(menu)
     }
     // endregion
 
     // region PasswordEditorFragment.Listener
-    override fun onPasswordSaved(
-        password: PasswordEntity,
-        fragment: WeakReference<Fragment>
-    ) {
-        Toast.makeText(this, getString(R.string.password_editor_message_note_saved), Toast.LENGTH_SHORT).show()
+    override fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>) {
+        Toast.makeText(
+            this,
+            getString(R.string.password_editor_message_note_saved),
+            Toast.LENGTH_SHORT
+        ).show()
         finish()
     }
 
@@ -317,11 +315,12 @@ class PasswordEditorActivity : AppCompatActivity(),
         }
     }
 
-    override fun onPasswordDeleted(
-        password: PasswordEntity,
-        fragment: WeakReference<Fragment>
-    ) {
-        Toast.makeText(this, getString(R.string.password_editor_message_note_delete), Toast.LENGTH_SHORT).show()
+    override fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>) {
+        Toast.makeText(
+            this,
+            getString(R.string.password_editor_message_note_delete),
+            Toast.LENGTH_SHORT
+        ).show()
         finish()
     }
 

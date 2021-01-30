@@ -18,16 +18,11 @@ import com.ankur.securenotes.ui.common.adapters.NoteListRecyclerViewAdapter
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import java.lang.ref.WeakReference
 
-class NoteListFragment :
-    Fragment(),
-    NoteListFragmentManager.Listener,
+class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
     NoteListItemViewHolder.Listener {
 
     interface Listener {
-        fun onNoteItemSelected(
-            note: NoteEntity,
-            fragment: WeakReference<Fragment>
-        )
+        fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
     }
 
     private lateinit var activity: Activity
@@ -145,11 +140,10 @@ class NoteListFragment :
     private fun setupSwipeToRefresh() {
         swipeToRefresh.setColorSchemeResources(
             R.color.refresh_progress_1,
-            R.color.refresh_progress_2)
+            R.color.refresh_progress_2
+        )
 
-        swipeToRefresh.setOnRefreshListener {
-            fetchData()
-        }
+        swipeToRefresh.setOnRefreshListener { fetchData() }
     }
 
     private fun fetchData() {
@@ -165,10 +159,7 @@ class NoteListFragment :
         swipeToRefresh.isRefreshing = true
     }
 
-    override fun onNoteListFetched(
-        notes: List<NoteEntity>?,
-        manager: NoteListFragmentManager?
-    ) {
+    override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
         swipeToRefresh.isRefreshing = false
         reloadData()
     }
@@ -180,16 +171,11 @@ class NoteListFragment :
     ) {
         swipeToRefresh.isRefreshing = false
         reloadData()
-        Toast.makeText(activity, message, Toast.LENGTH_LONG)
-            .show()
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onNoteItemClicked(
-        note: NoteEntity,
-        viewHolder: RecyclerView.ViewHolder
-    ) {
-        listener?.get()
-            ?.onNoteItemSelected(note, WeakReference(this))
+    override fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder) {
+        listener?.get()?.onNoteItemSelected(note, WeakReference(this))
     }
 
     companion object {

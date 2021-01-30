@@ -10,6 +10,7 @@ class GetNoteByIdTask(
     var id: String,
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(
         var note: NoteEntity?,
         var error: TaskError? = null

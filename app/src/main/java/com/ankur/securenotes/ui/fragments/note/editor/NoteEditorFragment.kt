@@ -18,16 +18,12 @@ import kotlinx.android.synthetic.main.fragment_note_editor.*
 import java.lang.ref.WeakReference
 
 
-class NoteEditorFragment : Fragment(),
-    NoteEditorFragmentManager.Listener,
+class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
     SerialTaskExecutor.Listener {
 
     // region Declarations
     interface Listener {
-        fun onNoteSaved(
-            note: NoteEntity,
-            fragment: WeakReference<Fragment>
-        )
+        fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>)
 
         fun onNoteSavingFailed(
             note: NoteEntity?,
@@ -35,10 +31,7 @@ class NoteEditorFragment : Fragment(),
             fragment: WeakReference<Fragment>
         )
 
-        fun onNoteDeleted(
-            note: NoteEntity,
-            fragment: WeakReference<Fragment>
-        )
+        fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>)
 
         fun onNoteDeletionFailed(
             note: NoteEntity,
@@ -265,10 +258,7 @@ class NoteEditorFragment : Fragment(),
 
     }
 
-    override fun onNoteSaved(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
-    ) {
+    override fun onNoteSaved(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
         listener?.get()
             ?.onNoteSaved(note, WeakReference(this))
     }

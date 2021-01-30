@@ -9,10 +9,8 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 
-class BottomNavigationBehavior(
-    context: Context,
-    attrs: AttributeSet
-) : CoordinatorLayout.Behavior<BottomNavigationView>(context, attrs) {
+class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
+    CoordinatorLayout.Behavior<BottomNavigationView>(context, attrs) {
 
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
@@ -48,18 +46,15 @@ class BottomNavigationBehavior(
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
         child.translationY =
-            0.0f.coerceAtLeast(child.height.toFloat()
-                .coerceAtMost(child.translationY + dy))
+            0.0f.coerceAtLeast(child.height.toFloat().coerceAtMost(child.translationY + dy))
     }
 
-    private fun updateSnackBar(
-        child: BottomNavigationView,
-        snackBarLayout: SnackbarLayout
-    ) {
+    private fun updateSnackBar(child: BottomNavigationView, snackBarLayout: SnackbarLayout) {
         if (snackBarLayout.layoutParams is CoordinatorLayout.LayoutParams) {
             if (snackBarLayout.layoutParams == null) {
                 throw RuntimeException(
-                    "null cannot be cast to non-null type android.support.design.widget.CoordinatorLayout.LayoutParams")
+                    "null cannot be cast to non-null type android.support.design.widget.CoordinatorLayout.LayoutParams"
+                )
             }
 
             val layoutParams = snackBarLayout.layoutParams

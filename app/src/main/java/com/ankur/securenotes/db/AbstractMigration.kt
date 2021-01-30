@@ -3,14 +3,9 @@ package com.ankur.securenotes.db
 import android.database.sqlite.SQLiteDatabase
 
 abstract class AbstractMigration {
-    abstract fun up(
-        db: SQLiteDatabase
-    )
+    abstract fun up(db: SQLiteDatabase)
 
-    fun upgrade(
-        db: SQLiteDatabase,
-        version: Int
-    ) {
+    fun upgrade(db: SQLiteDatabase, version: Int) {
         up(db)
 
         val history = MigrationHistoryEntity()

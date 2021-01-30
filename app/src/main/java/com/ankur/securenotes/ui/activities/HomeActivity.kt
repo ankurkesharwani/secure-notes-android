@@ -13,8 +13,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.ref.WeakReference
 
 
-class HomeActivity : AppCompatActivity(),
-    NoteListFragment.Listener {
+class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +44,7 @@ class HomeActivity : AppCompatActivity(),
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val noteListFragment = NoteListFragment()
         noteListFragment.setListener(this)
-        fragmentTransaction.add(
-            R.id.fragmentContainer, noteListFragment,
-            NoteListFragment.TAG
-        )
+        fragmentTransaction.add(R.id.fragmentContainer, noteListFragment, NoteListFragment.TAG)
         fragmentTransaction.commit()
     }
 
@@ -67,10 +63,7 @@ class HomeActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-    override fun onNoteItemSelected(
-        note: NoteEntity,
-        fragment: WeakReference<Fragment>
-    ) {
+    override fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>) {
         val intent = Intent(this, NoteEditorActivity::class.java)
         intent.putExtra(NoteEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
         intent.putExtra(NoteEditorActivity.PARAM_NOTE_ID, note.id)

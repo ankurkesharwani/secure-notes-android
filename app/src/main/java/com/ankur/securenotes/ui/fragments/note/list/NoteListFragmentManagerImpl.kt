@@ -8,9 +8,7 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.tasks.GetAllNotesTask
 import java.lang.ref.WeakReference
 
-class NoteListFragmentManagerImpl :
-    NoteListFragmentManager,
-    SerialTaskExecutor.Listener {
+class NoteListFragmentManagerImpl : NoteListFragmentManager, SerialTaskExecutor.Listener {
 
     override var notes: List<NoteEntity>? = null
     override var context: Context? = null
@@ -24,8 +22,7 @@ class NoteListFragmentManagerImpl :
 
     override fun onTaskStarted(task: Task) {
         if (task is GetAllNotesTask) {
-            listener?.get()
-                ?.onNoteListFetchStart(this)
+            listener?.get()?.onNoteListFetchStart(this)
         }
     }
 
@@ -34,12 +31,10 @@ class NoteListFragmentManagerImpl :
             is GetAllNotesTask -> {
                 if (task.result?.error != null) {
                     val error = task.result?.error
-                    listener?.get()
-                        ?.onNoteListFetchFailed(error?.code, error?.message, this)
+                    listener?.get()?.onNoteListFetchFailed(error?.code, error?.message, this)
                 } else {
                     notes = task.result?.notes
-                    listener?.get()
-                        ?.onNoteListFetched(task.result?.notes, this)
+                    listener?.get()?.onNoteListFetched(task.result?.notes, this)
                 }
             }
         }

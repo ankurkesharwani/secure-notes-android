@@ -4,6 +4,7 @@ import android.content.Context
 import java.lang.ref.WeakReference
 
 class NoteListFragmentManagerBuilder {
+
     private var context: Context? = null
     private var listener: WeakReference<NoteListFragmentManager.Listener>? = null
 
@@ -20,8 +21,7 @@ class NoteListFragmentManagerBuilder {
     }
 
     fun build(): NoteListFragmentManager {
-        val manager =
-            NoteListFragmentManagerImpl()
+        val manager = NoteListFragmentManagerImpl()
         manager.context = context
         manager.listener = listener
 

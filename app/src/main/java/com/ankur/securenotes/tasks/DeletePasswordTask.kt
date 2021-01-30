@@ -11,6 +11,7 @@ class DeletePasswordTask(
     var password: PasswordEntity,
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(var error: TaskError? = null)
 
     var result: Result? = null

@@ -4,20 +4,17 @@ import android.content.Context
 import java.lang.ref.WeakReference
 
 class PasswordEditorFragmentManagerBuilder {
+
     private var context: Context? = null
     private var listener: WeakReference<PasswordEditorFragmentManager.Listener>? = null
 
-    fun set(
-        context: Context
-    ): PasswordEditorFragmentManagerBuilder {
+    fun set(context: Context): PasswordEditorFragmentManagerBuilder {
         this.context = context
 
         return this
     }
 
-    fun set(
-        listener: PasswordEditorFragmentManager.Listener
-    ): PasswordEditorFragmentManagerBuilder {
+    fun set(listener: PasswordEditorFragmentManager.Listener): PasswordEditorFragmentManagerBuilder {
         this.listener = WeakReference(listener)
 
         return this

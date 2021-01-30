@@ -5,6 +5,7 @@ import com.ankur.securenotes.entities.PasswordEntity
 import java.lang.ref.WeakReference
 
 interface PasswordEditorFragmentManager {
+
     interface Listener {
         fun onPasswordSavingStarted(
             password: PasswordEntity,

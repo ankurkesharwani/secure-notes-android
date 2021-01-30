@@ -8,6 +8,7 @@ import com.ankur.securenotes.utils.DateUtil
 
 class NoteWithBodyListItemViewHolder(itemView: View) : NoteListItemViewHolder(itemView),
     View.OnClickListener {
+
     private var bodyTextView: TextView = itemView.findViewById(R.id.tvBodyTextView)
 
     init {

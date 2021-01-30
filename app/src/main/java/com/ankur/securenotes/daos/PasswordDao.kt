@@ -5,10 +5,7 @@ import com.ankur.securenotes.entities.PasswordEntity
 import java.util.*
 
 object PasswordDao {
-    fun findOneById(
-        id: String,
-        db: SQLiteDatabase
-    ): PasswordEntity? {
+    fun findOneById(id: String, db: SQLiteDatabase): PasswordEntity? {
         val query = """
             SELECT * FROM "${PasswordEntity.TABLE_NAME}"
             WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
@@ -25,9 +22,7 @@ object PasswordDao {
         return null
     }
 
-    fun findAll(
-        db: SQLiteDatabase
-    ): List<PasswordEntity> {
+    fun findAll(db: SQLiteDatabase): List<PasswordEntity> {
         val query = """
             SELECT * FROM "${PasswordEntity.TABLE_NAME}"
         """.trimIndent()

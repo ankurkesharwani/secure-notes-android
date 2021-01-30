@@ -11,6 +11,7 @@ class CreateNoteTask(
     var note: NoteEntity,
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(
         var note: NoteEntity?,
         var error: TaskError? = null

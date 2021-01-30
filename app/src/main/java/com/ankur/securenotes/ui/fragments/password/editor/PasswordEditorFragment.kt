@@ -18,16 +18,12 @@ import com.ankur.securenotes.tasks.GetPasswordByIdTask
 import kotlinx.android.synthetic.main.fragment_password_editor.*
 import java.lang.ref.WeakReference
 
-class PasswordEditorFragment : Fragment(),
-    PasswordEditorFragmentManager.Listener,
+class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listener,
     SerialTaskExecutor.Listener {
 
     // region Declarations
     interface Listener {
-        fun onPasswordSaved(
-            password: PasswordEntity,
-            fragment: WeakReference<Fragment>
-        )
+        fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>)
 
         fun onPasswordSavingFailed(
             password: PasswordEntity?,
@@ -35,10 +31,7 @@ class PasswordEditorFragment : Fragment(),
             fragment: WeakReference<Fragment>
         )
 
-        fun onPasswordDeleted(
-            password: PasswordEntity,
-            fragment: WeakReference<Fragment>
-        )
+        fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>)
 
         fun onPasswordDeletionFailed(
             password: PasswordEntity,
@@ -321,8 +314,10 @@ class PasswordEditorFragment : Fragment(),
         manager: WeakReference<PasswordEditorFragmentManager>?
     ) {
         listener?.get()
-            ?.onPasswordSavingFailed(password, "Error: Could not save password.",
-                WeakReference(this))
+            ?.onPasswordSavingFailed(
+                password, "Error: Could not save password.",
+                WeakReference(this)
+            )
     }
 
     override fun onPasswordDeletionStarted(
@@ -344,8 +339,10 @@ class PasswordEditorFragment : Fragment(),
         manager: WeakReference<PasswordEditorFragmentManager>?
     ) {
         listener?.get()
-            ?.onPasswordDeletionFailed(password, "Error: Could not delete password.",
-                WeakReference(this))
+            ?.onPasswordDeletionFailed(
+                password, "Error: Could not delete password.",
+                WeakReference(this)
+            )
     }
     // endregion
 

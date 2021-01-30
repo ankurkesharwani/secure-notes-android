@@ -11,25 +11,16 @@ interface NoteEditorFragmentManager {
             manager: WeakReference<NoteEditorFragmentManager>?
         )
 
-        fun onNoteSaved(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
-        )
+        fun onNoteSaved(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
 
-        fun onNoteSavingFailed(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
-        )
+        fun onNoteSavingFailed(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
 
         fun onNoteDeletionStarted(
             note: NoteEntity,
             manager: WeakReference<NoteEditorFragmentManager>?
         )
 
-        fun onNoteDeleted(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
-        )
+        fun onNoteDeleted(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
 
         fun onNoteDeletionFailed(
             note: NoteEntity,

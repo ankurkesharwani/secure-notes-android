@@ -10,9 +10,8 @@ import com.ankur.securenotes.tasks.DeleteNoteTask
 import com.ankur.securenotes.tasks.UpdateNoteTask
 import java.lang.ref.WeakReference
 
-class NoteEditorFragmentManagerImpl :
-    NoteEditorFragmentManager,
-    SerialTaskExecutor.Listener {
+class NoteEditorFragmentManagerImpl : NoteEditorFragmentManager, SerialTaskExecutor.Listener {
+
     override var note: NoteEntity? = null
     override var context: Context? = null
     override var listener: WeakReference<NoteEditorFragmentManager.Listener>? = null
@@ -43,16 +42,13 @@ class NoteEditorFragmentManagerImpl :
     override fun onTaskStarted(task: Task) {
         when (task) {
             is CreateNoteTask -> {
-                listener?.get()
-                    ?.onNoteSavingStarted(task.note, WeakReference(this))
+                listener?.get()?.onNoteSavingStarted(task.note, WeakReference(this))
             }
             is UpdateNoteTask -> {
-                listener?.get()
-                    ?.onNoteSavingStarted(task.note, WeakReference(this))
+                listener?.get()?.onNoteSavingStarted(task.note, WeakReference(this))
             }
             is DeleteNoteTask -> {
-                listener?.get()
-                    ?.onNoteDeletionStarted(task.note, WeakReference(this))
+                listener?.get()?.onNoteDeletionStarted(task.note, WeakReference(this))
             }
         }
     }
@@ -61,42 +57,36 @@ class NoteEditorFragmentManagerImpl :
         when (task) {
             is CreateNoteTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onNoteSavingFailed(task.note, WeakReference(this))
+                    listener?.get()?.onNoteSavingFailed(task.note, WeakReference(this))
 
                     return
                 }
 
                 task.result?.note?.let {
-                    listener?.get()
-                        ?.onNoteSaved(it, WeakReference(this))
+                    listener?.get()?.onNoteSaved(it, WeakReference(this))
                 }
             }
 
             is UpdateNoteTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onNoteSavingFailed(task.note, WeakReference(this))
+                    listener?.get()?.onNoteSavingFailed(task.note, WeakReference(this))
 
                     return
                 }
 
                 task.result?.note?.let {
-                    listener?.get()
-                        ?.onNoteSaved(it, WeakReference(this))
+                    listener?.get()?.onNoteSaved(it, WeakReference(this))
                 }
             }
 
             is DeleteNoteTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onNoteDeletionFailed(task.note, WeakReference(this))
+                    listener?.get()?.onNoteDeletionFailed(task.note, WeakReference(this))
 
                     return
                 }
 
-                listener?.get()
-                    ?.onNoteDeleted(task.note, WeakReference(this))
+                listener?.get()?.onNoteDeleted(task.note, WeakReference(this))
             }
         }
     }

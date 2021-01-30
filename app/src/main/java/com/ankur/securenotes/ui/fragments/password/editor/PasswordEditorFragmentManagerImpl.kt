@@ -10,8 +10,7 @@ import com.ankur.securenotes.tasks.DeletePasswordTask
 import com.ankur.securenotes.tasks.UpdatePasswordTask
 import java.lang.ref.WeakReference
 
-class PasswordEditorFragmentManagerImpl :
-    PasswordEditorFragmentManager,
+class PasswordEditorFragmentManagerImpl : PasswordEditorFragmentManager,
     SerialTaskExecutor.Listener {
 
     override var password: PasswordEntity? = null
@@ -41,67 +40,54 @@ class PasswordEditorFragmentManagerImpl :
         Shared.serialTaskExecutor?.exec(deleteTask, this)
     }
 
-    override fun onTaskStarted(
-        task: Task
-    ) {
+    override fun onTaskStarted(task: Task) {
         when (task) {
             is CreatePasswordTask -> {
-                listener?.get()
-                    ?.onPasswordSavingStarted(task.password, WeakReference(this))
+                listener?.get()?.onPasswordSavingStarted(task.password, WeakReference(this))
             }
             is UpdatePasswordTask -> {
-                listener?.get()
-                    ?.onPasswordSavingStarted(task.password, WeakReference(this))
+                listener?.get()?.onPasswordSavingStarted(task.password, WeakReference(this))
             }
             is DeletePasswordTask -> {
-                listener?.get()
-                    ?.onPasswordDeletionStarted(task.password, WeakReference(this))
+                listener?.get()?.onPasswordDeletionStarted(task.password, WeakReference(this))
             }
         }
     }
 
-    override fun onTaskFinished(
-        task: Task
-    ) {
+    override fun onTaskFinished(task: Task) {
         when (task) {
             is CreatePasswordTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onPasswordSavingFailed(task.password, WeakReference(this))
+                    listener?.get()?.onPasswordSavingFailed(task.password, WeakReference(this))
 
                     return
                 }
 
                 task.result?.password?.let {
-                    listener?.get()
-                        ?.onPasswordSaved(it, WeakReference(this))
+                    listener?.get()?.onPasswordSaved(it, WeakReference(this))
                 }
             }
 
             is UpdatePasswordTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onPasswordSavingFailed(task.password, WeakReference(this))
+                    listener?.get()?.onPasswordSavingFailed(task.password, WeakReference(this))
 
                     return
                 }
 
                 task.result?.password?.let {
-                    listener?.get()
-                        ?.onPasswordSaved(it, WeakReference(this))
+                    listener?.get()?.onPasswordSaved(it, WeakReference(this))
                 }
             }
 
             is DeletePasswordTask -> {
                 task.result?.error?.let {
-                    listener?.get()
-                        ?.onPasswordDeletionFailed(task.password, WeakReference(this))
+                    listener?.get()?.onPasswordDeletionFailed(task.password, WeakReference(this))
 
                     return
                 }
 
-                listener?.get()
-                    ?.onPasswordDeleted(task.password, WeakReference(this))
+                listener?.get()?.onPasswordDeleted(task.password, WeakReference(this))
             }
         }
     }

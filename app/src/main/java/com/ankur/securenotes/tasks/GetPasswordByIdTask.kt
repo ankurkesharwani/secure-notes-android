@@ -10,6 +10,7 @@ class GetPasswordByIdTask(
     var id: String,
     var db: SQLiteDatabase
 ) : Task() {
+
     data class Result(
         var password: PasswordEntity?,
         var error: TaskError? = null

@@ -47,10 +47,7 @@ class SerialTaskExecutor : Task.ExecutorListener {
      *
      * @property task The task to execute.
      */
-    fun exec(
-        task: Task,
-        listener: Listener
-    ) {
+    fun exec(task: Task, listener: Listener) {
         if (handlerThread == null) {
             handlerThread = HandlerThread(newHandlerThreadName())
             handlerThread?.start()
