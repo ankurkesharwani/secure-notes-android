@@ -8,7 +8,8 @@ import com.ankur.securenotes.ui.common.viewholders.NoContentListItemViewHolderFa
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolderFactory
 
-class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var notes = listOf<NoteEntity>()
     private var countItems: Int = 0
     private var hasItemsToShow: Boolean = false
@@ -21,7 +22,10 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
         hasItemsToShow = countItems > 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return if (hasItemsToShow) {
             val holder = NoteListItemViewHolderFactory.getHolderFor(parent, viewType)
             listener?.let { holder.setListener(it) }
@@ -40,7 +44,10 @@ class NoteListRecyclerViewAdapter(var listener: NoteListItemViewHolder.Listener?
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         if (holder is NoteListItemViewHolder) {
             holder.configure(notes[position])
         }

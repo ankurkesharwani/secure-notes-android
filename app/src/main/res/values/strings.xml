@@ -35,6 +35,19 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <!-- Strings related to login -->
+
+    <string name="password_editor_title_view_note"> </string>
+    <string name="password_editor_title_new_note">New Password</string>
+    <string name="password_editor_title_edit_note">Edit Password</string>
+    <string name="password_editor_delete_confirmation_dialog_title">Delete Password</string>
+    <string name="password_editor_delete_confirmation_dialog_body">Are you sure you want to delete this password?</string>
+    <string name="password_editor_discard_changes_dialog_title">Discard Changes</string>
+    <string name="password_editor_discard_changes_dialog_body">Are you sure you want to discard your changes?</string>
+    <string name="password_editor_cancel_create_dialog_title">Discard Changes</string>
+    <string name="password_editor_cancel_create_dialog_body">Are you sure you want to discard your changes?</string>
+    <string name="password_editor_message_note_saved">Password saved</string>
+    <string name="password_editor_message_note_delete">Password deleted</string>
+
     <string name="password_editor_placeholder_username">Email</string>
     <string name="password_editor_placeholder_password">Password</string>
     <string name="password_editor_save_button">Sign in or register</string>

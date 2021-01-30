@@ -2,10 +2,11 @@ package com.ankur.securenotes.entities
 
 import android.database.Cursor
 import com.ankur.securenotes.db.DbUtil
-import java.util.*
 
-data class LabelEntity(var id: Int?,
-                       var title: String?) {
+data class LabelEntity(
+    var id: Int?,
+    var title: String?
+) {
 
     fun updateFrom(cursor: Cursor) {
         id = DbUtil.getValue(cursor, COLUMN_ID, id)

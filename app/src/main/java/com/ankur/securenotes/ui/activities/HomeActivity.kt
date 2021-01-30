@@ -3,21 +3,18 @@ package com.ankur.securenotes.ui.activities
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
-import com.ankur.securenotes.ui.fragments.note_list.NoteListFragment
-import com.google.android.material.snackbar.Snackbar
+import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_home.fabAddNoteButton
-import kotlinx.android.synthetic.main.activity_home_alternate.*
 import java.lang.ref.WeakReference
 
 
-class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
+class HomeActivity : AppCompatActivity(),
+    NoteListFragment.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +67,10 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
         startActivity(intent)
     }
 
-    override fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>) {
+    override fun onNoteItemSelected(
+        note: NoteEntity,
+        fragment: WeakReference<Fragment>
+    ) {
         val intent = Intent(this, NoteEditorActivity::class.java)
         intent.putExtra(NoteEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
         intent.putExtra(NoteEditorActivity.PARAM_NOTE_ID, note.id)
@@ -88,9 +88,13 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
                     openNoteEditor()
                 } else if ("Create a password" == items[which]) {
                     val intent = Intent(this, PasswordEditorActivity::class.java)
-                    intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG, PasswordEditorActivity.MODE_CREATE)
+                    intent.putExtra(
+                        PasswordEditorActivity.PARAM_MODE_FLAG,
+                        PasswordEditorActivity.MODE_CREATE
+                    )
                     startActivity(intent)
                 }
-            }).show()
+            })
+            .show()
     }
 }

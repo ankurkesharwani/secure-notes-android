@@ -5,7 +5,10 @@ import com.ankur.securenotes.entities.NoteEntity
 import java.util.*
 
 object NotesDao {
-    fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
+    fun findOneById(
+        id: String,
+        db: SQLiteDatabase
+    ): NoteEntity? {
         val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"
             WHERE "${NoteEntity.COLUMN_ID}" = "$id"
@@ -22,14 +25,16 @@ object NotesDao {
         return null
     }
 
-    fun findAll(db: SQLiteDatabase): List<NoteEntity> {
+    fun findAll(
+        db: SQLiteDatabase
+    ): List<NoteEntity> {
         val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"
         """.trimIndent()
 
         val notes = arrayListOf<NoteEntity>()
         val cursor = db.rawQuery(query, null)
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             var note = NoteEntity()
             note.updateFrom(cursor)
             notes.add(note)
@@ -38,7 +43,10 @@ object NotesDao {
         return notes
     }
 
-    fun createNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
+    fun createNote(
+        note: NoteEntity,
+        db: SQLiteDatabase
+    ): NoteEntity? {
         val id = UUID.randomUUID().toString()
         val current = Date()
         val query = """
@@ -67,7 +75,10 @@ object NotesDao {
         return findOneById(id, db)
     }
 
-    fun updateNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
+    fun updateNote(
+        note: NoteEntity,
+        db: SQLiteDatabase
+    ): NoteEntity? {
         if (note.id == null) {
             return null
         }
@@ -89,7 +100,10 @@ object NotesDao {
         return findOneById(note.id!!, db)
     }
 
-    fun deleteById(id: String, db: SQLiteDatabase) {
+    fun deleteById(
+        id: String,
+        db: SQLiteDatabase
+    ) {
         val query = """
             DELETE FROM "${NoteEntity.TABLE_NAME}"
             WHERE "${NoteEntity.COLUMN_ID}" = "$id"

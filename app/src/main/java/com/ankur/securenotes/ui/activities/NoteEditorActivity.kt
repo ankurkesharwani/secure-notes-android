@@ -1,10 +1,8 @@
 package com.ankur.securenotes.ui.activities
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +10,13 @@ import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
-import com.ankur.securenotes.ui.fragments.note_editor.NoteEditorFragment
+import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
 import kotlinx.android.synthetic.main.activity_note_editor.*
 import java.lang.ref.WeakReference
 
 
-class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
+class NoteEditorActivity : AppCompatActivity(),
+    NoteEditorFragment.Listener {
 
     // region Properties
     private var mode: String? = MODE_CREATE
@@ -40,7 +39,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     // region Methods
     private fun setupToolbar() {
-        when(mode) {
+        when (mode) {
             MODE_VIEW -> {
                 supportActionBar?.title = getString(R.string.note_editor_title_view_note)
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
@@ -104,7 +103,9 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
         // Set arguments
         val bundle = getBundleForChildFragment()
-        if (bundle.keySet().count() > 0) {
+        if (bundle.keySet()
+                .count() > 0
+        ) {
             noteEditorFragment.arguments = bundle
         }
 
@@ -158,7 +159,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         mode = MODE_EDIT
 
         // Set fragment mode
-        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         fragment?.setMode(NoteEditorFragment.MODE_EDIT)
 
         // Refresh the toolbar
@@ -196,7 +197,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     }
 
     private fun showCancelCreateConfirmationDialog() {
-        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         if (fragment?.hasEditableChanges() == false) {
             cancelNoteCreate()
 
@@ -218,7 +219,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         mode = MODE_VIEW
 
         // Set fragment mode
-        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         fragment?.discardChanges()
         fragment?.setMode(NoteEditorFragment.MODE_VIEW)
 
@@ -233,7 +234,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     private fun deleteNote() {
         // Set fragment mode
-        val fragment= findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
+        val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         fragment?.deleteNote()
     }
 
@@ -289,27 +290,49 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     // endregion
 
     // region NoteEditorFragment.Listener
-    override fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(this, getString(R.string.note_editor_message_note_saved), Toast.LENGTH_SHORT).show()
+    override fun onNoteSaved(
+        note: NoteEntity,
+        fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(this, getString(R.string.note_editor_message_note_saved), Toast.LENGTH_SHORT)
+            .show()
 
         finish()
     }
 
-    override fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>) {
+    override fun onNoteSavingFailed(
+        note: NoteEntity?,
+        message: String?,
+        fragment: WeakReference<Fragment>
+    ) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
-    override fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(this, getString(R.string.note_editor_message_note_delete), Toast.LENGTH_SHORT).show()
+    override fun onNoteDeleted(
+        note: NoteEntity,
+        fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(
+            this,
+            getString(R.string.note_editor_message_note_delete),
+            Toast.LENGTH_SHORT
+        )
+            .show()
 
         finish()
     }
 
-    override fun onNoteDeletionFailed(note: NoteEntity, message: String?, fragment: WeakReference<Fragment>) {
+    override fun onNoteDeletionFailed(
+        note: NoteEntity,
+        message: String?,
+        fragment: WeakReference<Fragment>
+    ) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
     // endregion

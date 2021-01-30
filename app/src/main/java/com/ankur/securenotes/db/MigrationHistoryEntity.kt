@@ -3,11 +3,13 @@ package com.ankur.securenotes.db
 import android.database.Cursor
 import java.util.*
 
-class MigrationHistoryEntity(var id: Int? = null,
-                             var uuid: String? = null,
-                             var version: Int? = null,
-                             var createdAt: Date? = null,
-                             var updatedAt: Date? =  null) {
+class MigrationHistoryEntity(
+    var id: Int? = null,
+    var uuid: String? = null,
+    var version: Int? = null,
+    var createdAt: Date? = null,
+    var updatedAt: Date? = null
+) {
     fun updateFrom(cursor: Cursor) {
         id = DbUtil.getValue(cursor, COLUMN_ID, id)
         uuid = DbUtil.getValue(cursor, COLUMN_UUID, uuid)

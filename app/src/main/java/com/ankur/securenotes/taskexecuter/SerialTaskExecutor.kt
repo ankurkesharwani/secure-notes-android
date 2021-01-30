@@ -3,12 +3,11 @@ package com.ankur.securenotes.taskexecuter
 import android.os.Handler
 import android.os.HandlerThread
 import java.lang.ref.WeakReference
-import java.util.*
 
 /**
  * A worker that executes task serially as they arrive.
  */
-class SerialTaskExecutor: Task.ExecutorListener {
+class SerialTaskExecutor : Task.ExecutorListener {
     interface Listener {
         fun onTaskStarted(task: Task)
         fun onTaskFinished(task: Task)
@@ -48,7 +47,10 @@ class SerialTaskExecutor: Task.ExecutorListener {
      *
      * @property task The task to execute.
      */
-    fun exec(task: Task, listener: Listener) {
+    fun exec(
+        task: Task,
+        listener: Listener
+    ) {
         if (handlerThread == null) {
             handlerThread = HandlerThread(newHandlerThreadName())
             handlerThread?.start()
@@ -81,7 +83,8 @@ class SerialTaskExecutor: Task.ExecutorListener {
         val listener = notificationMap[name]
 
         if (listener != null) {
-            listener.get()?.onTaskStarted(task)
+            listener.get()
+                ?.onTaskStarted(task)
         }
     }
 
@@ -92,7 +95,8 @@ class SerialTaskExecutor: Task.ExecutorListener {
 
         if (task != null) {
             if (listener != null) {
-                listener.get()?.onTaskFinished(task)
+                listener.get()
+                    ?.onTaskFinished(task)
             }
 
             if (startId == latestStartId) {

@@ -7,13 +7,16 @@ import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
 import java.lang.ref.WeakReference
 
-abstract class NoteListItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+abstract class NoteListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     interface Listener {
-        fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder)
+        fun onNoteItemClicked(
+            note: NoteEntity,
+            viewHolder: RecyclerView.ViewHolder
+        )
     }
 
     open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
-    open var dateTextView:TextView = itemView.findViewById(R.id.tvDateTextView)
+    open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
 
     open var listener: WeakReference<Listener>? = null
     var note: NoteEntity? = null

@@ -14,21 +14,29 @@ abstract class Task() {
     private var callback: WeakReference<ExecutorListener>? = null
 
 
-    val name: String = UUID.randomUUID().toString()
+    val name: String = UUID.randomUUID()
+        .toString()
 
     var runnable = Runnable {
-        callbackHandler?.get()?.post {
-            callback?.get()?.onTaskStarted(name)
-        }
+        callbackHandler?.get()
+            ?.post {
+                callback?.get()
+                    ?.onTaskStarted(name)
+            }
 
         exec()
 
-        callbackHandler?.get()?.post {
-            callback?.get()?.onTaskFinished(name)
-        }
+        callbackHandler?.get()
+            ?.post {
+                callback?.get()
+                    ?.onTaskFinished(name)
+            }
     }
 
-    internal fun setParams(callBack: ExecutorListener, handler: Handler) {
+    internal fun setParams(
+        callBack: ExecutorListener,
+        handler: Handler
+    ) {
         this.callbackHandler = WeakReference(handler)
         this.callback = WeakReference(callBack)
     }

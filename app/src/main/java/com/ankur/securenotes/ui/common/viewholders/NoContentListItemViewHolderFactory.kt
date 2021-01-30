@@ -6,8 +6,11 @@ import com.ankur.securenotes.R
 
 object NoContentListItemViewHolderFactory {
     @JvmStatic
-    fun getHolderFor(parent: ViewGroup, viewType: Int): NoContentListItemViewHolder {
-        when(viewType)  {
+    fun getHolderFor(
+        parent: ViewGroup,
+        viewType: Int
+    ): NoContentListItemViewHolder {
+        when (viewType) {
             ListItemViewHolderType.DEFAULT_NO_CONTENT_LIST_ITEM.ordinal -> {
                 return getDefaultHolder(
                     parent
@@ -27,7 +30,8 @@ object NoContentListItemViewHolderFactory {
             .inflate(
                 R.layout.list_item_no_content,
                 parent,
-                false)
+                false
+            )
 
         return NoContentListItemViewHolder(
             view

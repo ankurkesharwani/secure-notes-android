@@ -1,4 +1,4 @@
-package com.ankur.securenotes.ui.fragments.note_editor
+package com.ankur.securenotes.ui.fragments.note.editor
 
 import android.content.Context
 import java.lang.ref.WeakReference

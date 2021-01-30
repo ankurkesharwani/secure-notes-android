@@ -1,4 +1,4 @@
-package com.ankur.securenotes.ui.fragments.note_list
+package com.ankur.securenotes.ui.fragments.note.list
 
 import android.app.Activity
 import android.content.Context
@@ -18,10 +18,16 @@ import com.ankur.securenotes.ui.common.adapters.NoteListRecyclerViewAdapter
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import java.lang.ref.WeakReference
 
-class NoteListFragment : Fragment(),
-    NoteListFragmentManager.Listener, NoteListItemViewHolder.Listener {
+class NoteListFragment :
+    Fragment(),
+    NoteListFragmentManager.Listener,
+    NoteListItemViewHolder.Listener {
+
     interface Listener {
-        fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
+        fun onNoteItemSelected(
+            note: NoteEntity,
+            fragment: WeakReference<Fragment>
+        )
     }
 
     private lateinit var activity: Activity
@@ -45,9 +51,12 @@ class NoteListFragment : Fragment(),
         manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
             Shared.store?.retrieve(TAG, "manager") as NoteListFragmentManager
         } else {
-            context?.let { NoteListFragmentManagerBuilder()
-                .set(context = activity)
-                .set(listener = this).build() }!!
+            context?.let {
+                NoteListFragmentManagerBuilder()
+                    .set(context = activity)
+                    .set(listener = this)
+                    .build()
+            }!!
         }
     }
 
@@ -156,7 +165,10 @@ class NoteListFragment : Fragment(),
         swipeToRefresh.isRefreshing = true
     }
 
-    override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
+    override fun onNoteListFetched(
+        notes: List<NoteEntity>?,
+        manager: NoteListFragmentManager?
+    ) {
         swipeToRefresh.isRefreshing = false
         reloadData()
     }
@@ -168,11 +180,16 @@ class NoteListFragment : Fragment(),
     ) {
         swipeToRefresh.isRefreshing = false
         reloadData()
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, message, Toast.LENGTH_LONG)
+            .show()
     }
 
-    override fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder) {
-        listener?.get()?.onNoteItemSelected(note, WeakReference(this))
+    override fun onNoteItemClicked(
+        note: NoteEntity,
+        viewHolder: RecyclerView.ViewHolder
+    ) {
+        listener?.get()
+            ?.onNoteItemSelected(note, WeakReference(this))
     }
 
     companion object {

@@ -2,17 +2,17 @@ package com.ankur.securenotes.tasks
 
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
-import com.ankur.securenotes.daos.NotesDao
-import com.ankur.securenotes.entities.NoteEntity
+import com.ankur.securenotes.daos.PasswordDao
+import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class CreateNoteTask(
-    var note: NoteEntity,
+class CreatePasswordTask(
+    var password: PasswordEntity,
     var db: SQLiteDatabase
 ) : Task() {
     data class Result(
-        var note: NoteEntity?,
+        var password: PasswordEntity?,
         var error: TaskError? = null
     )
 
@@ -20,8 +20,8 @@ class CreateNoteTask(
 
     override fun exec() {
         result = try {
-            val note = NotesDao.createNote(note, db)
-            Result(note)
+            val password = PasswordDao.createPassword(password, db)
+            Result(password)
         } catch (exception: SQLiteException) {
             Result(null, TaskError(-1, exception.localizedMessage))
         }

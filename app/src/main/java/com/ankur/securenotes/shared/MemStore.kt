@@ -21,7 +21,11 @@ class MemStore {
      * @param key The key that will be used to reference the item.
      * @param item The item that needs to be saved.
      */
-    fun save(context: String, key: String, item: Any) {
+    fun save(
+        context: String,
+        key: String,
+        item: Any
+    ) {
         val mapForContext = store!![context]
         if (mapForContext == null) {
             store!![context] = HashMap<String, Any>()
@@ -47,7 +51,10 @@ class MemStore {
      * @param context The context against which item will be retrieved.
      * @param key The key for which the item will be retrieved.
      */
-    fun retrieve(context: String, key: String): Any? {
+    fun retrieve(
+        context: String,
+        key: String
+    ): Any? {
         val value = store!![context]?.remove(key)
         if (store!![context]?.keys?.count() == 0) {
             store!!.remove(context)
@@ -71,7 +78,10 @@ class MemStore {
      * @param context The context against which item will be removed.
      * @param key The key for which the item will be removed.
      */
-    fun remove(context: String, key: String) {
+    fun remove(
+        context: String,
+        key: String
+    ) {
         store!![context]?.remove(key)
         if (store!![context]?.keys?.count() == 0) {
             store!!.remove(context)
@@ -94,7 +104,10 @@ class MemStore {
      * @param context The context against which item will be retrieved.
      * @param key The key for which the item will be retrieved.
      */
-    fun peek(context: String, key: String): Any? {
+    fun peek(
+        context: String,
+        key: String
+    ): Any? {
         return store!![context]?.get(key)
     }
 }

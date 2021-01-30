@@ -7,7 +7,10 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class DeleteNoteTask(var note: NoteEntity, var db: SQLiteDatabase): Task() {
+class DeleteNoteTask(
+    var note: NoteEntity,
+    var db: SQLiteDatabase
+) : Task() {
     data class Result(var error: TaskError? = null)
 
     var result: Result? = null
