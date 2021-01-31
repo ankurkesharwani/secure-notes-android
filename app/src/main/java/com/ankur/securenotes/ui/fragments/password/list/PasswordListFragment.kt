@@ -1,4 +1,4 @@
-package com.ankur.securenotes.ui.fragments.note.list
+package com.ankur.securenotes.ui.fragments.password.list
 
 import android.app.Activity
 import android.content.Context
@@ -12,24 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ankur.securenotes.R
-import com.ankur.securenotes.entities.NoteEntity
+import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.shared.Shared
-import com.ankur.securenotes.ui.common.adapters.NoteListRecycleViewAdapter
-import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
+import com.ankur.securenotes.ui.common.adapters.PasswordListRecycleViewAdapter
+import com.ankur.securenotes.ui.common.viewholders.PasswordListItemViewHolder
 import java.lang.ref.WeakReference
 
-class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
-    NoteListItemViewHolder.Listener {
+class PasswordListFragment : Fragment(), PasswordListFragmentManager.Listener,
+    PasswordListItemViewHolder.Listener {
 
     interface Listener {
-        fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
+        fun onPasswordItemSelected(password: PasswordEntity, fragment: WeakReference<Fragment>)
     }
 
     private lateinit var activity: Activity
-    private lateinit var adapter: NoteListRecycleViewAdapter
+    private lateinit var adapter: PasswordListRecycleViewAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeToRefresh: SwipeRefreshLayout
-    private lateinit var manager: NoteListFragmentManager
+    private lateinit var manager: PasswordListFragmentManager
 
     private var listener: WeakReference<Listener>? = null
 
@@ -43,10 +43,10 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
         super.onCreate(savedInstanceState)
 
         manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
-            Shared.store?.retrieve(TAG, "manager") as NoteListFragmentManager
+            Shared.store?.retrieve(TAG, "manager") as PasswordListFragmentManager
         } else {
             context?.let {
-                NoteListFragmentManagerBuilder()
+                PasswordListFragmentManagerBuilder()
                     .set(context = activity)
                     .set(listener = this)
                     .build()
@@ -59,7 +59,7 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_note_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_password_list, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         swipeToRefresh = view.findViewById(R.id.swipeToRefresh)
 
@@ -132,7 +132,7 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = linearLayoutManager
-        adapter = NoteListRecycleViewAdapter(this)
+        adapter = PasswordListRecycleViewAdapter(this)
         recyclerView.adapter = adapter
     }
 
@@ -146,35 +146,35 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
     }
 
     private fun fetchData() {
-        manager.fetchNoteList()
+        manager.fetchPasswordList()
     }
 
     private fun reloadData() {
-        adapter.updateNotes(manager.notes)
+        adapter.updatePasswords(manager.passwords)
         adapter.notifyDataSetChanged()
     }
 
-    override fun onNoteListFetchStart(manager: NoteListFragmentManager?) {
+    override fun onPasswordListFetchStart(manager: PasswordListFragmentManager?) {
         swipeToRefresh.isRefreshing = true
     }
 
-    override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
+    override fun onPasswordListFetched(passwords: List<PasswordEntity>?, manager: PasswordListFragmentManager?) {
         swipeToRefresh.isRefreshing = false
         reloadData()
     }
 
-    override fun onNoteListFetchFailed(
+    override fun onPasswordListFetchFailed(
         errorCode: Int?,
         message: String?,
-        manager: NoteListFragmentManager?
+        manager: PasswordListFragmentManager?
     ) {
         swipeToRefresh.isRefreshing = false
         reloadData()
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder) {
-        listener?.get()?.onNoteItemSelected(note, WeakReference(this))
+    override fun onPasswordItemClicked(password: PasswordEntity, viewHolder: RecyclerView.ViewHolder) {
+        listener?.get()?.onPasswordItemSelected(password, WeakReference(this))
     }
 
     companion object {

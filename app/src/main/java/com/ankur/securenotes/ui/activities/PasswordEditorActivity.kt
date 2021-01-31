@@ -10,7 +10,6 @@ import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.PasswordEntity
-import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
 import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
 import kotlinx.android.synthetic.main.activity_password_editor.*
 import java.lang.ref.WeakReference
@@ -39,20 +38,20 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     // region Methods
     private fun setupToolbar() {
         when (mode) {
-            NoteEditorActivity.MODE_VIEW -> {
-                supportActionBar?.title = getString(R.string.note_editor_title_view_note)
+            MODE_VIEW -> {
+                supportActionBar?.title = getString(R.string.password_editor_title_view_password)
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miEditButton, R.id.miDeleteButton)
             }
 
-            NoteEditorActivity.MODE_CREATE -> {
-                supportActionBar?.title = getString(R.string.note_editor_title_new_note)
+            MODE_CREATE -> {
+                supportActionBar?.title = getString(R.string.password_editor_title_new_password)
                 toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
 
-            NoteEditorActivity.MODE_EDIT -> {
-                supportActionBar?.title = getString(R.string.note_editor_title_edit_note)
+            MODE_EDIT -> {
+                supportActionBar?.title = getString(R.string.password_editor_title_edit_password)
                 toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
@@ -110,14 +109,14 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         fragmentTransaction.add(
             R.id.fragmentContainer,
             passwordEditorFragment,
-            NoteEditorFragment.TAG
+            PasswordEditorFragment.TAG
         )
         fragmentTransaction.commit()
     }
 
     private fun getBundleForChildFragment(): Bundle {
         val bundle = Bundle()
-        if (hasNoteToView()) {
+        if (hasPasswordToView()) {
             bundle.putString(PasswordEditorFragment.PARAM_PASSWORD_ID, passwordId)
         }
         if (isInViewMode()) {
@@ -135,7 +134,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return bundle
     }
 
-    private fun hasNoteToView(): Boolean {
+    private fun hasPasswordToView(): Boolean {
         return ((mode == MODE_EDIT || mode == MODE_VIEW) && passwordId != null)
     }
 
@@ -251,7 +250,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     // region Overridden Methods
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.menu_note_editor, menu)
+        inflater.inflate(R.menu.menu_password_editor, menu)
 
         return true
     }
@@ -299,7 +298,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     override fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(
             this,
-            getString(R.string.password_editor_message_note_saved),
+            getString(R.string.password_editor_message_password_saved),
             Toast.LENGTH_SHORT
         ).show()
         finish()
@@ -318,7 +317,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     override fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(
             this,
-            getString(R.string.password_editor_message_note_delete),
+            getString(R.string.password_editor_message_password_delete),
             Toast.LENGTH_SHORT
         ).show()
         finish()

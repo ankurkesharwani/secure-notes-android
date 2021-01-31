@@ -44,7 +44,6 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
     // region Properties
     private var mode: String? = MODE_EDIT
     private var passwordId: String? = null
-
     private lateinit var activity: Activity
     private lateinit var manager: PasswordEditorFragmentManager
     private var listener: WeakReference<Listener>? = null
@@ -63,7 +62,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         setArgs()
         setDependencies(savedInstanceState)
 
-        fetchNote()
+        fetchPassword()
     }
 
     override fun onCreateView(
@@ -162,7 +161,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
             return
         }
 
-        if (url.isEmpty() && email.isEmpty() && phone.isEmpty() || username.isEmpty()) {
+        if (url.isEmpty() && email.isEmpty() && phone.isEmpty() && username.isEmpty()) {
             listener?.get()?.onPasswordSavingFailed(
                 null,
                 "Error: Password must have an url, email, phone or username to save.",
@@ -238,10 +237,10 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         }
     }
 
-    private fun fetchNote() {
+    private fun fetchPassword() {
         this.passwordId?.let {
-            val getNoteTask = GetNoteByIdTask(it, Shared.getReadableDatabase(activity))
-            Shared.serialTaskExecutor?.exec(getNoteTask, this)
+            val getPasswordTask = GetPasswordByIdTask(it, Shared.getReadableDatabase(activity))
+            Shared.serialTaskExecutor?.exec(getPasswordTask, this)
         }
     }
 

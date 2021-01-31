@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
+import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
-import kotlinx.android.synthetic.main.activity_home.*
+import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
+import kotlinx.android.synthetic.main.activity_home_alternate.*
 import java.lang.ref.WeakReference
 
 
-class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
+class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordListFragment.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +23,33 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         showNoteListFragment()
+        setFabActionListeners()
+        setBottomNavigationActionListeners()
+    }
 
+    private fun setFabActionListeners() {
         fabAddNoteButton.setOnClickListener {
             showOptionsDialog()
+        }
+    }
+
+    private fun setBottomNavigationActionListeners() {
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.navigation_notes -> {
+                    hidePasswordListFragment()
+                    showNoteListFragment()
+                    true
+                }
+                R.id.navigation_passwords -> {
+                    hideNoteListFragment()
+                    showPasswordListFragment()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
         }
     }
 
@@ -54,6 +80,32 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
         // Remove the fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.remove(noteListFragment)
+        fragmentTransaction.commit()
+    }
+
+    private fun showPasswordListFragment() {
+        if (isFragmentPresent(PasswordListFragment.TAG)) {
+            return
+        }
+
+        // Add the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val passwordListFragment = PasswordListFragment()
+        passwordListFragment.setListener(this)
+        fragmentTransaction.add(
+            R.id.fragmentContainer,
+            passwordListFragment,
+            PasswordListFragment.TAG
+        )
+        fragmentTransaction.commit()
+    }
+
+    private fun hidePasswordListFragment() {
+        val passwordListFragment = findFragment(PasswordListFragment.TAG) ?: return
+
+        // Remove the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.remove(passwordListFragment)
         fragmentTransaction.commit()
     }
 
@@ -89,5 +141,12 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener {
                 }
             })
             .show()
+    }
+
+    override fun onPasswordItemSelected(
+        password: PasswordEntity,
+        fragment: WeakReference<Fragment>
+    ) {
+
     }
 }
