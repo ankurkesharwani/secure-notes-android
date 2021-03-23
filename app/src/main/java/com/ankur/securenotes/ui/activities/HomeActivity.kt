@@ -3,6 +3,7 @@ package com.ankur.securenotes.ui.activities
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -147,6 +148,6 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
         password: PasswordEntity,
         fragment: WeakReference<Fragment>
     ) {
-
+        Toast.makeText(this, "Password selected", Toast.LENGTH_LONG).show()
     }
 }
