@@ -1,4 +1,9 @@
 package com.ankur.securenotes.ui.fragments.password.viewer
 
-class PasswordViewerFragmentManager {
+import android.content.Context
+
+interface PasswordViewerFragmentManager {
+
+    var context: Context?
+
 }

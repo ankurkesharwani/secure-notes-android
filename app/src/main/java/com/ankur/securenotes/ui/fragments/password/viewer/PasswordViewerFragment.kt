@@ -14,4 +14,13 @@ class PasswordViewerFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_password_viewer, container, false)
     }
+
+    companion object {
+
+        @JvmField
+        val TAG = this::class.java.name
+
+        const val PARAM_MODE_FLAG = "PARAM_MODE_FLAG"
+        const val PARAM_PASSWORD_ID = "PARAM_PASSWORD_ID"
+    }
 }

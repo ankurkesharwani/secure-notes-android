@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
+import com.ankur.securenotes.ui.fragments.password.viewer.PasswordViewerFragment
 import kotlinx.android.synthetic.main.activity_password_editor.*
 import java.lang.ref.WeakReference
 
@@ -89,46 +90,51 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return findFragment(tag) != null
     }
 
+    private fun showPasswordViewerFragment() {
+        showFragment(PasswordViewerFragment.TAG, getBundleForChildFragment())
+    }
+
     private fun showPasswordEditorFragment() {
-        if (isFragmentPresent(PasswordEditorFragment.TAG)) {
+        showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
+    }
+
+    private fun showFragment(tag: String, bundleArgs: Bundle?) {
+        if (isFragmentPresent(tag)) {
             return
         }
 
         // Add the fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val passwordEditorFragment = PasswordEditorFragment()
-        passwordEditorFragment.setListener(this)
+        val fragment = newFragment(tag)
 
         // Set arguments
-        val bundle = getBundleForChildFragment()
-        if (bundle.keySet().count() > 0) {
-            passwordEditorFragment.arguments = bundle
+        if (bundleArgs != null) {
+            if (bundleArgs.keySet().count() > 0) {
+                fragment.arguments = bundleArgs
+            }
         }
 
         // Show
         fragmentTransaction.add(
             R.id.fragmentContainer,
-            passwordEditorFragment,
-            PasswordEditorFragment.TAG
+            fragment,
+            tag
         )
         fragmentTransaction.commit()
+        fragmentTransaction.commit()
+    }
+
+    private fun newFragment(tag: String): Fragment {
+        when (tag) {
+            PasswordViewerFragment.TAG -> return PasswordViewerFragment()
+            PasswordEditorFragment.TAG -> return PasswordEditorFragment()
+        }
     }
 
     private fun getBundleForChildFragment(): Bundle {
         val bundle = Bundle()
         if (hasPasswordToView()) {
             bundle.putString(PasswordEditorFragment.PARAM_PASSWORD_ID, passwordId)
-        }
-        if (isInViewMode()) {
-            bundle.putString(
-                PasswordEditorFragment.PARAM_MODE_FLAG,
-                PasswordEditorFragment.MODE_VIEW
-            )
-        } else if (isInEditMode()) {
-            bundle.putString(
-                PasswordEditorFragment.PARAM_MODE_FLAG,
-                PasswordEditorFragment.MODE_EDIT
-            )
         }
 
         return bundle
@@ -146,8 +152,16 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return (mode == MODE_VIEW)
     }
 
+    private fun hidePasswordViewerFragment() {
+        removeFragment(PasswordViewerFragment.TAG)
+    }
+
     private fun hidePasswordEditorFragment() {
-        val fragment = findFragment(PasswordEditorFragment.TAG) ?: return
+        removeFragment(PasswordEditorFragment.TAG)
+    }
+
+    private fun removeFragment(tag: String) {
+        val fragment = findFragment(tag) ?: return
 
         // Remove the fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -167,7 +181,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
         // Set fragment mode
         val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.setMode(PasswordEditorFragment.MODE_EDIT)
 
         // Refresh the toolbar
         setupToolbar()
@@ -228,7 +241,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         // Set fragment mode
         val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
         fragment?.discardChanges()
-        fragment?.setMode(PasswordEditorFragment.MODE_VIEW)
 
         // Refresh the toolbar
         setupToolbar()
