@@ -18,12 +18,17 @@ import java.lang.ref.WeakReference
 class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Listener {
 
     // region Properties
+
+    private var shownFragmentTag: String? = null
     private var mode: String? = MODE_CREATE
     private var passwordId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
+
     // endregion
 
+
     // region Lifecycle Methods
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password_editor)
@@ -34,9 +39,17 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         showPasswordEditorFragment()
         setupActionListeners()
     }
+
     // endregion
 
+
     // region Methods
+
+    private fun setArgs() {
+        mode = intent.extras?.get(PARAM_MODE_FLAG) as? String
+        passwordId = intent.extras?.get(PARAM_PASSWORD_ID) as? String
+    }
+
     private fun setupToolbar() {
         when (mode) {
             MODE_VIEW -> {
@@ -59,11 +72,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         }
     }
 
-    private fun setArgs() {
-        mode = intent.extras?.get(PARAM_MODE_FLAG) as? String
-        passwordId = intent.extras?.get(PARAM_PASSWORD_ID) as? String
-    }
-
     private fun setupActionListeners() {
         toolbar.setNavigationOnClickListener {
             when (mode) {
@@ -82,53 +90,21 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         }
     }
 
-    private fun findFragment(tag: String): Fragment? {
-        return supportFragmentManager.findFragmentByTag(tag)
-    }
-
-    private fun isFragmentPresent(tag: String): Boolean {
-        return findFragment(tag) != null
-    }
-
     private fun showPasswordViewerFragment() {
         showFragment(PasswordViewerFragment.TAG, getBundleForChildFragment())
     }
 
     private fun showPasswordEditorFragment() {
-        showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
+        var fragment = showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
+        (fragment as? PasswordEditorFragment)?.setListener(this)
     }
 
-    private fun showFragment(tag: String, bundleArgs: Bundle?) {
-        if (isFragmentPresent(tag)) {
-            return
-        }
-
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = newFragment(tag)
-
-        // Set arguments
-        if (bundleArgs != null) {
-            if (bundleArgs.keySet().count() > 0) {
-                fragment.arguments = bundleArgs
-            }
-        }
-
-        // Show
-        fragmentTransaction.add(
-            R.id.fragmentContainer,
-            fragment,
-            tag
-        )
-        fragmentTransaction.commit()
-        fragmentTransaction.commit()
+    private fun hidePasswordViewerFragment() {
+        removeFragment(PasswordViewerFragment.TAG)
     }
 
-    private fun newFragment(tag: String): Fragment {
-        when (tag) {
-            PasswordViewerFragment.TAG -> return PasswordViewerFragment()
-            PasswordEditorFragment.TAG -> return PasswordEditorFragment()
-        }
+    private fun hidePasswordEditorFragment() {
+        removeFragment(PasswordEditorFragment.TAG)
     }
 
     private fun getBundleForChildFragment(): Bundle {
@@ -152,23 +128,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return (mode == MODE_VIEW)
     }
 
-    private fun hidePasswordViewerFragment() {
-        removeFragment(PasswordViewerFragment.TAG)
-    }
-
-    private fun hidePasswordEditorFragment() {
-        removeFragment(PasswordEditorFragment.TAG)
-    }
-
-    private fun removeFragment(tag: String) {
-        val fragment = findFragment(tag) ?: return
-
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(fragment)
-        fragmentTransaction.commit()
-    }
-
     private fun savePassword() {
         val passwordEditorFragment =
             findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
@@ -186,6 +145,14 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         setupToolbar()
         invalidateOptionsMenu()
     }
+
+    private fun deletePassword() {
+        // Set fragment mode
+        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
+        fragment?.deletePassword()
+    }
+
+    // region Dialog options
 
     private fun showDeletePasswordConfirmationDialog() {
         AlertDialog.Builder(this)
@@ -251,15 +218,74 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         finish()
     }
 
-    private fun deletePassword() {
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.deletePassword()
+    // endregion
+
+
+    // region Helper Methods
+
+    private fun isFragmentPresent(tag: String): Boolean {
+        return findFragment(tag) != null
+    }
+
+    private fun findFragment(tag: String): Fragment? {
+        return supportFragmentManager.findFragmentByTag(tag)
+    }
+
+    private fun showFragment(tag: String, bundleArgs: Bundle?): Fragment? {
+        if (isFragmentPresent(tag)) {
+            return null
+        }
+
+        // Add the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment = newFragment(tag) ?: return null
+
+        // Set arguments
+        if (bundleArgs != null) {
+            if (bundleArgs.keySet().count() > 0) {
+                fragment.arguments = bundleArgs
+            }
+        }
+
+        // Show
+        if (shownFragmentTag != null) {
+            fragmentTransaction.replace(R.id.fragmentContainer, fragment, tag)
+        } else {
+            fragmentTransaction.add(R.id.fragmentContainer, fragment, tag)
+        }
+        fragmentTransaction.commit()
+        shownFragmentTag = tag
+        return fragment
+    }
+
+    private fun removeFragment(tag: String): Fragment? {
+        val fragment = findFragment(tag) ?: return null
+
+        // Remove the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.remove(fragment)
+        fragmentTransaction.commit()
+        shownFragmentTag = tag
+
+        return fragment
+    }
+
+    private fun newFragment(tag: String): Fragment? {
+        when (tag) {
+            PasswordViewerFragment.TAG -> return PasswordViewerFragment()
+            PasswordEditorFragment.TAG -> return PasswordEditorFragment()
+        }
+
+        return null
     }
 
     // endregion
 
+    // endregion
+
+
     // region Overridden Methods
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_password_editor, menu)
@@ -304,9 +330,12 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
         return super.onPrepareOptionsMenu(menu)
     }
+
     // endregion
 
+
     // region PasswordEditorFragment.Listener
+
     override fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(
             this,
@@ -344,6 +373,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
+
     // endregion
 
     companion object {
