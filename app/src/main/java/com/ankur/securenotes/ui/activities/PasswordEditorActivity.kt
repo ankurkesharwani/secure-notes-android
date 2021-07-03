@@ -36,7 +36,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
         setArgs()
         setupToolbar()
-        showPasswordEditorFragment()
+        showStartingFragment()
         setupActionListeners()
     }
 
@@ -90,6 +90,14 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         }
     }
 
+    private fun showStartingFragment() {
+        if (isInViewMode()) {
+            showPasswordViewerFragment()
+        } else if (isInEditOrCreateMode()) {
+            showPasswordEditorFragment()
+        }
+    }
+
     private fun showPasswordViewerFragment() {
         showFragment(PasswordViewerFragment.TAG, getBundleForChildFragment())
     }
@@ -97,14 +105,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     private fun showPasswordEditorFragment() {
         var fragment = showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
         (fragment as? PasswordEditorFragment)?.setListener(this)
-    }
-
-    private fun hidePasswordViewerFragment() {
-        removeFragment(PasswordViewerFragment.TAG)
-    }
-
-    private fun hidePasswordEditorFragment() {
-        removeFragment(PasswordEditorFragment.TAG)
     }
 
     private fun getBundleForChildFragment(): Bundle {
@@ -124,8 +124,8 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return (mode == MODE_VIEW)
     }
 
-    private fun isInEditMode(): Boolean {
-        return (mode == MODE_VIEW)
+    private fun isInEditOrCreateMode(): Boolean {
+        return (mode == MODE_EDIT || mode == MODE_CREATE)
     }
 
     private fun savePassword() {
@@ -134,20 +134,17 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         passwordEditorFragment?.savePassword()
     }
 
-    private fun editPassword() {
-        // Set Activity mode
+    private fun editPassword() { // Set Activity mode
         mode = MODE_EDIT
 
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
+        showPasswordEditorFragment()
 
         // Refresh the toolbar
         setupToolbar()
         invalidateOptionsMenu()
     }
 
-    private fun deletePassword() {
-        // Set fragment mode
+    private fun deletePassword() { // Set fragment mode
         val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
         fragment?.deletePassword()
     }
@@ -160,9 +157,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_delete_confirmation_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 deletePassword()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
@@ -178,9 +173,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_discard_changes_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 discardChangesAndSwitchToViewMode()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun showCancelCreateConfirmationDialog() {
@@ -196,18 +189,12 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_cancel_create_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 cancelPasswordCreate()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun discardChangesAndSwitchToViewMode() {
-        // Set Activity mode
         mode = MODE_VIEW
-
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.discardChanges()
+        showPasswordViewerFragment()
 
         // Refresh the toolbar
         setupToolbar()
@@ -336,38 +323,32 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
     // region PasswordEditorFragment.Listener
 
-    override fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(
-            this,
-            getString(R.string.password_editor_message_password_saved),
-            Toast.LENGTH_SHORT
-        ).show()
+    override fun onPasswordSaved(
+        password: PasswordEntity, fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(this, getString(R.string.password_editor_message_password_saved),
+            Toast.LENGTH_SHORT).show()
         finish()
     }
 
     override fun onPasswordSavingFailed(
-        password: PasswordEntity?,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(
-            this,
-            getString(R.string.password_editor_message_password_delete),
-            Toast.LENGTH_SHORT
-        ).show()
+    override fun onPasswordDeleted(
+        password: PasswordEntity, fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(this, getString(R.string.password_editor_message_password_delete),
+            Toast.LENGTH_SHORT).show()
         finish()
     }
 
     override fun onPasswordDeletionFailed(
-        password: PasswordEntity,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

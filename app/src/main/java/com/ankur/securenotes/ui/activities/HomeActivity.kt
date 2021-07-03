@@ -93,11 +93,8 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val passwordListFragment = PasswordListFragment()
         passwordListFragment.setListener(this)
-        fragmentTransaction.add(
-            R.id.fragmentContainer,
-            passwordListFragment,
-            PasswordListFragment.TAG
-        )
+        fragmentTransaction.add(R.id.fragmentContainer, passwordListFragment,
+            PasswordListFragment.TAG)
         fragmentTransaction.commit()
     }
 
@@ -124,29 +121,22 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
     }
 
     private fun showOptionsDialog() {
-        val items = arrayOf(
-            "Create a note", "Create a password"
-        )
+        val items = arrayOf("Create a note", "Create a password")
 
-        AlertDialog.Builder(this)
-            .setItems(items, DialogInterface.OnClickListener { dialog, which ->
-                if ("Create a note" == items[which]) {
-                    openNoteEditor()
-                } else if ("Create a password" == items[which]) {
-                    val intent = Intent(this, PasswordEditorActivity::class.java)
-                    intent.putExtra(
-                        PasswordEditorActivity.PARAM_MODE_FLAG,
-                        PasswordEditorActivity.MODE_CREATE
-                    )
-                    startActivity(intent)
-                }
-            })
-            .show()
+        AlertDialog.Builder(this).setItems(items, DialogInterface.OnClickListener { dialog, which ->
+            if ("Create a note" == items[which]) {
+                openNoteEditor()
+            } else if ("Create a password" == items[which]) {
+                val intent = Intent(this, PasswordEditorActivity::class.java)
+                intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG,
+                    PasswordEditorActivity.MODE_CREATE)
+                startActivity(intent)
+            }
+        }).show()
     }
 
     override fun onPasswordItemSelected(
-        password: PasswordEntity,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity, fragment: WeakReference<Fragment>
     ) {
         Toast.makeText(this, "Password selected", Toast.LENGTH_LONG).show()
     }
