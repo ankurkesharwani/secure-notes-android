@@ -15,6 +15,7 @@ import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.tasks.GetNoteByIdTask
 import com.ankur.securenotes.tasks.GetPasswordByIdTask
+import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
 import kotlinx.android.synthetic.main.fragment_password_editor.*
 import java.lang.ref.WeakReference
 
@@ -136,7 +137,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         val title = etTitleEditText.text.toString()
         val url = etURLEditText.text.toString()
         val email = etEmailIdEditText.text.toString()
-        val phone = etPasswordEditText.text.toString()
+        val phone = etPhoneEditText.text.toString()
         val username = etUsernameEditText.text.toString()
         val passwordValue = etPasswordEditText.text.toString()
 
@@ -194,7 +195,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         val title = etTitleEditText.text.toString()
         val url = etURLEditText.text.toString()
         val email = etEmailIdEditText.text.toString()
-        val phone = etPasswordEditText.text.toString()
+        val phone = etPhoneEditText.text.toString()
         val username = etUsernameEditText.text.toString()
         val passwordValue = etPasswordEditText.text.toString()
 
@@ -330,7 +331,6 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         @JvmField
         val TAG = this::class.java.name
 
-        const val PARAM_MODE_FLAG = "PARAM_MODE_FLAG"
         const val PARAM_PASSWORD_ID = "PARAM_PASSWORD_ID"
     }
 }

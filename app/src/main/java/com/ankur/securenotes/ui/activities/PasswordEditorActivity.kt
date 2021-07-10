@@ -109,14 +109,14 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
     private fun getBundleForChildFragment(): Bundle {
         val bundle = Bundle()
-        if (hasPasswordToView()) {
+        if (hasPasswordToViewOrEdit()) {
             bundle.putString(PasswordEditorFragment.PARAM_PASSWORD_ID, passwordId)
         }
 
         return bundle
     }
 
-    private fun hasPasswordToView(): Boolean {
+    private fun hasPasswordToViewOrEdit(): Boolean {
         return ((mode == MODE_EDIT || mode == MODE_VIEW) && passwordId != null)
     }
 
