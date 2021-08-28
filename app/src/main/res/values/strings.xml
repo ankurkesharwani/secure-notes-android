@@ -8,6 +8,9 @@
     <string name="title_contacts">Contacts</string>
     <string name="fab_create_description">Create</string>
 
+    <string name="common_dialog_option_yes">Yes</string>
+    <string name="common_dialog_option_no">No</string>
+
     <string name="note_editor_title_view_note"> </string>
     <string name="note_editor_title_new_note">New Note</string>
     <string name="note_editor_title_edit_note">Edit Note</string>

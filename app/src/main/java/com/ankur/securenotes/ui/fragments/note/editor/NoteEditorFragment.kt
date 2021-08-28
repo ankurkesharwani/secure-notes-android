@@ -16,7 +16,6 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.tasks.GetNoteByIdTask
 import java.lang.ref.WeakReference
 
-
 class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
                            SerialTaskExecutor.Listener {
 

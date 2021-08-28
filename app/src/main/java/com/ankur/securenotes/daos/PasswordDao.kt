@@ -39,8 +39,7 @@ object PasswordDao {
     }
 
     fun createPassword(
-        password: PasswordEntity,
-        db: SQLiteDatabase
+        password: PasswordEntity, db: SQLiteDatabase
     ): PasswordEntity? {
         val id = UUID.randomUUID().toString()
         val current = Date()
@@ -79,8 +78,7 @@ object PasswordDao {
     }
 
     fun updatePassword(
-        password: PasswordEntity,
-        db: SQLiteDatabase
+        password: PasswordEntity, db: SQLiteDatabase
     ): PasswordEntity? {
         if (password.id == null) {
             return null
@@ -108,8 +106,7 @@ object PasswordDao {
     }
 
     fun deleteById(
-        id: String,
-        db: SQLiteDatabase
+        id: String, db: SQLiteDatabase
     ) {
         val query = """
             DELETE FROM "${PasswordEntity.TABLE_NAME}"

@@ -7,8 +7,7 @@ import java.lang.ref.WeakReference
 interface NoteEditorFragmentManager {
     interface Listener {
         fun onNoteSavingStarted(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
+            note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
         )
 
         fun onNoteSaved(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
@@ -16,15 +15,13 @@ interface NoteEditorFragmentManager {
         fun onNoteSavingFailed(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
 
         fun onNoteDeletionStarted(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
+            note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
         )
 
         fun onNoteDeleted(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?)
 
         fun onNoteDeletionFailed(
-            note: NoteEntity,
-            manager: WeakReference<NoteEditorFragmentManager>?
+            note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
         )
     }
 

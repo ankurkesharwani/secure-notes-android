@@ -28,13 +28,7 @@ class DbHelper(context: Context?) :
         val filtered = DbConfig.migrations.filter { it.matches(Regex("V[0-9]+_[A-Z]+.*")) }
         val sorted = filtered.sorted()
         val mapped = sorted.map {
-            Pair(
-                it.split("_")
-                    .first()
-                    .removePrefix(DbConfig.MIGRATION_PREFIX)
-                    .toInt(),
-                it
-            )
+            Pair(it.split("_").first().removePrefix(DbConfig.MIGRATION_PREFIX).toInt(), it)
         }
         for (i in mapped) {
             if (i.first <= lastMigrationVersion) {
@@ -44,8 +38,8 @@ class DbHelper(context: Context?) :
             if (i.first > DbConfig.DATABASE_VERSION) {
                 break
             }
-            val migrationClass: Class<AbstractMigration> =
-                Class.forName("${DbConfig.MIGRATION_PACKAGE}.${i.second}") as Class<AbstractMigration>
+            val migrationClass: Class<AbstractMigration> = Class.forName(
+                "${DbConfig.MIGRATION_PACKAGE}.${i.second}") as Class<AbstractMigration>
             val migration: AbstractMigration = migrationClass.newInstance()
             Log.d("DbHelper", "Running migration: ${i.second}")
             migration.upgrade(db, i.first)

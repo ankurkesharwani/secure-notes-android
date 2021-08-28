@@ -80,8 +80,7 @@ class SerialTaskExecutor : Task.ExecutorListener {
         val listener = notificationMap[name]
 
         if (listener != null) {
-            listener.get()
-                ?.onTaskStarted(task)
+            listener.get()?.onTaskStarted(task)
         }
     }
 
@@ -92,8 +91,7 @@ class SerialTaskExecutor : Task.ExecutorListener {
 
         if (task != null) {
             if (listener != null) {
-                listener.get()
-                    ?.onTaskFinished(task)
+                listener.get()?.onTaskFinished(task)
             }
 
             if (startId == latestStartId) {

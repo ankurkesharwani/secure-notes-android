@@ -12,8 +12,7 @@ class GetAllNotesTask(
 ) : Task() {
 
     data class Result(
-        var notes: List<NoteEntity>?,
-        var error: TaskError? = null
+        var notes: List<NoteEntity>?, var error: TaskError? = null
     )
 
     var result: Result? = null

@@ -5,15 +5,9 @@ import com.ankur.securenotes.db.DbUtil
 import java.util.*
 
 data class PasswordEntity(
-    var id: String? = null,
-    var title: String? = null,
-    var url: String? = null,
-    var email: String? = null,
-    var phone: String? = null,
-    var username: String? = null,
-    var password: String? = null,
-    var archived: Boolean? = null,
-    var createdAt: Date? = null,
+    var id: String? = null, var title: String? = null, var url: String? = null,
+    var email: String? = null, var phone: String? = null, var username: String? = null,
+    var password: String? = null, var archived: Boolean? = null, var createdAt: Date? = null,
     var updatedAt: Date? = null
 ) {
 

@@ -11,7 +11,7 @@ import com.ankur.securenotes.tasks.UpdatePasswordTask
 import java.lang.ref.WeakReference
 
 class PasswordEditorFragmentManagerImpl : PasswordEditorFragmentManager,
-    SerialTaskExecutor.Listener {
+                                          SerialTaskExecutor.Listener {
 
     override var password: PasswordEntity? = null
     override var context: Context? = null

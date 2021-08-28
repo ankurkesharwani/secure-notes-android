@@ -5,8 +5,7 @@ import com.ankur.securenotes.db.AbstractMigration
 
 class V1_CreateTableNote : AbstractMigration() {
     override fun up(db: SQLiteDatabase) {
-        db.execSQL(
-            """
+        db.execSQL("""
             CREATE TABLE note (
                 "id" TEXT PRIMARY KEY,
 	            "title" TEXT NOT NULL UNIQUE,
@@ -15,7 +14,6 @@ class V1_CreateTableNote : AbstractMigration() {
                 "date_created" NUMERIC NOT NULL,
                 "date_updated" NUMERIC NOT NULL
             );
-        """
-        )
+        """)
     }
 }

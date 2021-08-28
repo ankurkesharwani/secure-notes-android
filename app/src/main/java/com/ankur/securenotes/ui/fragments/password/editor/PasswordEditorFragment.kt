@@ -228,7 +228,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?
     ) {
         listener?.get()?.onPasswordSavingFailed(password, "Error: Could not save password.",
-                WeakReference(this))
+            WeakReference(this))
     }
 
     override fun onPasswordDeletionStarted(
@@ -247,7 +247,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
         password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?
     ) {
         listener?.get()?.onPasswordDeletionFailed(password, "Error: Could not delete password.",
-                WeakReference(this))
+            WeakReference(this))
     }
 
     companion object {

@@ -5,7 +5,7 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.utils.DateUtil
 
 class NoteWithoutBodyListItemViewHolder(itemView: View) : NoteListItemViewHolder(itemView),
-    View.OnClickListener {
+                                                          View.OnClickListener {
 
     init {
         itemView.setOnClickListener(this)

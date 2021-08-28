@@ -4,8 +4,7 @@ import android.database.Cursor
 import com.ankur.securenotes.db.DbUtil
 
 data class LabelEntity(
-    var id: Int?,
-    var title: String?
+    var id: Int?, var title: String?
 ) {
 
     fun updateFrom(cursor: Cursor) {

@@ -5,8 +5,7 @@ import com.ankur.securenotes.db.AbstractMigration
 
 class V2_CreateTablePassword : AbstractMigration() {
     override fun up(db: SQLiteDatabase) {
-        db.execSQL(
-            """
+        db.execSQL("""
             CREATE TABLE password (
                 "id" TEXT PRIMARY KEY,
 	            "title" TEXT NOT NULL UNIQUE,
@@ -19,7 +18,6 @@ class V2_CreateTablePassword : AbstractMigration() {
                 "date_created" NUMERIC NOT NULL,
                 "date_updated" NUMERIC NOT NULL
             );
-        """
-        )
+        """)
     }
 }

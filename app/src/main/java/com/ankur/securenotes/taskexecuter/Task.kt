@@ -17,18 +17,14 @@ abstract class Task() {
     val name: String = UUID.randomUUID().toString()
 
     var runnable = Runnable {
-        callbackHandler?.get()
-            ?.post {
-                callback?.get()
-                    ?.onTaskStarted(name)
+        callbackHandler?.get()?.post {
+                callback?.get()?.onTaskStarted(name)
             }
 
         exec()
 
-        callbackHandler?.get()
-            ?.post {
-                callback?.get()
-                    ?.onTaskFinished(name)
+        callbackHandler?.get()?.post {
+                callback?.get()?.onTaskFinished(name)
             }
     }
 

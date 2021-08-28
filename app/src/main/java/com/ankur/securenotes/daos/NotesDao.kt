@@ -39,8 +39,7 @@ object NotesDao {
     }
 
     fun createNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
-        val id = UUID.randomUUID()
-            .toString()
+        val id = UUID.randomUUID().toString()
         val current = Date()
         val query = """
             INSERT INTO "${NoteEntity.TABLE_NAME}"

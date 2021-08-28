@@ -14,7 +14,6 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
 import java.lang.ref.WeakReference
 
-
 class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     private lateinit var binding: ActivityNoteEditorBinding
@@ -150,8 +149,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         noteEditorFragment?.saveNote()
     }
 
-    private fun editNote() {
-        // Set Activity mode
+    private fun editNote() { // Set Activity mode
         mode = MODE_EDIT
 
         // Set fragment mode
@@ -167,11 +165,9 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.note_editor_delete_confirmation_dialog_title))
             .setMessage(getString(R.string.note_editor_delete_confirmation_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 deleteNote()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
@@ -185,11 +181,9 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.note_editor_discard_changes_dialog_title))
             .setMessage(getString(R.string.note_editor_discard_changes_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 discardChangesAndSwitchToViewMode()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
     private fun showCancelCreateConfirmationDialog() {
@@ -203,15 +197,12 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.note_editor_cancel_create_dialog_title))
             .setMessage(getString(R.string.note_editor_cancel_create_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 cancelNoteCreate()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
-    private fun discardChangesAndSwitchToViewMode() {
-        // Set Activity mode
+    private fun discardChangesAndSwitchToViewMode() { // Set Activity mode
         mode = MODE_VIEW
 
         // Set fragment mode
@@ -228,8 +219,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         finish()
     }
 
-    private fun deleteNote() {
-        // Set fragment mode
+    private fun deleteNote() { // Set fragment mode
         val fragment = findFragment(NoteEditorFragment.TAG) as? NoteEditorFragment
         fragment?.deleteNote()
     }
@@ -290,9 +280,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     }
 
     override fun onNoteSavingFailed(
-        note: NoteEntity?,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -300,19 +288,14 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     }
 
     override fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(
-            this,
-            getString(R.string.note_editor_message_note_delete),
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(this, getString(R.string.note_editor_message_note_delete),
+            Toast.LENGTH_SHORT).show()
 
         finish()
     }
 
     override fun onNoteDeletionFailed(
-        note: NoteEntity,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        note: NoteEntity, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

@@ -5,12 +5,8 @@ import com.ankur.securenotes.db.DbUtil
 import java.util.*
 
 data class NoteEntity(
-    var id: String? = null,
-    var title: String? = null,
-    var body: String? = null,
-    var archived: Boolean? = null,
-    var createdAt: Date? = null,
-    var updatedAt: Date? = null
+    var id: String? = null, var title: String? = null, var body: String? = null,
+    var archived: Boolean? = null, var createdAt: Date? = null, var updatedAt: Date? = null
 ) {
 
     fun updateFrom(cursor: Cursor) {

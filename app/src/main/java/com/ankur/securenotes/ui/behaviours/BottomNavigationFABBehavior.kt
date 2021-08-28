@@ -11,25 +11,19 @@ class BottomNavigationFABBehavior(context: Context?, attrs: AttributeSet?) :
     CoordinatorLayout.Behavior<FloatingActionButton>(context, attrs) {
 
     override fun layoutDependsOn(
-        parent: CoordinatorLayout,
-        child: FloatingActionButton,
-        dependency: View
+        parent: CoordinatorLayout, child: FloatingActionButton, dependency: View
     ): Boolean {
         return dependency is SnackbarLayout
     }
 
     override fun onDependentViewRemoved(
-        parent: CoordinatorLayout,
-        child: FloatingActionButton,
-        dependency: View
+        parent: CoordinatorLayout, child: FloatingActionButton, dependency: View
     ) {
         child.translationY = 0.0f
     }
 
     override fun onDependentViewChanged(
-        parent: CoordinatorLayout,
-        child: FloatingActionButton,
-        dependency: View
+        parent: CoordinatorLayout, child: FloatingActionButton, dependency: View
     ): Boolean {
         return updateButton(child, dependency)
     }

@@ -12,8 +12,7 @@ class GetAllPasswordsTask(
 ) : Task() {
 
     data class Result(
-        var passwords: List<PasswordEntity>?,
-        var error: TaskError? = null
+        var passwords: List<PasswordEntity>?, var error: TaskError? = null
     )
 
     var result: Result? = null

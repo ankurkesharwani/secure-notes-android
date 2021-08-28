@@ -5,13 +5,11 @@ import com.ankur.securenotes.db.AbstractMigration
 
 class V3_CreateTableLabel : AbstractMigration() {
     override fun up(db: SQLiteDatabase) {
-        db.execSQL(
-            """
+        db.execSQL("""
             CREATE TABLE label (
                 "id" TEXT PRIMARY KEY,
 	            "title"TEXT NOT NULL UNIQUE
             );
-        """
-        )
+        """)
     }
 }

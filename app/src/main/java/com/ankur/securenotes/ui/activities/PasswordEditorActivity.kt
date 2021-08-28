@@ -146,9 +146,9 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.password_editor_delete_confirmation_dialog_title))
             .setMessage(getString(R.string.password_editor_delete_confirmation_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 deletePassword()
-            }.setNegativeButton(android.R.string.no, null).show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
@@ -162,9 +162,9 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.password_editor_discard_changes_dialog_title))
             .setMessage(getString(R.string.password_editor_discard_changes_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 discardChangesAndSwitchToViewMode()
-            }.setNegativeButton(android.R.string.no, null).show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
     private fun showCancelCreateConfirmationDialog() {
@@ -178,9 +178,9 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.password_editor_cancel_create_dialog_title))
             .setMessage(getString(R.string.password_editor_cancel_create_dialog_body))
-            .setPositiveButton(android.R.string.yes) { _, _ ->
+            .setPositiveButton(R.string.common_dialog_option_yes) { _, _ ->
                 cancelPasswordCreate()
-            }.setNegativeButton(android.R.string.no, null).show()
+            }.setNegativeButton(R.string.common_dialog_option_no, null).show()
     }
 
     private fun discardChangesAndSwitchToViewMode() {

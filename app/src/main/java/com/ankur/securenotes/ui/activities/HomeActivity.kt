@@ -13,7 +13,6 @@ import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
 import java.lang.ref.WeakReference
 
-
 class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordListFragment.Listener {
 
     private lateinit var binding: ActivityHomeBinding

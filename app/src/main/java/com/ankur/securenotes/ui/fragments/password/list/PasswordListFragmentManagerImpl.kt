@@ -16,10 +16,8 @@ class PasswordListFragmentManagerImpl : PasswordListFragmentManager, SerialTaskE
 
     override fun fetchPasswordList() {
         context?.let {
-            Shared.serialTaskExecutor?.exec(
-                GetAllPasswordsTask(Shared.getReadableDatabase(it)),
-                this
-            )
+            Shared.serialTaskExecutor?.exec(GetAllPasswordsTask(Shared.getReadableDatabase(it)),
+                this)
         }
     }
 

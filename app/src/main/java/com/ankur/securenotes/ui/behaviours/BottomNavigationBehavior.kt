@@ -13,9 +13,7 @@ class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
     CoordinatorLayout.Behavior<BottomNavigationView>(context, attrs) {
 
     override fun layoutDependsOn(
-        parent: CoordinatorLayout,
-        child: BottomNavigationView,
-        dependency: View
+        parent: CoordinatorLayout, child: BottomNavigationView, dependency: View
     ): Boolean {
         if (dependency is SnackbarLayout) {
             updateSnackBar(child, dependency)
@@ -25,24 +23,15 @@ class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
     }
 
     override fun onStartNestedScroll(
-        coordinatorLayout: CoordinatorLayout,
-        child: BottomNavigationView,
-        directTargetChild: View,
-        target: View,
-        axes: Int,
-        type: Int
+        coordinatorLayout: CoordinatorLayout, child: BottomNavigationView, directTargetChild: View,
+        target: View, axes: Int, type: Int
     ): Boolean {
         return axes == ViewCompat.SCROLL_AXIS_VERTICAL
     }
 
     override fun onNestedPreScroll(
-        coordinatorLayout: CoordinatorLayout,
-        child: BottomNavigationView,
-        target: View,
-        dx: Int,
-        dy: Int,
-        consumed: IntArray,
-        type: Int
+        coordinatorLayout: CoordinatorLayout, child: BottomNavigationView, target: View, dx: Int,
+        dy: Int, consumed: IntArray, type: Int
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
         child.translationY =
@@ -53,8 +42,7 @@ class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
         if (snackBarLayout.layoutParams is CoordinatorLayout.LayoutParams) {
             if (snackBarLayout.layoutParams == null) {
                 throw RuntimeException(
-                    "null cannot be cast to non-null type android.support.design.widget.CoordinatorLayout.LayoutParams"
-                )
+                    "null cannot be cast to non-null type android.support.design.widget.CoordinatorLayout.LayoutParams")
             }
 
             val layoutParams = snackBarLayout.layoutParams

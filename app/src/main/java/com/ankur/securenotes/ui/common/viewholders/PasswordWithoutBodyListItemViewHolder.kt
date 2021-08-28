@@ -6,7 +6,7 @@ import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.utils.DateUtil
 
 class PasswordWithoutBodyListItemViewHolder(itemView: View) : PasswordListItemViewHolder(itemView),
-    View.OnClickListener {
+                                                              View.OnClickListener {
 
     init {
         itemView.setOnClickListener(this)
