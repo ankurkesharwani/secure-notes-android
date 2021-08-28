@@ -1,26 +1,29 @@
 package com.ankur.securenotes.ui.activities
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.ActivityHomeBinding
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
-import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.ref.WeakReference
 
 
 class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordListFragment.Listener {
 
+    private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         showNoteListFragment()
@@ -29,13 +32,13 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
     }
 
     private fun setFabActionListeners() {
-        fabAddNoteButton.setOnClickListener {
+        binding.fabAddNoteButton.setOnClickListener {
             showOptionsDialog()
         }
     }
 
     private fun setBottomNavigationActionListeners() {
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_notes -> {
                     hidePasswordListFragment()

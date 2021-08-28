@@ -9,24 +9,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.ActivityNoteEditorBinding
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
-import kotlinx.android.synthetic.main.activity_note_editor.*
 import java.lang.ref.WeakReference
 
 
 class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
-    // region Properties
+    private lateinit var binding: ActivityNoteEditorBinding
     private var mode: String? = MODE_CREATE
     private var noteId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
-    // endregion
 
-    // region Lifecycle Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note_editor)
+
+        binding = ActivityNoteEditorBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         setArgs()
@@ -34,26 +35,24 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         showNoteEditorFragment()
         setupActionListeners()
     }
-    // endregion
 
-    // region Methods
     private fun setupToolbar() {
         when (mode) {
             MODE_VIEW -> {
                 supportActionBar?.title = getString(R.string.note_editor_title_view_note)
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miEditButton, R.id.miDeleteButton)
             }
 
             MODE_CREATE -> {
                 supportActionBar?.title = getString(R.string.note_editor_title_new_note)
-                toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
 
             MODE_EDIT -> {
                 supportActionBar?.title = getString(R.string.note_editor_title_edit_note)
-                toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
         }
@@ -65,7 +64,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
     }
 
     private fun setupActionListeners() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             when (mode) {
                 MODE_VIEW -> {
                     finish()
@@ -235,9 +234,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         fragment?.deleteNote()
     }
 
-    // endregion
 
-    // region Overridden Methods
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_note_editor, menu)
@@ -284,9 +281,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
         return super.onPrepareOptionsMenu(menu)
     }
-    // endregion
 
-    // region NoteEditorFragment.Listener
     override fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>) {
         Toast.makeText(this, getString(R.string.note_editor_message_note_saved), Toast.LENGTH_SHORT)
             .show()
@@ -323,7 +318,6 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
-    // endregion
 
     companion object {
         const val PARAM_NOTE_ID = "PARAM_NOTE_ID"

@@ -5,22 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.FragmentPasswordViewerBinding
 
 class PasswordViewerFragment : Fragment() {
+
+    private lateinit var binding: FragmentPasswordViewerBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_password_viewer, container, false)
+    ): View {
+        binding = FragmentPasswordViewerBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     companion object {
 
         @JvmField
-        val TAG = this::class.java.name
-
-        const val PARAM_MODE_FLAG = "PARAM_MODE_FLAG"
-        const val PARAM_PASSWORD_ID = "PARAM_PASSWORD_ID"
+        val TAG: String = this::class.java.name
     }
 }

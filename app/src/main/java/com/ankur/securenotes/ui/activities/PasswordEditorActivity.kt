@@ -9,28 +9,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.ActivityPasswordEditorBinding
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
 import com.ankur.securenotes.ui.fragments.password.viewer.PasswordViewerFragment
-import kotlinx.android.synthetic.main.activity_password_editor.*
 import java.lang.ref.WeakReference
 
 class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Listener {
 
-    // region Properties
-
+    private lateinit var binding: ActivityPasswordEditorBinding
     private var shownFragmentTag: String? = null
     private var mode: String? = MODE_CREATE
     private var passwordId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
 
-    // endregion
-
-
-    // region Lifecycle Methods
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = ActivityPasswordEditorBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         setContentView(R.layout.activity_password_editor)
         setSupportActionBar(findViewById(R.id.toolbar))
 
@@ -39,11 +37,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         showStartingFragment()
         setupActionListeners()
     }
-
-    // endregion
-
-
-    // region Methods
 
     private fun setArgs() {
         mode = intent.extras?.get(PARAM_MODE_FLAG) as? String
@@ -54,26 +47,26 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         when (mode) {
             MODE_VIEW -> {
                 supportActionBar?.title = getString(R.string.password_editor_title_view_password)
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miEditButton, R.id.miDeleteButton)
             }
 
             MODE_CREATE -> {
                 supportActionBar?.title = getString(R.string.password_editor_title_new_password)
-                toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
 
             MODE_EDIT -> {
                 supportActionBar?.title = getString(R.string.password_editor_title_edit_password)
-                toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_cancel_primary_24dp)
                 menuItemIdsValidForMode = arrayOf(R.id.miSaveButton)
             }
         }
     }
 
     private fun setupActionListeners() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             when (mode) {
                 MODE_VIEW -> {
                     finish()
@@ -103,7 +96,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     }
 
     private fun showPasswordEditorFragment() {
-        var fragment = showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
+        val fragment = showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
         (fragment as? PasswordEditorFragment)?.setListener(this)
     }
 
@@ -148,8 +141,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
         fragment?.deletePassword()
     }
-
-    // region Dialog options
 
     private fun showDeletePasswordConfirmationDialog() {
         AlertDialog.Builder(this)
@@ -204,11 +195,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
     private fun cancelPasswordCreate() {
         finish()
     }
-
-    // endregion
-
-
-    // region Helper Methods
 
     private fun isFragmentPresent(tag: String): Boolean {
         return findFragment(tag) != null
@@ -266,13 +252,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return null
     }
 
-    // endregion
-
-    // endregion
-
-
-    // region Overridden Methods
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_password_editor, menu)
@@ -318,11 +297,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return super.onPrepareOptionsMenu(menu)
     }
 
-    // endregion
-
-
-    // region PasswordEditorFragment.Listener
-
     override fun onPasswordSaved(
         password: PasswordEntity, fragment: WeakReference<Fragment>
     ) {
@@ -354,8 +328,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
-
-    // endregion
 
     companion object {
         const val PARAM_PASSWORD_ID = "PARAM_PASSWORD_ID"

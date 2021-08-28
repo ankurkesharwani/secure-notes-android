@@ -1,5 +1,6 @@
 package com.ankur.securenotes.ui.fragments.note.list
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -10,8 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.FragmentNoteListBinding
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.shared.Shared
 import com.ankur.securenotes.ui.common.adapters.NoteListRecycleViewAdapter
@@ -19,16 +20,15 @@ import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import java.lang.ref.WeakReference
 
 class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
-    NoteListItemViewHolder.Listener {
+                         NoteListItemViewHolder.Listener {
 
     interface Listener {
         fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
     }
 
+    private lateinit var binding: FragmentNoteListBinding
     private lateinit var activity: Activity
     private lateinit var adapter: NoteListRecycleViewAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var swipeToRefresh: SwipeRefreshLayout
     private lateinit var manager: NoteListFragmentManager
 
     private var listener: WeakReference<Listener>? = null
@@ -46,34 +46,23 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
             Shared.store?.retrieve(TAG, "manager") as NoteListFragmentManager
         } else {
             context?.let {
-                NoteListFragmentManagerBuilder()
-                    .set(context = activity)
-                    .set(listener = this)
+                NoteListFragmentManagerBuilder().set(context = activity).set(listener = this)
                     .build()
             }!!
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_note_list, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
-        swipeToRefresh = view.findViewById(R.id.swipeToRefresh)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentNoteListBinding.inflate(layoutInflater, container, false)
+        val view = binding.root
 
         setupRecyclerView()
         setupSwipeToRefresh()
 
         return view
     }
-
-    /*
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-    */
 
     override fun onStart() {
         super.onStart()
@@ -87,17 +76,6 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
         reloadData()
     }
 
-    /*
-    override fun onPause() {
-        super.onPause()
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-    }
-    */
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -109,66 +87,47 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
         }
     }
 
-    /*
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-    }
-    */
-
     fun setListener(listener: Listener) {
         this.listener = WeakReference(listener)
     }
 
     private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = linearLayoutManager
+        binding.recyclerView.layoutManager = linearLayoutManager
         adapter = NoteListRecycleViewAdapter(this)
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 
     private fun setupSwipeToRefresh() {
-        swipeToRefresh.setColorSchemeResources(
-            R.color.refresh_progress_1,
-            R.color.refresh_progress_2
-        )
+        binding.swipeToRefresh.setColorSchemeResources(R.color.refresh_progress_1,
+            R.color.refresh_progress_2)
 
-        swipeToRefresh.setOnRefreshListener { fetchData() }
+        binding.swipeToRefresh.setOnRefreshListener { fetchData() }
     }
 
     private fun fetchData() {
         manager.fetchNoteList()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun reloadData() {
         adapter.updateNotes(manager.notes)
         adapter.notifyDataSetChanged()
     }
 
     override fun onNoteListFetchStart(manager: NoteListFragmentManager?) {
-        swipeToRefresh.isRefreshing = true
+        binding.swipeToRefresh.isRefreshing = true
     }
 
     override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
-        swipeToRefresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         reloadData()
     }
 
     override fun onNoteListFetchFailed(
-        errorCode: Int?,
-        message: String?,
-        manager: NoteListFragmentManager?
+        errorCode: Int?, message: String?, manager: NoteListFragmentManager?
     ) {
-        swipeToRefresh.isRefreshing = false
+        binding.swipeToRefresh.isRefreshing = false
         reloadData()
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
@@ -180,6 +139,6 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
     companion object {
 
         @JvmField
-        val TAG = this::class.java.name
+        val TAG: String = this::class.java.name
     }
 }

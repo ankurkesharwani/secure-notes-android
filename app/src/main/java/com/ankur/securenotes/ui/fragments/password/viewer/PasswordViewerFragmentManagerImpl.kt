@@ -1,4 +1,4 @@
-package com.ankur.securenotes.ui.fragments.password.viewer;
+package com.ankur.securenotes.ui.fragments.password.viewer
 
 import android.content.Context
 

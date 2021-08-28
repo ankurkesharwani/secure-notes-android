@@ -8,49 +8,40 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.ankur.securenotes.R
+import com.ankur.securenotes.databinding.FragmentNoteEditorBinding
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.shared.Shared
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.tasks.GetNoteByIdTask
-import kotlinx.android.synthetic.main.fragment_note_editor.*
 import java.lang.ref.WeakReference
 
 
 class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
-    SerialTaskExecutor.Listener {
+                           SerialTaskExecutor.Listener {
 
-    // region Declarations
     interface Listener {
         fun onNoteSaved(note: NoteEntity, fragment: WeakReference<Fragment>)
 
         fun onNoteSavingFailed(
-            note: NoteEntity?,
-            message: String?,
-            fragment: WeakReference<Fragment>
+            note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>
         )
 
         fun onNoteDeleted(note: NoteEntity, fragment: WeakReference<Fragment>)
 
         fun onNoteDeletionFailed(
-            note: NoteEntity,
-            message: String?,
-            fragment: WeakReference<Fragment>
+            note: NoteEntity, message: String?, fragment: WeakReference<Fragment>
         )
     }
-    // endregion
 
-    // region Properties
-    private var mode: String? = MODE_EDIT
-    private var noteId: String? = null
-
+    private lateinit var binding: FragmentNoteEditorBinding
     private lateinit var activity: Activity
     private lateinit var manager: NoteEditorFragmentManager
-    private var listener: WeakReference<Listener>? = null
-    // endregion
 
-    // region Lifecycle
+    private var mode: String? = MODE_EDIT
+    private var noteId: String? = null
+    private var listener: WeakReference<Listener>? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -67,40 +58,17 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_note_editor, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentNoteEditorBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
-
-    /*
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        fetchData()
-    }
-    */
 
     override fun onResume() {
         super.onResume()
 
         reloadData()
     }
-
-    /*
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-    */
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -113,23 +81,6 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
         }
     }
 
-    /*
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-    }
-    */
-    // endregion
-
-    // region Methods
     fun setListener(listener: Listener) {
         this.listener = WeakReference(listener)
     }
@@ -145,8 +96,8 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
     }
 
     fun saveNote() {
-        val title = etTitleEditText.text.toString()
-        val body = etBodyEditText.text.toString()
+        val title = binding.etTitleEditText.text.toString()
+        val body = binding.etBodyEditText.text.toString()
 
         if (body.isEmpty()) {
             listener?.get()
@@ -179,8 +130,8 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
     }
 
     fun hasEditableChanges(): Boolean {
-        val title = etTitleEditText.text.toString()
-        val body = etBodyEditText.text.toString()
+        val title = binding.etTitleEditText.text.toString()
+        val body = binding.etBodyEditText.text.toString()
 
         return if (noteId == null) {
             !(title.isEmpty() && body.isEmpty())
@@ -199,9 +150,7 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
             Shared.store?.retrieve(TAG, "manager") as NoteEditorFragmentManager
         } else {
             context?.let {
-                NoteEditorFragmentManagerBuilder()
-                    .set(context = activity)
-                    .set(listener = this)
+                NoteEditorFragmentManagerBuilder().set(context = activity).set(listener = this)
                     .build()
             }!!
         }
@@ -216,22 +165,20 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
 
     private fun updateUiState() {
         if (mode == MODE_VIEW) {
-            etTitleEditText?.isEnabled = false
-            etBodyEditText?.isEnabled = false
+            binding.etTitleEditText.isEnabled = false
+            binding.etBodyEditText.isEnabled = false
         } else {
-            etTitleEditText?.isEnabled = true
-            etBodyEditText?.isEnabled = true
+            binding.etTitleEditText.isEnabled = true
+            binding.etBodyEditText.isEnabled = true
         }
     }
 
     private fun reloadData() {
         val note = manager.note
-        etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
-        etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
+        binding.etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
+        binding.etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
     }
-    // endregion
 
-    // region SerialTaskExecutor.Listener
     override fun onTaskStarted(task: Task) {
 
     }
@@ -248,57 +195,47 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener,
             }
         }
     }
-    // endregion
 
-    // region NoteEditorFragmentManager.Listener
     override fun onNoteSavingStarted(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
+        note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
     ) {
 
     }
 
     override fun onNoteSaved(note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?) {
-        listener?.get()
-            ?.onNoteSaved(note, WeakReference(this))
+        listener?.get()?.onNoteSaved(note, WeakReference(this))
     }
 
     override fun onNoteSavingFailed(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
+        note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
     ) {
         listener?.get()
             ?.onNoteSavingFailed(note, "Error: Could not save note.", WeakReference(this))
     }
 
     override fun onNoteDeletionStarted(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
+        note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
     ) {
 
     }
 
     override fun onNoteDeleted(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
+        note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
     ) {
-        listener?.get()
-            ?.onNoteDeleted(note, WeakReference(this))
+        listener?.get()?.onNoteDeleted(note, WeakReference(this))
     }
 
     override fun onNoteDeletionFailed(
-        note: NoteEntity,
-        manager: WeakReference<NoteEditorFragmentManager>?
+        note: NoteEntity, manager: WeakReference<NoteEditorFragmentManager>?
     ) {
         listener?.get()
             ?.onNoteDeletionFailed(note, "Error: Could not delete note.", WeakReference(this))
     }
-    // endregion
 
     companion object {
 
         @JvmField
-        val TAG = this::class.java.name
+        val TAG: String = this::class.java.name
 
         const val PARAM_MODE_FLAG = "PARAM_MODE_FLAG"
         const val PARAM_NOTE_ID = "PARAM_NOTE_ID"

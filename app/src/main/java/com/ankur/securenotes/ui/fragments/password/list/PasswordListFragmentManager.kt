@@ -9,7 +9,7 @@ interface PasswordListFragmentManager {
     interface Listener {
         fun onPasswordListFetchStart(manager: PasswordListFragmentManager?)
         fun onPasswordListFetched(
-            notes: List<PasswordEntity>?,
+            passwords: List<PasswordEntity>?,
             manager: PasswordListFragmentManager?
         )
 
