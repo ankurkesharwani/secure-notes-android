@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.note.editor.NoteEditorFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,11 +24,12 @@
                 android:ems="10"
                 android:background="@android:color/transparent"
                 android:gravity="start|top"
-                android:hint="What's on your mind?"
+                android:hint="@string/note_editor_placeholder_title"
                 android:inputType="textMultiLine"
                 android:textColor="@color/BrandColor.Text1"
                 android:fontWeight="600"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etBodyEditText"
@@ -42,12 +43,13 @@
                 android:ems="10"
                 android:fontWeight="400"
                 android:gravity="start|top"
-                android:hint="Let's note something of importance"
+                android:hint="@string/note_editor_placeholder_body"
                 android:inputType="textMultiLine"
                 android:minHeight="100dp"
                 android:textColor="@color/BrandColor.Text1"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:importantForAutofill="no" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

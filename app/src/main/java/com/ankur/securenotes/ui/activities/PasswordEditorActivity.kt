@@ -11,18 +11,24 @@ import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
+import com.ankur.securenotes.ui.fragments.password.viewer.PasswordViewerFragment
 import kotlinx.android.synthetic.main.activity_password_editor.*
 import java.lang.ref.WeakReference
 
 class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Listener {
 
     // region Properties
+
+    private var shownFragmentTag: String? = null
     private var mode: String? = MODE_CREATE
     private var passwordId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
+
     // endregion
 
+
     // region Lifecycle Methods
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password_editor)
@@ -30,12 +36,20 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
         setArgs()
         setupToolbar()
-        showPasswordEditorFragment()
+        showStartingFragment()
         setupActionListeners()
     }
+
     // endregion
 
+
     // region Methods
+
+    private fun setArgs() {
+        mode = intent.extras?.get(PARAM_MODE_FLAG) as? String
+        passwordId = intent.extras?.get(PARAM_PASSWORD_ID) as? String
+    }
+
     private fun setupToolbar() {
         when (mode) {
             MODE_VIEW -> {
@@ -58,11 +72,6 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         }
     }
 
-    private fun setArgs() {
-        mode = intent.extras?.get(PARAM_MODE_FLAG) as? String
-        passwordId = intent.extras?.get(PARAM_PASSWORD_ID) as? String
-    }
-
     private fun setupActionListeners() {
         toolbar.setNavigationOnClickListener {
             when (mode) {
@@ -81,60 +90,33 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         }
     }
 
-    private fun findFragment(tag: String): Fragment? {
-        return supportFragmentManager.findFragmentByTag(tag)
+    private fun showStartingFragment() {
+        if (isInViewMode()) {
+            showPasswordViewerFragment()
+        } else if (isInEditOrCreateMode()) {
+            showPasswordEditorFragment()
+        }
     }
 
-    private fun isFragmentPresent(tag: String): Boolean {
-        return findFragment(tag) != null
+    private fun showPasswordViewerFragment() {
+        showFragment(PasswordViewerFragment.TAG, getBundleForChildFragment())
     }
 
     private fun showPasswordEditorFragment() {
-        if (isFragmentPresent(PasswordEditorFragment.TAG)) {
-            return
-        }
-
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val passwordEditorFragment = PasswordEditorFragment()
-        passwordEditorFragment.setListener(this)
-
-        // Set arguments
-        val bundle = getBundleForChildFragment()
-        if (bundle.keySet().count() > 0) {
-            passwordEditorFragment.arguments = bundle
-        }
-
-        // Show
-        fragmentTransaction.add(
-            R.id.fragmentContainer,
-            passwordEditorFragment,
-            PasswordEditorFragment.TAG
-        )
-        fragmentTransaction.commit()
+        var fragment = showFragment(PasswordEditorFragment.TAG, getBundleForChildFragment())
+        (fragment as? PasswordEditorFragment)?.setListener(this)
     }
 
     private fun getBundleForChildFragment(): Bundle {
         val bundle = Bundle()
-        if (hasPasswordToView()) {
+        if (hasPasswordToViewOrEdit()) {
             bundle.putString(PasswordEditorFragment.PARAM_PASSWORD_ID, passwordId)
-        }
-        if (isInViewMode()) {
-            bundle.putString(
-                PasswordEditorFragment.PARAM_MODE_FLAG,
-                PasswordEditorFragment.MODE_VIEW
-            )
-        } else if (isInEditMode()) {
-            bundle.putString(
-                PasswordEditorFragment.PARAM_MODE_FLAG,
-                PasswordEditorFragment.MODE_EDIT
-            )
         }
 
         return bundle
     }
 
-    private fun hasPasswordToView(): Boolean {
+    private fun hasPasswordToViewOrEdit(): Boolean {
         return ((mode == MODE_EDIT || mode == MODE_VIEW) && passwordId != null)
     }
 
@@ -142,17 +124,8 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         return (mode == MODE_VIEW)
     }
 
-    private fun isInEditMode(): Boolean {
-        return (mode == MODE_VIEW)
-    }
-
-    private fun hidePasswordEditorFragment() {
-        val fragment = findFragment(PasswordEditorFragment.TAG) ?: return
-
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(fragment)
-        fragmentTransaction.commit()
+    private fun isInEditOrCreateMode(): Boolean {
+        return (mode == MODE_EDIT || mode == MODE_CREATE)
     }
 
     private fun savePassword() {
@@ -161,18 +134,22 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         passwordEditorFragment?.savePassword()
     }
 
-    private fun editPassword() {
-        // Set Activity mode
+    private fun editPassword() { // Set Activity mode
         mode = MODE_EDIT
 
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.setMode(PasswordEditorFragment.MODE_EDIT)
+        showPasswordEditorFragment()
 
         // Refresh the toolbar
         setupToolbar()
         invalidateOptionsMenu()
     }
+
+    private fun deletePassword() { // Set fragment mode
+        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
+        fragment?.deletePassword()
+    }
+
+    // region Dialog options
 
     private fun showDeletePasswordConfirmationDialog() {
         AlertDialog.Builder(this)
@@ -180,9 +157,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_delete_confirmation_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 deletePassword()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun showDiscardChangesConfirmationDialog() {
@@ -198,9 +173,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_discard_changes_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 discardChangesAndSwitchToViewMode()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun showCancelCreateConfirmationDialog() {
@@ -216,19 +189,12 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
             .setMessage(getString(R.string.password_editor_cancel_create_dialog_body))
             .setPositiveButton(android.R.string.yes) { _, _ ->
                 cancelPasswordCreate()
-            }
-            .setNegativeButton(android.R.string.no, null)
-            .show()
+            }.setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun discardChangesAndSwitchToViewMode() {
-        // Set Activity mode
         mode = MODE_VIEW
-
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.discardChanges()
-        fragment?.setMode(PasswordEditorFragment.MODE_VIEW)
+        showPasswordViewerFragment()
 
         // Refresh the toolbar
         setupToolbar()
@@ -239,15 +205,74 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         finish()
     }
 
-    private fun deletePassword() {
-        // Set fragment mode
-        val fragment = findFragment(PasswordEditorFragment.TAG) as? PasswordEditorFragment
-        fragment?.deletePassword()
+    // endregion
+
+
+    // region Helper Methods
+
+    private fun isFragmentPresent(tag: String): Boolean {
+        return findFragment(tag) != null
+    }
+
+    private fun findFragment(tag: String): Fragment? {
+        return supportFragmentManager.findFragmentByTag(tag)
+    }
+
+    private fun showFragment(tag: String, bundleArgs: Bundle?): Fragment? {
+        if (isFragmentPresent(tag)) {
+            return null
+        }
+
+        // Add the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment = newFragment(tag) ?: return null
+
+        // Set arguments
+        if (bundleArgs != null) {
+            if (bundleArgs.keySet().count() > 0) {
+                fragment.arguments = bundleArgs
+            }
+        }
+
+        // Show
+        if (shownFragmentTag != null) {
+            fragmentTransaction.replace(R.id.fragmentContainer, fragment, tag)
+        } else {
+            fragmentTransaction.add(R.id.fragmentContainer, fragment, tag)
+        }
+        fragmentTransaction.commit()
+        shownFragmentTag = tag
+        return fragment
+    }
+
+    private fun removeFragment(tag: String): Fragment? {
+        val fragment = findFragment(tag) ?: return null
+
+        // Remove the fragment
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.remove(fragment)
+        fragmentTransaction.commit()
+        shownFragmentTag = tag
+
+        return fragment
+    }
+
+    private fun newFragment(tag: String): Fragment? {
+        when (tag) {
+            PasswordViewerFragment.TAG -> return PasswordViewerFragment()
+            PasswordEditorFragment.TAG -> return PasswordEditorFragment()
+        }
+
+        return null
     }
 
     // endregion
 
+    // endregion
+
+
     // region Overridden Methods
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_password_editor, menu)
@@ -292,46 +317,44 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
 
         return super.onPrepareOptionsMenu(menu)
     }
+
     // endregion
 
+
     // region PasswordEditorFragment.Listener
-    override fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(
-            this,
-            getString(R.string.password_editor_message_password_saved),
-            Toast.LENGTH_SHORT
-        ).show()
+
+    override fun onPasswordSaved(
+        password: PasswordEntity, fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(this, getString(R.string.password_editor_message_password_saved),
+            Toast.LENGTH_SHORT).show()
         finish()
     }
 
     override fun onPasswordSavingFailed(
-        password: PasswordEntity?,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>) {
-        Toast.makeText(
-            this,
-            getString(R.string.password_editor_message_password_delete),
-            Toast.LENGTH_SHORT
-        ).show()
+    override fun onPasswordDeleted(
+        password: PasswordEntity, fragment: WeakReference<Fragment>
+    ) {
+        Toast.makeText(this, getString(R.string.password_editor_message_password_delete),
+            Toast.LENGTH_SHORT).show()
         finish()
     }
 
     override fun onPasswordDeletionFailed(
-        password: PasswordEntity,
-        message: String?,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>
     ) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
+
     // endregion
 
     companion object {

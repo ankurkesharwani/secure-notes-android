@@ -3,6 +3,7 @@ package com.ankur.securenotes.ui.activities
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,7 +12,7 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
-import kotlinx.android.synthetic.main.activity_home_alternate.*
+import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.ref.WeakReference
 
 
@@ -19,7 +20,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_alternate)
+        setContentView(R.layout.activity_home)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         showNoteListFragment()
@@ -92,11 +93,8 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val passwordListFragment = PasswordListFragment()
         passwordListFragment.setListener(this)
-        fragmentTransaction.add(
-            R.id.fragmentContainer,
-            passwordListFragment,
-            PasswordListFragment.TAG
-        )
+        fragmentTransaction.add(R.id.fragmentContainer, passwordListFragment,
+            PasswordListFragment.TAG)
         fragmentTransaction.commit()
     }
 
@@ -123,30 +121,26 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
     }
 
     private fun showOptionsDialog() {
-        val items = arrayOf(
-            "Create a note", "Create a password"
-        )
+        val items = arrayOf("Create a note", "Create a password")
 
-        AlertDialog.Builder(this)
-            .setItems(items, DialogInterface.OnClickListener { dialog, which ->
-                if ("Create a note" == items[which]) {
-                    openNoteEditor()
-                } else if ("Create a password" == items[which]) {
-                    val intent = Intent(this, PasswordEditorActivity::class.java)
-                    intent.putExtra(
-                        PasswordEditorActivity.PARAM_MODE_FLAG,
-                        PasswordEditorActivity.MODE_CREATE
-                    )
-                    startActivity(intent)
-                }
-            })
-            .show()
+        AlertDialog.Builder(this).setItems(items) { _, which ->
+            if ("Create a note" == items[which]) {
+                openNoteEditor()
+            } else if ("Create a password" == items[which]) {
+                val intent = Intent(this, PasswordEditorActivity::class.java)
+                intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG,
+                    PasswordEditorActivity.MODE_CREATE)
+                startActivity(intent)
+            }
+        }.show()
     }
 
     override fun onPasswordItemSelected(
-        password: PasswordEntity,
-        fragment: WeakReference<Fragment>
+        password: PasswordEntity, fragment: WeakReference<Fragment>
     ) {
-
+        val intent = Intent(this, PasswordEditorActivity::class.java)
+        intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
+        intent.putExtra(PasswordEditorActivity.PARAM_PASSWORD_ID, password.id)
+        startActivity(intent)
     }
 }
