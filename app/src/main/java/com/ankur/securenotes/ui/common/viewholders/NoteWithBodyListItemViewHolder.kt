@@ -6,24 +6,23 @@ import com.ankur.securenotes.R
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.utils.DateUtil
 
-class NoteWithBodyListItemViewHolder(itemView: View) : NoteListItemViewHolder(itemView),
-                                                       View.OnClickListener {
+class NoteWithBodyListItemViewHolder(itemView: View) : NoteListItemViewHolder(itemView), View.OnClickListener {
 
-    private var bodyTextView: TextView = itemView.findViewById(R.id.tvBodyTextView)
+  private var bodyTextView: TextView = itemView.findViewById(R.id.tvBodyTextView)
 
-    init {
-        itemView.setOnClickListener(this)
-    }
+  init {
+    itemView.setOnClickListener(this)
+  }
 
-    override fun configure(note: NoteEntity) {
-        super.configure(note)
+  override fun configure(note: NoteEntity) {
+    super.configure(note)
 
-        dateTextView.text = DateUtil.getDisplayableDate(note.updatedAt)
-        titleTextView.text = note.title
-        bodyTextView.text = note.body
-    }
+    dateTextView.text = DateUtil.getDisplayableDate(note.updatedAt)
+    titleTextView.text = note.title
+    bodyTextView.text = note.body
+  }
 
-    override fun onClick(v: View?) {
-        note?.let { listener?.get()?.onNoteItemClicked(it, this) }
-    }
+  override fun onClick(v: View?) {
+    note?.let { listener?.get()?.onNoteItemClicked(it, this) }
+  }
 }

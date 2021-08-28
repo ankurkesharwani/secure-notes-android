@@ -5,45 +5,45 @@ import com.ankur.securenotes.entities.PasswordEntity
 import java.util.*
 
 object PasswordDao {
-    fun findOneById(id: String, db: SQLiteDatabase): PasswordEntity? {
-        val query = """
+  fun findOneById(id: String, db: SQLiteDatabase): PasswordEntity? {
+    val query = """
             SELECT * FROM "${PasswordEntity.TABLE_NAME}"
             WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
-        val cursor = db.rawQuery(query, null)
-        if (cursor.moveToNext()) {
-            val password = PasswordEntity()
-            password.updateFrom(cursor)
+    val cursor = db.rawQuery(query, null)
+    if (cursor.moveToNext()) {
+      val password = PasswordEntity()
+      password.updateFrom(cursor)
 
-            return password
-        }
-
-        return null
+      return password
     }
 
-    fun findAll(db: SQLiteDatabase): List<PasswordEntity> {
-        val query = """
+    return null
+  }
+
+  fun findAll(db: SQLiteDatabase): List<PasswordEntity> {
+    val query = """
             SELECT * FROM "${PasswordEntity.TABLE_NAME}"
         """.trimIndent()
 
-        val passwords = arrayListOf<PasswordEntity>()
-        val cursor = db.rawQuery(query, null)
-        while (cursor.moveToNext()) {
-            var password = PasswordEntity()
-            password.updateFrom(cursor)
-            passwords.add(password)
-        }
-
-        return passwords
+    val passwords = arrayListOf<PasswordEntity>()
+    val cursor = db.rawQuery(query, null)
+    while (cursor.moveToNext()) {
+      var password = PasswordEntity()
+      password.updateFrom(cursor)
+      passwords.add(password)
     }
 
-    fun createPassword(
-        password: PasswordEntity, db: SQLiteDatabase
-    ): PasswordEntity? {
-        val id = UUID.randomUUID().toString()
-        val current = Date()
-        val query = """
+    return passwords
+  }
+
+  fun createPassword(
+    password: PasswordEntity, db: SQLiteDatabase
+  ): PasswordEntity? {
+    val id = UUID.randomUUID().toString()
+    val current = Date()
+    val query = """
             INSERT INTO "${PasswordEntity.TABLE_NAME}"
             (
                 "${PasswordEntity.COLUMN_ID}",
@@ -72,20 +72,20 @@ object PasswordDao {
             )
         """.trimIndent()
 
-        db.execSQL(query)
+    db.execSQL(query)
 
-        return findOneById(id, db)
+    return findOneById(id, db)
+  }
+
+  fun updatePassword(
+    password: PasswordEntity, db: SQLiteDatabase
+  ): PasswordEntity? {
+    if (password.id == null) {
+      return null
     }
 
-    fun updatePassword(
-        password: PasswordEntity, db: SQLiteDatabase
-    ): PasswordEntity? {
-        if (password.id == null) {
-            return null
-        }
-
-        val current = Date()
-        val query = """
+    val current = Date()
+    val query = """
             UPDATE "${PasswordEntity.TABLE_NAME}" 
             SET
                 "${PasswordEntity.COLUMN_TITLE}" = "${password.title}",
@@ -100,19 +100,19 @@ object PasswordDao {
                 "${PasswordEntity.COLUMN_ID}" = "${password.id}"
         """.trimIndent()
 
-        db.execSQL(query)
+    db.execSQL(query)
 
-        return findOneById(password.id!!, db)
-    }
+    return findOneById(password.id!!, db)
+  }
 
-    fun deleteById(
-        id: String, db: SQLiteDatabase
-    ) {
-        val query = """
+  fun deleteById(
+    id: String, db: SQLiteDatabase
+  ) {
+    val query = """
             DELETE FROM "${PasswordEntity.TABLE_NAME}"
             WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
-        db.execSQL(query)
-    }
+    db.execSQL(query)
+  }
 }

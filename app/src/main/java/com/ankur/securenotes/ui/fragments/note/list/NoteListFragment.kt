@@ -19,126 +19,125 @@ import com.ankur.securenotes.ui.common.adapters.NoteListRecycleViewAdapter
 import com.ankur.securenotes.ui.common.viewholders.NoteListItemViewHolder
 import java.lang.ref.WeakReference
 
-class NoteListFragment : Fragment(), NoteListFragmentManager.Listener,
-                         NoteListItemViewHolder.Listener {
+class NoteListFragment : Fragment(), NoteListFragmentManager.Listener, NoteListItemViewHolder.Listener {
 
-    interface Listener {
-        fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
+  interface Listener {
+    fun onNoteItemSelected(note: NoteEntity, fragment: WeakReference<Fragment>)
+  }
+
+  private lateinit var binding: FragmentNoteListBinding
+  private lateinit var activity: Activity
+  private lateinit var adapter: NoteListRecycleViewAdapter
+  private lateinit var manager: NoteListFragmentManager
+
+  private var listener: WeakReference<Listener>? = null
+
+  override fun onAttach(context: Context) {
+    super.onAttach(context)
+
+    activity = context as Activity
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
+      Shared.store?.retrieve(TAG, "manager") as NoteListFragmentManager
+    } else {
+      context?.let {
+        NoteListFragmentManagerBuilder().set(context = activity).set(listener = this).build()
+      }!!
     }
+  }
 
-    private lateinit var binding: FragmentNoteListBinding
-    private lateinit var activity: Activity
-    private lateinit var adapter: NoteListRecycleViewAdapter
-    private lateinit var manager: NoteListFragmentManager
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+  ): View {
+    binding = FragmentNoteListBinding.inflate(layoutInflater, container, false)
+    val view = binding.root
 
-    private var listener: WeakReference<Listener>? = null
+    setupRecyclerView()
+    setupSwipeToRefresh()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    return view
+  }
 
-        activity = context as Activity
+  override fun onStart() {
+    super.onStart()
+
+    fetchData()
+  }
+
+  override fun onResume() {
+    super.onResume()
+
+    reloadData()
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+
+    if (activity.isChangingConfigurations) {
+      outState.putBoolean("isChangingConfiguration", true)
+      Shared.store!!.save(TAG, "manager", manager)
+    } else {
+      outState.putBoolean("isChangingConfiguration", false)
     }
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+  fun setListener(listener: Listener) {
+    this.listener = WeakReference(listener)
+  }
 
-        manager = if (savedInstanceState?.getBoolean("isChangingConfiguration") == true) {
-            Shared.store?.retrieve(TAG, "manager") as NoteListFragmentManager
-        } else {
-            context?.let {
-                NoteListFragmentManagerBuilder().set(context = activity).set(listener = this)
-                    .build()
-            }!!
-        }
-    }
+  private fun setupRecyclerView() {
+    val linearLayoutManager = LinearLayoutManager(activity)
+    binding.recyclerView.layoutManager = linearLayoutManager
+    adapter = NoteListRecycleViewAdapter(this)
+    binding.recyclerView.adapter = adapter
+  }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentNoteListBinding.inflate(layoutInflater, container, false)
-        val view = binding.root
+  private fun setupSwipeToRefresh() {
+    binding.swipeToRefresh.setColorSchemeResources(
+      R.color.refresh_progress_1, R.color.refresh_progress_2
+    )
 
-        setupRecyclerView()
-        setupSwipeToRefresh()
+    binding.swipeToRefresh.setOnRefreshListener { fetchData() }
+  }
 
-        return view
-    }
+  private fun fetchData() {
+    manager.fetchNoteList()
+  }
 
-    override fun onStart() {
-        super.onStart()
+  @SuppressLint("NotifyDataSetChanged")
+  private fun reloadData() {
+    adapter.updateNotes(manager.notes)
+    adapter.notifyDataSetChanged()
+  }
 
-        fetchData()
-    }
+  override fun onNoteListFetchStart(manager: NoteListFragmentManager?) {
+    binding.swipeToRefresh.isRefreshing = true
+  }
 
-    override fun onResume() {
-        super.onResume()
+  override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
+    binding.swipeToRefresh.isRefreshing = false
+    reloadData()
+  }
 
-        reloadData()
-    }
+  override fun onNoteListFetchFailed(
+    errorCode: Int?, message: String?, manager: NoteListFragmentManager?
+  ) {
+    binding.swipeToRefresh.isRefreshing = false
+    reloadData()
+    Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+  }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+  override fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder) {
+    listener?.get()?.onNoteItemSelected(note, WeakReference(this))
+  }
 
-        if (activity.isChangingConfigurations) {
-            outState.putBoolean("isChangingConfiguration", true)
-            Shared.store!!.save(TAG, "manager", manager)
-        } else {
-            outState.putBoolean("isChangingConfiguration", false)
-        }
-    }
+  companion object {
 
-    fun setListener(listener: Listener) {
-        this.listener = WeakReference(listener)
-    }
-
-    private fun setupRecyclerView() {
-        val linearLayoutManager = LinearLayoutManager(activity)
-        binding.recyclerView.layoutManager = linearLayoutManager
-        adapter = NoteListRecycleViewAdapter(this)
-        binding.recyclerView.adapter = adapter
-    }
-
-    private fun setupSwipeToRefresh() {
-        binding.swipeToRefresh.setColorSchemeResources(R.color.refresh_progress_1,
-            R.color.refresh_progress_2)
-
-        binding.swipeToRefresh.setOnRefreshListener { fetchData() }
-    }
-
-    private fun fetchData() {
-        manager.fetchNoteList()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun reloadData() {
-        adapter.updateNotes(manager.notes)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun onNoteListFetchStart(manager: NoteListFragmentManager?) {
-        binding.swipeToRefresh.isRefreshing = true
-    }
-
-    override fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?) {
-        binding.swipeToRefresh.isRefreshing = false
-        reloadData()
-    }
-
-    override fun onNoteListFetchFailed(
-        errorCode: Int?, message: String?, manager: NoteListFragmentManager?
-    ) {
-        binding.swipeToRefresh.isRefreshing = false
-        reloadData()
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder) {
-        listener?.get()?.onNoteItemSelected(note, WeakReference(this))
-    }
-
-    companion object {
-
-        @JvmField
-        val TAG: String = this::class.java.name
-    }
+    @JvmField
+    val TAG: String = this::class.java.name
+  }
 }

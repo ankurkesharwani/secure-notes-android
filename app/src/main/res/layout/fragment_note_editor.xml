@@ -21,15 +21,15 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:ems="10"
                 android:background="@android:color/transparent"
+                android:ems="10"
+                android:fontWeight="600"
                 android:gravity="start|top"
                 android:hint="@string/note_editor_placeholder_title"
+                android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:textColor="@color/BrandColor.Text1"
-                android:fontWeight="600"
-                android:textSize="24sp"
-                android:importantForAutofill="no" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/etBodyEditText"
@@ -44,11 +44,11 @@
                 android:fontWeight="400"
                 android:gravity="start|top"
                 android:hint="@string/note_editor_placeholder_body"
+                android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:minHeight="100dp"
                 android:textColor="@color/BrandColor.Text1"
-                android:textSize="18sp"
-                android:importantForAutofill="no" />
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

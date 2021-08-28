@@ -8,21 +8,21 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
 class UpdatePasswordTask(
-    var password: PasswordEntity, var db: SQLiteDatabase
+  var password: PasswordEntity, var db: SQLiteDatabase
 ) : Task() {
 
-    data class Result(
-        var password: PasswordEntity?, var error: TaskError? = null
-    )
+  data class Result(
+    var password: PasswordEntity?, var error: TaskError? = null
+  )
 
-    var result: Result? = null
+  var result: Result? = null
 
-    override fun exec() {
-        result = try {
-            val password = PasswordDao.updatePassword(password, db)
-            Result(password)
-        } catch (exception: SQLiteException) {
-            Result(null, TaskError(-1, exception.localizedMessage))
-        }
+  override fun exec() {
+    result = try {
+      val password = PasswordDao.updatePassword(password, db)
+      Result(password)
+    } catch (exception: SQLiteException) {
+      Result(null, TaskError(-1, exception.localizedMessage))
     }
+  }
 }

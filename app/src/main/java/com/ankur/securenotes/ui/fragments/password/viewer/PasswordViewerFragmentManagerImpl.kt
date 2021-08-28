@@ -4,6 +4,6 @@ import android.content.Context
 
 class PasswordViewerFragmentManagerImpl : PasswordViewerFragmentManager {
 
-    override var context: Context? = null
+  override var context: Context? = null
 
 }

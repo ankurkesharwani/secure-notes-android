@@ -5,26 +5,26 @@ import java.lang.ref.WeakReference
 
 class NoteEditorFragmentManagerBuilder {
 
-    private var context: Context? = null
-    private var listener: WeakReference<NoteEditorFragmentManager.Listener>? = null
+  private var context: Context? = null
+  private var listener: WeakReference<NoteEditorFragmentManager.Listener>? = null
 
-    fun set(context: Context): NoteEditorFragmentManagerBuilder {
-        this.context = context
+  fun set(context: Context): NoteEditorFragmentManagerBuilder {
+    this.context = context
 
-        return this
-    }
+    return this
+  }
 
-    fun set(listener: NoteEditorFragmentManager.Listener): NoteEditorFragmentManagerBuilder {
-        this.listener = WeakReference(listener)
+  fun set(listener: NoteEditorFragmentManager.Listener): NoteEditorFragmentManagerBuilder {
+    this.listener = WeakReference(listener)
 
-        return this
-    }
+    return this
+  }
 
-    fun build(): NoteEditorFragmentManager {
-        val manager = NoteEditorFragmentManagerImpl()
-        manager.context = context
-        manager.listener = listener
+  fun build(): NoteEditorFragmentManager {
+    val manager = NoteEditorFragmentManagerImpl()
+    manager.context = context
+    manager.listener = listener
 
-        return manager
-    }
+    return manager
+  }
 }

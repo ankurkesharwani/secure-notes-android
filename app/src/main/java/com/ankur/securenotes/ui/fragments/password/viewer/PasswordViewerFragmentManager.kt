@@ -4,6 +4,6 @@ import android.content.Context
 
 interface PasswordViewerFragmentManager {
 
-    var context: Context?
+  var context: Context?
 
 }

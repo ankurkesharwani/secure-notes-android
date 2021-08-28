@@ -6,22 +6,21 @@ import com.ankur.securenotes.R
 
 object PasswordListItemViewHolderFactory {
 
-    @JvmStatic
-    fun getHolderFor(parent: ViewGroup, viewType: Int): PasswordListItemViewHolder {
-        when (viewType) {
-            ListItemViewHolderType.DEFAULT_PASSWORD_LIST_ITEM.ordinal -> {
-                return getDefaultHolder(parent)
-            }
-        }
-
+  @JvmStatic
+  fun getHolderFor(parent: ViewGroup, viewType: Int): PasswordListItemViewHolder {
+    when (viewType) {
+      ListItemViewHolderType.DEFAULT_PASSWORD_LIST_ITEM.ordinal -> {
         return getDefaultHolder(parent)
+      }
     }
 
-    @JvmStatic
-    private fun getDefaultHolder(parent: ViewGroup): PasswordListItemViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_password_default, parent, false)
+    return getDefaultHolder(parent)
+  }
 
-        return PasswordWithoutBodyListItemViewHolder(view)
-    }
+  @JvmStatic
+  private fun getDefaultHolder(parent: ViewGroup): PasswordListItemViewHolder {
+    val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_password_default, parent, false)
+
+    return PasswordWithoutBodyListItemViewHolder(view)
+  }
 }

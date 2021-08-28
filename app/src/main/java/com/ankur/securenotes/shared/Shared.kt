@@ -7,31 +7,31 @@ import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 
 object Shared {
 
-    var serialTaskExecutor: SerialTaskExecutor? = null
-        get() {
-            if (field == null) {
-                field = SerialTaskExecutor()
-            }
+  var serialTaskExecutor: SerialTaskExecutor? = null
+    get() {
+      if (field == null) {
+        field = SerialTaskExecutor()
+      }
 
-            return field!!
-        }
-
-    var store: MemStore? = null
-        get() {
-            if (field == null) {
-                field = MemStore()
-            }
-
-            return field!!
-        }
-
-    @JvmStatic
-    fun getWritableDatabase(context: Context): SQLiteDatabase {
-        return DbHelper(context).writableDatabase
+      return field!!
     }
 
-    @JvmStatic
-    fun getReadableDatabase(context: Context): SQLiteDatabase {
-        return DbHelper(context).readableDatabase
+  var store: MemStore? = null
+    get() {
+      if (field == null) {
+        field = MemStore()
+      }
+
+      return field!!
     }
+
+  @JvmStatic
+  fun getWritableDatabase(context: Context): SQLiteDatabase {
+    return DbHelper(context).writableDatabase
+  }
+
+  @JvmStatic
+  fun getReadableDatabase(context: Context): SQLiteDatabase {
+    return DbHelper(context).readableDatabase
+  }
 }

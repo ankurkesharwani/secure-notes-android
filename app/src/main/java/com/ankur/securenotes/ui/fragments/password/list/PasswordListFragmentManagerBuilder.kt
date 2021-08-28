@@ -5,26 +5,26 @@ import java.lang.ref.WeakReference
 
 class PasswordListFragmentManagerBuilder {
 
-    private var context: Context? = null
-    private var listener: WeakReference<PasswordListFragmentManager.Listener>? = null
+  private var context: Context? = null
+  private var listener: WeakReference<PasswordListFragmentManager.Listener>? = null
 
-    fun set(context: Context): PasswordListFragmentManagerBuilder {
-        this.context = context
+  fun set(context: Context): PasswordListFragmentManagerBuilder {
+    this.context = context
 
-        return this
-    }
+    return this
+  }
 
-    fun set(listener: PasswordListFragmentManager.Listener): PasswordListFragmentManagerBuilder {
-        this.listener = WeakReference(listener)
+  fun set(listener: PasswordListFragmentManager.Listener): PasswordListFragmentManagerBuilder {
+    this.listener = WeakReference(listener)
 
-        return this
-    }
+    return this
+  }
 
-    fun build(): PasswordListFragmentManager {
-        val manager = PasswordListFragmentManagerImpl()
-        manager.context = context
-        manager.listener = listener
+  fun build(): PasswordListFragmentManager {
+    val manager = PasswordListFragmentManagerImpl()
+    manager.context = context
+    manager.listener = listener
 
-        return manager
-    }
+    return manager
+  }
 }

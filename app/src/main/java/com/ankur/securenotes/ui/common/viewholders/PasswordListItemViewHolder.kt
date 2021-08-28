@@ -9,21 +9,21 @@ import java.lang.ref.WeakReference
 
 abstract class PasswordListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    interface Listener {
-        fun onPasswordItemClicked(password: PasswordEntity, viewHolder: RecyclerView.ViewHolder)
-    }
+  interface Listener {
+    fun onPasswordItemClicked(password: PasswordEntity, viewHolder: RecyclerView.ViewHolder)
+  }
 
-    open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
-    open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
+  open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
+  open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
 
-    open var listener: WeakReference<Listener>? = null
-    var password: PasswordEntity? = null
+  open var listener: WeakReference<Listener>? = null
+  var password: PasswordEntity? = null
 
-    fun setListener(listener: Listener) {
-        this.listener = WeakReference(listener)
-    }
+  fun setListener(listener: Listener) {
+    this.listener = WeakReference(listener)
+  }
 
-    open fun configure(password: PasswordEntity) {
-        this.password = password
-    }
+  open fun configure(password: PasswordEntity) {
+    this.password = password
+  }
 }

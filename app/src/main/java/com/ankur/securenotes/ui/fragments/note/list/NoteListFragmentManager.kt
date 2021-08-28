@@ -6,17 +6,17 @@ import java.lang.ref.WeakReference
 
 interface NoteListFragmentManager {
 
-    interface Listener {
-        fun onNoteListFetchStart(manager: NoteListFragmentManager?)
-        fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?)
-        fun onNoteListFetchFailed(
-            errorCode: Int?, message: String?, manager: NoteListFragmentManager?
-        )
-    }
+  interface Listener {
+    fun onNoteListFetchStart(manager: NoteListFragmentManager?)
+    fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?)
+    fun onNoteListFetchFailed(
+      errorCode: Int?, message: String?, manager: NoteListFragmentManager?
+    )
+  }
 
-    var notes: List<NoteEntity>?
-    var context: Context?
-    var listener: WeakReference<Listener>?
+  var notes: List<NoteEntity>?
+  var context: Context?
+  var listener: WeakReference<Listener>?
 
-    fun fetchNoteList()
+  fun fetchNoteList()
 }

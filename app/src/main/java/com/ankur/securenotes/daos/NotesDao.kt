@@ -5,43 +5,43 @@ import com.ankur.securenotes.entities.NoteEntity
 import java.util.*
 
 object NotesDao {
-    fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
-        val query = """
+  fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
+    val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"
             WHERE "${NoteEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
-        val cursor = db.rawQuery(query, null)
-        if (cursor.moveToNext()) {
-            val note = NoteEntity()
-            note.updateFrom(cursor)
+    val cursor = db.rawQuery(query, null)
+    if (cursor.moveToNext()) {
+      val note = NoteEntity()
+      note.updateFrom(cursor)
 
-            return note
-        }
-
-        return null
+      return note
     }
 
-    fun findAll(db: SQLiteDatabase): List<NoteEntity> {
-        val query = """
+    return null
+  }
+
+  fun findAll(db: SQLiteDatabase): List<NoteEntity> {
+    val query = """
             SELECT * FROM "${NoteEntity.TABLE_NAME}"
         """.trimIndent()
 
-        val notes = arrayListOf<NoteEntity>()
-        val cursor = db.rawQuery(query, null)
-        while (cursor.moveToNext()) {
-            var note = NoteEntity()
-            note.updateFrom(cursor)
-            notes.add(note)
-        }
-
-        return notes
+    val notes = arrayListOf<NoteEntity>()
+    val cursor = db.rawQuery(query, null)
+    while (cursor.moveToNext()) {
+      var note = NoteEntity()
+      note.updateFrom(cursor)
+      notes.add(note)
     }
 
-    fun createNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
-        val id = UUID.randomUUID().toString()
-        val current = Date()
-        val query = """
+    return notes
+  }
+
+  fun createNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
+    val id = UUID.randomUUID().toString()
+    val current = Date()
+    val query = """
             INSERT INTO "${NoteEntity.TABLE_NAME}"
             (
                 "${NoteEntity.COLUMN_ID}",
@@ -62,18 +62,18 @@ object NotesDao {
             )
         """.trimIndent()
 
-        db.execSQL(query)
+    db.execSQL(query)
 
-        return findOneById(id, db)
+    return findOneById(id, db)
+  }
+
+  fun updateNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
+    if (note.id == null) {
+      return null
     }
 
-    fun updateNote(note: NoteEntity, db: SQLiteDatabase): NoteEntity? {
-        if (note.id == null) {
-            return null
-        }
-
-        val current = Date()
-        val query = """
+    val current = Date()
+    val query = """
             UPDATE "${NoteEntity.TABLE_NAME}" 
             SET
                 "${NoteEntity.COLUMN_TITLE}" = "${note.title}",
@@ -84,17 +84,17 @@ object NotesDao {
                 "${NoteEntity.COLUMN_ID}" = "${note.id}"
         """.trimIndent()
 
-        db.execSQL(query)
+    db.execSQL(query)
 
-        return findOneById(note.id!!, db)
-    }
+    return findOneById(note.id!!, db)
+  }
 
-    fun deleteById(id: String, db: SQLiteDatabase) {
-        val query = """
+  fun deleteById(id: String, db: SQLiteDatabase) {
+    val query = """
             DELETE FROM "${NoteEntity.TABLE_NAME}"
             WHERE "${NoteEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
-        db.execSQL(query)
-    }
+    db.execSQL(query)
+  }
 }

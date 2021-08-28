@@ -9,21 +9,21 @@ import java.lang.ref.WeakReference
 
 abstract class NoteListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    interface Listener {
-        fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder)
-    }
+  interface Listener {
+    fun onNoteItemClicked(note: NoteEntity, viewHolder: RecyclerView.ViewHolder)
+  }
 
-    open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
-    open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
+  open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
+  open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
 
-    open var listener: WeakReference<Listener>? = null
-    var note: NoteEntity? = null
+  open var listener: WeakReference<Listener>? = null
+  var note: NoteEntity? = null
 
-    fun setListener(listener: Listener) {
-        this.listener = WeakReference(listener)
-    }
+  fun setListener(listener: Listener) {
+    this.listener = WeakReference(listener)
+  }
 
-    open fun configure(note: NoteEntity) {
-        this.note = note
-    }
+  open fun configure(note: NoteEntity) {
+    this.note = note
+  }
 }

@@ -21,11 +21,13 @@
     <style name="AppTheme.Toolbar" parent="AppTheme">
         <item name="colorControlNormal">@color/BrandColor.Primary</item>
     </style>
+
     <style name="AppTheme.Toolbar.BrandFont.TitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:fontFamily">@font/oleo_script_regular</item>
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/BrandColor.Primary</item>
     </style>
+
     <style name="AppTheme.Toolbar.TitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/BrandColor.Primary</item>
     </style>
@@ -34,39 +36,51 @@
     <style name="AppTheme.TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textSize">96sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textSize">60sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="android:textSize">48sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textSize">34sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textSize">24sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="AppTheme.TextAppearance.Overline" parent="TextAppearance.MaterialComponents.Overline">
         <item name="android:textSize">10sp</item>
     </style>
