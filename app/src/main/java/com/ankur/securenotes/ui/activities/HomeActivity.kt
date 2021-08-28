@@ -3,7 +3,6 @@ package com.ankur.securenotes.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.databinding.ActivityHomeBinding
@@ -13,7 +12,7 @@ import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
 import java.lang.ref.WeakReference
 
-class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordListFragment.Listener {
+class HomeActivity : BaseActivity(), NoteListFragment.Listener, PasswordListFragment.Listener {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -23,7 +22,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
         binding = ActivityHomeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(binding.toolbar)
 
         showNoteListFragment()
         setFabActionListeners()
@@ -56,57 +55,31 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
         }
     }
 
-    private fun findFragment(tag: String): Fragment? {
-        return supportFragmentManager.findFragmentByTag(tag)
-    }
-
-    private fun isFragmentPresent(tag: String): Boolean {
-        return findFragment(tag) != null
-    }
-
     private fun showNoteListFragment() {
-        if (isFragmentPresent(NoteListFragment.TAG)) {
-            return
-        }
-
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val noteListFragment = NoteListFragment()
-        noteListFragment.setListener(this)
-        fragmentTransaction.add(R.id.fragmentContainer, noteListFragment, NoteListFragment.TAG)
-        fragmentTransaction.commit()
+        val fragment = showFragment(NoteListFragment.TAG, null)
+        (fragment as? NoteListFragment)?.setListener(this)
     }
 
     private fun hideNoteListFragment() {
-        val noteListFragment = findFragment(NoteListFragment.TAG) ?: return
-
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(noteListFragment)
-        fragmentTransaction.commit()
+        removeFragment(NoteListFragment.TAG)
     }
 
     private fun showPasswordListFragment() {
-        if (isFragmentPresent(PasswordListFragment.TAG)) {
-            return
-        }
-
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val passwordListFragment = PasswordListFragment()
-        passwordListFragment.setListener(this)
-        fragmentTransaction.add(R.id.fragmentContainer, passwordListFragment,
-            PasswordListFragment.TAG)
-        fragmentTransaction.commit()
+        val fragment =  showFragment(PasswordListFragment.TAG, null)
+        (fragment as? PasswordListFragment)?.setListener(this)
     }
 
     private fun hidePasswordListFragment() {
-        val passwordListFragment = findFragment(PasswordListFragment.TAG) ?: return
+        removeFragment(PasswordListFragment.TAG)
+    }
 
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(passwordListFragment)
-        fragmentTransaction.commit()
+    override fun newFragment(tag: String): Fragment? {
+        when (tag) {
+            NoteListFragment.TAG -> return NoteListFragment()
+            PasswordListFragment.TAG -> return PasswordListFragment()
+        }
+
+        return super.newFragment(tag)
     }
 
     private fun openNoteEditor() {

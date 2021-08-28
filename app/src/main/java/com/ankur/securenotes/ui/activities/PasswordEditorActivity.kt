@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
@@ -15,10 +14,10 @@ import com.ankur.securenotes.ui.fragments.password.editor.PasswordEditorFragment
 import com.ankur.securenotes.ui.fragments.password.viewer.PasswordViewerFragment
 import java.lang.ref.WeakReference
 
-class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Listener {
+class PasswordEditorActivity : BaseActivity(), PasswordEditorFragment.Listener {
 
     private lateinit var binding: ActivityPasswordEditorBinding
-    private var shownFragmentTag: String? = null
+
     private var mode: String? = MODE_CREATE
     private var passwordId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
@@ -29,8 +28,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         binding = ActivityPasswordEditorBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setContentView(R.layout.activity_password_editor)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(binding.toolbar)
 
         setArgs()
         setupToolbar()
@@ -196,54 +194,7 @@ class PasswordEditorActivity : AppCompatActivity(), PasswordEditorFragment.Liste
         finish()
     }
 
-    private fun isFragmentPresent(tag: String): Boolean {
-        return findFragment(tag) != null
-    }
-
-    private fun findFragment(tag: String): Fragment? {
-        return supportFragmentManager.findFragmentByTag(tag)
-    }
-
-    private fun showFragment(tag: String, bundleArgs: Bundle?): Fragment? {
-        if (isFragmentPresent(tag)) {
-            return null
-        }
-
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = newFragment(tag) ?: return null
-
-        // Set arguments
-        if (bundleArgs != null) {
-            if (bundleArgs.keySet().count() > 0) {
-                fragment.arguments = bundleArgs
-            }
-        }
-
-        // Show
-        if (shownFragmentTag != null) {
-            fragmentTransaction.replace(R.id.fragmentContainer, fragment, tag)
-        } else {
-            fragmentTransaction.add(R.id.fragmentContainer, fragment, tag)
-        }
-        fragmentTransaction.commit()
-        shownFragmentTag = tag
-        return fragment
-    }
-
-    private fun removeFragment(tag: String): Fragment? {
-        val fragment = findFragment(tag) ?: return null
-
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(fragment)
-        fragmentTransaction.commit()
-        shownFragmentTag = tag
-
-        return fragment
-    }
-
-    private fun newFragment(tag: String): Fragment? {
+    override fun newFragment(tag: String): Fragment? {
         when (tag) {
             PasswordViewerFragment.TAG -> return PasswordViewerFragment()
             PasswordEditorFragment.TAG -> return PasswordEditorFragment()

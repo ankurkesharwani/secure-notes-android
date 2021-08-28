@@ -5,18 +5,20 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import com.ankur.securenotes.R
 import com.ankur.securenotes.databinding.ActivityNoteEditorBinding
 import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.ui.fragments.note.editor.NoteEditorFragment
+import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
+import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
 import java.lang.ref.WeakReference
 
-class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
+class NoteEditorActivity : BaseActivity(), NoteEditorFragment.Listener {
 
     private lateinit var binding: ActivityNoteEditorBinding
+
     private var mode: String? = MODE_CREATE
     private var noteId: String? = null
     private var menuItemIdsValidForMode: Array<Int> = emptyArray()
@@ -27,7 +29,7 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         binding = ActivityNoteEditorBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(binding.toolbar)
 
         setArgs()
         setupToolbar()
@@ -80,33 +82,21 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
         }
     }
 
-    private fun findFragment(tag: String): Fragment? {
-        return supportFragmentManager.findFragmentByTag(tag)
-    }
-
-    private fun isFragmentPresent(tag: String): Boolean {
-        return findFragment(tag) != null
-    }
-
     private fun showNoteEditorFragment() {
-        if (isFragmentPresent(NoteEditorFragment.TAG)) {
-            return
+        val fragment = showFragment(NoteEditorFragment.TAG, getBundleForChildFragment())
+        (fragment as NoteEditorFragment).setListener(this)
+    }
+
+    private fun hideNoteEditorFragment() {
+        removeFragment(NoteEditorFragment.TAG)
+    }
+
+    override fun newFragment(tag: String): Fragment? {
+        when (tag) {
+            NoteEditorFragment.TAG -> return NoteEditorFragment()
         }
 
-        // Add the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val noteEditorFragment = NoteEditorFragment()
-        noteEditorFragment.setListener(this)
-
-        // Set arguments
-        val bundle = getBundleForChildFragment()
-        if (bundle.keySet().count() > 0) {
-            noteEditorFragment.arguments = bundle
-        }
-
-        // Show
-        fragmentTransaction.add(R.id.fragmentContainer, noteEditorFragment, NoteEditorFragment.TAG)
-        fragmentTransaction.commit()
+        return super.newFragment(tag)
     }
 
     private fun getBundleForChildFragment(): Bundle {
@@ -133,15 +123,6 @@ class NoteEditorActivity : AppCompatActivity(), NoteEditorFragment.Listener {
 
     private fun isInEditMode(): Boolean {
         return (mode == MODE_VIEW)
-    }
-
-    private fun hideNoteEditorFragment() {
-        val noteEditorFragment = findFragment(NoteEditorFragment.TAG) ?: return
-
-        // Remove the fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.remove(noteEditorFragment)
-        fragmentTransaction.commit()
     }
 
     private fun saveNote() {
