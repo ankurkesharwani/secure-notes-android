@@ -12,7 +12,7 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.ui.fragments.note.list.NoteListFragment
 import com.ankur.securenotes.ui.fragments.password.list.PasswordListFragment
-import kotlinx.android.synthetic.main.activity_home_alternate.*
+import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.ref.WeakReference
 
 
@@ -20,7 +20,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_alternate)
+        setContentView(R.layout.activity_home)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         showNoteListFragment()
@@ -123,7 +123,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
     private fun showOptionsDialog() {
         val items = arrayOf("Create a note", "Create a password")
 
-        AlertDialog.Builder(this).setItems(items, DialogInterface.OnClickListener { dialog, which ->
+        AlertDialog.Builder(this).setItems(items) { _, which ->
             if ("Create a note" == items[which]) {
                 openNoteEditor()
             } else if ("Create a password" == items[which]) {
@@ -132,7 +132,7 @@ class HomeActivity : AppCompatActivity(), NoteListFragment.Listener, PasswordLis
                     PasswordEditorActivity.MODE_CREATE)
                 startActivity(intent)
             }
-        }).show()
+        }.show()
     }
 
     override fun onPasswordItemSelected(
