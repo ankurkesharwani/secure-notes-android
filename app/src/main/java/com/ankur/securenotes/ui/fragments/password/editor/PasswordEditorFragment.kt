@@ -3,11 +3,14 @@ package com.ankur.securenotes.ui.fragments.password.editor
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.ankur.securenotes.R
 import com.ankur.securenotes.databinding.FragmentPasswordEditorBinding
 import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.shared.Shared
@@ -16,7 +19,8 @@ import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.tasks.GetPasswordByIdTask
 import java.lang.ref.WeakReference
 
-class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listener, SerialTaskExecutor.Listener {
+class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listener, SerialTaskExecutor.Listener,
+                               View.OnClickListener {
 
   interface Listener {
     fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>)
@@ -38,6 +42,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   private var passwordId: String? = null
   private var listener: WeakReference<Listener>? = null
+  private var revealPassword = false;
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
@@ -50,7 +55,6 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
     setArgs()
     setDependencies(savedInstanceState)
-
     fetchPassword()
   }
 
@@ -58,7 +62,11 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
   ): View {
     binding = FragmentPasswordEditorBinding.inflate(layoutInflater, container, false)
-    return binding.root
+    val view = binding.root
+
+    setActionListeners()
+
+    return view
   }
 
   override fun onResume() {
@@ -80,6 +88,11 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   fun setListener(listener: Listener) {
     this.listener = WeakReference(listener)
+  }
+
+  private fun setActionListeners() {
+    binding.bCopyButton.setOnClickListener(this);
+    binding.bRevealButton.setOnClickListener(this);
   }
 
   fun savePassword() {
@@ -132,7 +145,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
     manager.deletePassword()
   }
 
-  fun discardChanges() {
+  private fun discardChanges() {
     reloadData()
   }
 
@@ -191,6 +204,25 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
     binding.etPhoneEditText.setText(password?.phone, TextView.BufferType.EDITABLE)
     binding.etUsernameEditText.setText(password?.username, TextView.BufferType.EDITABLE)
     binding.etPasswordEditText.setText(password?.password, TextView.BufferType.EDITABLE)
+  }
+
+  override fun onClick(view: View?) {
+    when(view) {
+      binding.bCopyButton -> {
+        // Todo: Add copy functionality
+      }
+      binding.bRevealButton -> {
+        if (revealPassword) {
+          binding.etPasswordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+          binding.bRevealButton.text = getString(R.string.password_editor_button_title_reveal_password)
+          revealPassword = false
+        } else {
+          binding.etPasswordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+          binding.bRevealButton.text = getString(R.string.password_editor_button_title_hide_password)
+          revealPassword = true
+        }
+      }
+    }
   }
 
   override fun onTaskStarted(task: Task) {

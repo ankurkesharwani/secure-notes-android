@@ -42,6 +42,7 @@
     <string name="password_editor_placeholder_phone">Registered Phone Number</string>
     <string name="password_editor_placeholder_username">Username</string>
     <string name="password_editor_placeholder_password">Password</string>
+    <string name="password_editor_button_title_hide_password">Hide Password</string>
     <string name="password_editor_button_title_reveal_password">Reveal Password</string>
     <string name="password_editor_button_title_copy_password">Copy</string>
 

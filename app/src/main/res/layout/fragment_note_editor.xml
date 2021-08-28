@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.note.editor.NoteEditorFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,6 +51,6 @@
                 android:textColor="@color/BrandColor.Text1"
                 android:textSize="18sp" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </FrameLayout>
