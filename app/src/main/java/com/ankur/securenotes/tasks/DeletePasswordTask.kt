@@ -7,9 +7,7 @@ import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class DeletePasswordTask(
-  var password: PasswordEntity, var db: SQLiteDatabase
-) : Task() {
+class DeletePasswordTask(var password: PasswordEntity, var db: SQLiteDatabase) : Task() {
 
   data class Result(var error: TaskError? = null)
 

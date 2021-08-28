@@ -7,13 +7,9 @@ import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class UpdatePasswordTask(
-  var password: PasswordEntity, var db: SQLiteDatabase
-) : Task() {
+class UpdatePasswordTask(var password: PasswordEntity, var db: SQLiteDatabase) : Task() {
 
-  data class Result(
-    var password: PasswordEntity?, var error: TaskError? = null
-  )
+  data class Result(var password: PasswordEntity?, var error: TaskError? = null)
 
   var result: Result? = null
 

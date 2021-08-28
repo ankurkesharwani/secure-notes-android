@@ -14,9 +14,7 @@ class PasswordEditorFragmentManagerBuilder {
     return this
   }
 
-  fun set(
-    listener: PasswordEditorFragmentManager.Listener
-  ): PasswordEditorFragmentManagerBuilder {
+  fun set(listener: PasswordEditorFragmentManager.Listener): PasswordEditorFragmentManagerBuilder {
     this.listener = WeakReference(listener)
 
     return this

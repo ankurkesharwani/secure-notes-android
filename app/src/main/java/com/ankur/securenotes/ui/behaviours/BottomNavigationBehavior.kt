@@ -12,9 +12,7 @@ import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
   CoordinatorLayout.Behavior<BottomNavigationView>(context, attrs) {
 
-  override fun layoutDependsOn(
-    parent: CoordinatorLayout, child: BottomNavigationView, dependency: View
-  ): Boolean {
+  override fun layoutDependsOn(parent: CoordinatorLayout, child: BottomNavigationView, dependency: View): Boolean {
     if (dependency is SnackbarLayout) {
       updateSnackBar(child, dependency)
     }

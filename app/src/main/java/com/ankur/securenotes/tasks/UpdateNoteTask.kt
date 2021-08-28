@@ -7,13 +7,9 @@ import com.ankur.securenotes.entities.NoteEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class UpdateNoteTask(
-  var note: NoteEntity, var db: SQLiteDatabase
-) : Task() {
+class UpdateNoteTask(var note: NoteEntity, var db: SQLiteDatabase) : Task() {
 
-  data class Result(
-    var note: NoteEntity?, var error: TaskError? = null
-  )
+  data class Result(var note: NoteEntity?, var error: TaskError? = null)
 
   var result: Result? = null
 

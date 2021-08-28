@@ -254,9 +254,7 @@ class NoteEditorActivity : BaseActivity(), NoteEditorFragment.Listener {
     finish()
   }
 
-  override fun onNoteSavingFailed(
-    note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>
-  ) {
+  override fun onNoteSavingFailed(note: NoteEntity?, message: String?, fragment: WeakReference<Fragment>) {
     if (message != null) {
       Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -270,9 +268,7 @@ class NoteEditorActivity : BaseActivity(), NoteEditorFragment.Listener {
     finish()
   }
 
-  override fun onNoteDeletionFailed(
-    note: NoteEntity, message: String?, fragment: WeakReference<Fragment>
-  ) {
+  override fun onNoteDeletionFailed(note: NoteEntity, message: String?, fragment: WeakReference<Fragment>) {
     if (message != null) {
       Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

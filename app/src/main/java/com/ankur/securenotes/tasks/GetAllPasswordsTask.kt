@@ -7,13 +7,9 @@ import com.ankur.securenotes.entities.PasswordEntity
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.taskexecuter.TaskError
 
-class GetAllPasswordsTask(
-  var db: SQLiteDatabase
-) : Task() {
+class GetAllPasswordsTask(var db: SQLiteDatabase) : Task() {
 
-  data class Result(
-    var passwords: List<PasswordEntity>?, var error: TaskError? = null
-  )
+  data class Result(var passwords: List<PasswordEntity>?, var error: TaskError? = null)
 
   var result: Result? = null
 

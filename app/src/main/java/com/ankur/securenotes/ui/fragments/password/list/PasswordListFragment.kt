@@ -50,9 +50,7 @@ class PasswordListFragment : Fragment(), PasswordListFragmentManager.Listener, P
     }
   }
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ): View {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     binding = FragmentPasswordListBinding.inflate(layoutInflater, container, false)
     val view = binding.root
 
@@ -97,10 +95,7 @@ class PasswordListFragment : Fragment(), PasswordListFragmentManager.Listener, P
   }
 
   private fun setupSwipeToRefresh() {
-    binding.swipeToRefresh.setColorSchemeResources(
-      R.color.refresh_progress_1, R.color.refresh_progress_2
-    )
-
+    binding.swipeToRefresh.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2)
     binding.swipeToRefresh.setOnRefreshListener { fetchData() }
   }
 
@@ -118,24 +113,18 @@ class PasswordListFragment : Fragment(), PasswordListFragmentManager.Listener, P
     binding.swipeToRefresh.isRefreshing = true
   }
 
-  override fun onPasswordListFetched(
-    passwords: List<PasswordEntity>?, manager: PasswordListFragmentManager?
-  ) {
+  override fun onPasswordListFetched(passwords: List<PasswordEntity>?, manager: PasswordListFragmentManager?) {
     binding.swipeToRefresh.isRefreshing = false
     reloadData()
   }
 
-  override fun onPasswordListFetchFailed(
-    errorCode: Int?, message: String?, manager: PasswordListFragmentManager?
-  ) {
+  override fun onPasswordListFetchFailed(errorCode: Int?, message: String?, manager: PasswordListFragmentManager?) {
     binding.swipeToRefresh.isRefreshing = false
     reloadData()
     Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
   }
 
-  override fun onPasswordItemClicked(
-    password: PasswordEntity, viewHolder: RecyclerView.ViewHolder
-  ) {
+  override fun onPasswordItemClicked(password: PasswordEntity, viewHolder: RecyclerView.ViewHolder) {
     listener?.get()?.onPasswordItemSelected(password, WeakReference(this))
   }
 

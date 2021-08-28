@@ -9,7 +9,7 @@ class V3_CreateTableLabel : AbstractMigration() {
       """
             CREATE TABLE label (
                 "id" TEXT PRIMARY KEY,
-	            "title"TEXT NOT NULL UNIQUE
+                "title"TEXT NOT NULL UNIQUE
             );
         """
     )

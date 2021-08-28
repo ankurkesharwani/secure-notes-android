@@ -11,9 +11,7 @@ class PasswordViewerFragment : Fragment() {
 
   private lateinit var binding: FragmentPasswordViewerBinding
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ): View {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     binding = FragmentPasswordViewerBinding.inflate(layoutInflater, container, false)
     return binding.root
   }

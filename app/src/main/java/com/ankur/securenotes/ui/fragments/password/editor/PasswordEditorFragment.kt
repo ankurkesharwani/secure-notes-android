@@ -24,16 +24,9 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   interface Listener {
     fun onPasswordSaved(password: PasswordEntity, fragment: WeakReference<Fragment>)
-
-    fun onPasswordSavingFailed(
-      password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>
-    )
-
+    fun onPasswordSavingFailed(password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>)
     fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>)
-
-    fun onPasswordDeletionFailed(
-      password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>
-    )
+    fun onPasswordDeletionFailed(password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>)
   }
 
   private lateinit var binding: FragmentPasswordEditorBinding
@@ -42,7 +35,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   private var passwordId: String? = null
   private var listener: WeakReference<Listener>? = null
-  private var revealPassword = false;
+  private var revealPassword = false
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
@@ -58,9 +51,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
     fetchPassword()
   }
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ): View {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     binding = FragmentPasswordEditorBinding.inflate(layoutInflater, container, false)
     val view = binding.root
 
@@ -91,8 +82,8 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
   }
 
   private fun setActionListeners() {
-    binding.bCopyButton.setOnClickListener(this);
-    binding.bRevealButton.setOnClickListener(this);
+    binding.bCopyButton.setOnClickListener(this)
+    binding.bRevealButton.setOnClickListener(this)
   }
 
   fun savePassword() {
@@ -207,9 +198,8 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
   }
 
   override fun onClick(view: View?) {
-    when(view) {
-      binding.bCopyButton -> {
-        // Todo: Add copy functionality
+    when (view) {
+      binding.bCopyButton -> { // Todo: Add copy functionality
       }
       binding.bRevealButton -> {
         if (revealPassword) {
@@ -248,9 +238,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   }
 
-  override fun onPasswordSaved(
-    password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?
-  ) {
+  override fun onPasswordSaved(password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?) {
     listener?.get()?.onPasswordSaved(password, WeakReference(this))
   }
 
@@ -268,9 +256,7 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
 
   }
 
-  override fun onPasswordDeleted(
-    password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?
-  ) {
+  override fun onPasswordDeleted(password: PasswordEntity, manager: WeakReference<PasswordEditorFragmentManager>?) {
     listener?.get()?.onPasswordDeleted(password, WeakReference(this))
   }
 

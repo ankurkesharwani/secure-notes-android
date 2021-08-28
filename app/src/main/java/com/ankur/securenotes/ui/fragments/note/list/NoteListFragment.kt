@@ -50,9 +50,7 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener, NoteListI
     }
   }
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-  ): View {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     binding = FragmentNoteListBinding.inflate(layoutInflater, container, false)
     val view = binding.root
 
@@ -123,9 +121,7 @@ class NoteListFragment : Fragment(), NoteListFragmentManager.Listener, NoteListI
     reloadData()
   }
 
-  override fun onNoteListFetchFailed(
-    errorCode: Int?, message: String?, manager: NoteListFragmentManager?
-  ) {
+  override fun onNoteListFetchFailed(errorCode: Int?, message: String?, manager: NoteListFragmentManager?) {
     binding.swipeToRefresh.isRefreshing = false
     reloadData()
     Toast.makeText(activity, message, Toast.LENGTH_LONG).show()

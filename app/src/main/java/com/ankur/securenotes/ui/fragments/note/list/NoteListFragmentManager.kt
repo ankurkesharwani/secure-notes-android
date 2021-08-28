@@ -9,9 +9,7 @@ interface NoteListFragmentManager {
   interface Listener {
     fun onNoteListFetchStart(manager: NoteListFragmentManager?)
     fun onNoteListFetched(notes: List<NoteEntity>?, manager: NoteListFragmentManager?)
-    fun onNoteListFetchFailed(
-      errorCode: Int?, message: String?, manager: NoteListFragmentManager?
-    )
+    fun onNoteListFetchFailed(errorCode: Int?, message: String?, manager: NoteListFragmentManager?)
   }
 
   var notes: List<NoteEntity>?

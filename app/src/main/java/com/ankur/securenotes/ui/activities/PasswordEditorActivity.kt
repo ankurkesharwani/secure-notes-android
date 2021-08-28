@@ -253,26 +253,20 @@ class PasswordEditorActivity : BaseActivity(), PasswordEditorFragment.Listener {
     finish()
   }
 
-  override fun onPasswordSavingFailed(
-    password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>
-  ) {
+  override fun onPasswordSavingFailed(password: PasswordEntity?, message: String?, fragment: WeakReference<Fragment>) {
     if (message != null) {
       Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
   }
 
-  override fun onPasswordDeleted(
-    password: PasswordEntity, fragment: WeakReference<Fragment>
-  ) {
+  override fun onPasswordDeleted(password: PasswordEntity, fragment: WeakReference<Fragment>) {
     Toast.makeText(
       this, getString(R.string.password_editor_message_password_delete), Toast.LENGTH_SHORT
     ).show()
     finish()
   }
 
-  override fun onPasswordDeletionFailed(
-    password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>
-  ) {
+  override fun onPasswordDeletionFailed(password: PasswordEntity, message: String?, fragment: WeakReference<Fragment>) {
     if (message != null) {
       Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

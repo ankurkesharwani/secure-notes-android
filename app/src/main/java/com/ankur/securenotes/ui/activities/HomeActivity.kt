@@ -111,9 +111,7 @@ class HomeActivity : BaseActivity(), NoteListFragment.Listener, PasswordListFrag
     }.show()
   }
 
-  override fun onPasswordItemSelected(
-    password: PasswordEntity, fragment: WeakReference<Fragment>
-  ) {
+  override fun onPasswordItemSelected(password: PasswordEntity, fragment: WeakReference<Fragment>) {
     val intent = Intent(this, PasswordEditorActivity::class.java)
     intent.putExtra(PasswordEditorActivity.PARAM_MODE_FLAG, NoteEditorActivity.MODE_VIEW)
     intent.putExtra(PasswordEditorActivity.PARAM_PASSWORD_ID, password.id)

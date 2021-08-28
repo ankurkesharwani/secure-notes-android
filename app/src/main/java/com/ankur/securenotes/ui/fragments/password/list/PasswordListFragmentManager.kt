@@ -8,13 +8,8 @@ interface PasswordListFragmentManager {
 
   interface Listener {
     fun onPasswordListFetchStart(manager: PasswordListFragmentManager?)
-    fun onPasswordListFetched(
-      passwords: List<PasswordEntity>?, manager: PasswordListFragmentManager?
-    )
-
-    fun onPasswordListFetchFailed(
-      errorCode: Int?, message: String?, manager: PasswordListFragmentManager?
-    )
+    fun onPasswordListFetched(passwords: List<PasswordEntity>?, manager: PasswordListFragmentManager?)
+    fun onPasswordListFetchFailed(errorCode: Int?, message: String?, manager: PasswordListFragmentManager?)
   }
 
   var passwords: List<PasswordEntity>?
