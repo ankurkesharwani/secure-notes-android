@@ -10,7 +10,6 @@ import com.ankur.securenotes.ui.common.viewholder.note.NoteWithoutBodyListItemVi
 
 object NoteListItemViewHolderFactory {
 
-  @JvmStatic
   fun getHolderFor(parent: ViewGroup, viewType: Int): NoteListItemViewHolder {
     when (viewType) {
       ListItemViewHolderType.DEFAULT_NOTE_LIST_ITEM.ordinal -> {
@@ -29,21 +28,18 @@ object NoteListItemViewHolderFactory {
     return getDefaultHolder(parent)
   }
 
-  @JvmStatic
   private fun getDefaultHolder(parent: ViewGroup): NoteListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_note_no_body, parent, false)
 
     return NoteWithoutBodyListItemViewHolder(view)
   }
 
-  @JvmStatic
   private fun getWithBodyHolder(parent: ViewGroup): NoteListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_note_with_body, parent, false)
 
     return NoteWithBodyListItemViewHolder(view)
   }
 
-  @JvmStatic
   private fun getWithoutBodyHolder(parent: ViewGroup): NoteListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_note_no_body, parent, false)
 

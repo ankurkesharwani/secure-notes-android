@@ -45,5 +45,7 @@
     <string name="password_editor_button_title_hide_password">Hide Password</string>
     <string name="password_editor_button_title_reveal_password">Reveal Password</string>
     <string name="password_editor_button_title_copy_password">Copy</string>
+    <string name="list_item_title_placeholder">Title</string>
+    <string name="list_item_body_placeholder">Simple note description for long text.</string>
 
 </resources>
