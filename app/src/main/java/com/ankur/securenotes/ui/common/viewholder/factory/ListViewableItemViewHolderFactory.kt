@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.ankur.securenotes.R
 import com.ankur.securenotes.ui.common.viewholder.ListItemViewHolderType
 import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableItemViewHolder
-import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableTitleItemViewHolder
-import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableTitleWithBodyListItemViewHolder
-import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableTitleWithValueListItemViewHolder
+import com.ankur.securenotes.ui.common.viewholder.listviewable.TitleListItemViewHolder
+import com.ankur.securenotes.ui.common.viewholder.listviewable.TitleWithBodyListItemViewHolder
+import com.ankur.securenotes.ui.common.viewholder.listviewable.TitleWithValueListItemViewHolder
 
 object ListViewableItemViewHolderFactory {
 
@@ -29,21 +29,21 @@ object ListViewableItemViewHolderFactory {
     return getDefaultHolder(parent)
   }
 
-  private fun getDefaultHolder(parent: ViewGroup): ListViewableTitleItemViewHolder {
+  private fun getDefaultHolder(parent: ViewGroup): TitleListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_title, parent, false)
 
-    return ListViewableTitleItemViewHolder(view)
+    return TitleListItemViewHolder(view)
   }
 
-  private fun getWithBodyHolder(parent: ViewGroup): ListViewableTitleWithBodyListItemViewHolder {
+  private fun getWithBodyHolder(parent: ViewGroup): TitleWithBodyListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_title_with_body, parent, false)
 
-    return ListViewableTitleWithBodyListItemViewHolder(view)
+    return TitleWithBodyListItemViewHolder(view)
   }
 
-  private fun getWithValueHolder(parent: ViewGroup): ListViewableTitleWithValueListItemViewHolder {
+  private fun getWithValueHolder(parent: ViewGroup): TitleWithValueListItemViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_title_with_value, parent, false)
 
-    return ListViewableTitleWithValueListItemViewHolder(view)
+    return TitleWithValueListItemViewHolder(view)
   }
 }

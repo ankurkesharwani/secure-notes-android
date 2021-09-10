@@ -85,8 +85,8 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener, Seria
   }
 
   fun saveNote() {
-    val title = binding.etTitleEditText.text.toString()
-    val body = binding.etBodyEditText.text.toString()
+    val title = binding.titleEditText.text.toString()
+    val body = binding.bodyEditText.text.toString()
 
     if (body.isEmpty()) {
       listener?.get()?.onNoteSavingFailed(null, "Error: Cannot save an empty note.", WeakReference(this))
@@ -118,8 +118,8 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener, Seria
   }
 
   fun hasEditableChanges(): Boolean {
-    val title = binding.etTitleEditText.text.toString()
-    val body = binding.etBodyEditText.text.toString()
+    val title = binding.titleEditText.text.toString()
+    val body = binding.bodyEditText.text.toString()
 
     return if (noteId == null) {
       !(title.isEmpty() && body.isEmpty())
@@ -152,18 +152,18 @@ class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener, Seria
 
   private fun updateUiState() {
     if (mode == MODE_VIEW) {
-      binding.etTitleEditText.isEnabled = false
-      binding.etBodyEditText.isEnabled = false
+      binding.titleEditText.isEnabled = false
+      binding.bodyEditText.isEnabled = false
     } else {
-      binding.etTitleEditText.isEnabled = true
-      binding.etBodyEditText.isEnabled = true
+      binding.titleEditText.isEnabled = true
+      binding.bodyEditText.isEnabled = true
     }
   }
 
   private fun reloadData() {
     val note = manager.note
-    binding.etTitleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
-    binding.etBodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
+    binding.titleEditText.setText(note?.title, TextView.BufferType.EDITABLE)
+    binding.bodyEditText.setText(note?.body, TextView.BufferType.EDITABLE)
   }
 
   override fun onTaskStarted(task: Task) {

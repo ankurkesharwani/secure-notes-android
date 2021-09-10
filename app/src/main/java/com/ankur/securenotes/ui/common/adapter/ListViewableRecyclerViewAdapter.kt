@@ -8,12 +8,13 @@ import com.ankur.securenotes.ui.common.viewholder.factory.NoContentListItemViewH
 import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewable
 import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableItemViewHolder
 
-class ListViewableRecyclerViewAdapter(var listener: ListViewableItemViewHolder.Listener?) :
+open class ListViewableRecyclerViewAdapter(var listener: ListViewableItemViewHolder.Listener?) :
   RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   private var items = listOf<ListViewable>()
   private var countItems: Int = 0
-  private var hasItemsToShow: Boolean = false
+  var hasItemsToShow: Boolean = false
+    private set
 
   fun updateItems(items: List<ListViewable>?) {
     items?.let {

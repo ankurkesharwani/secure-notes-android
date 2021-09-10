@@ -82,17 +82,17 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
   }
 
   private fun setActionListeners() {
-    binding.bCopyButton.setOnClickListener(this)
-    binding.bRevealButton.setOnClickListener(this)
+    binding.copyButton.setOnClickListener(this)
+    binding.revealPasswordButton.setOnClickListener(this)
   }
 
   fun savePassword() {
-    val title = binding.etTitleEditText.text.toString()
-    val url = binding.etURLEditText.text.toString()
-    val email = binding.etEmailIdEditText.text.toString()
-    val phone = binding.etPhoneEditText.text.toString()
-    val username = binding.etUsernameEditText.text.toString()
-    val passwordValue = binding.etPasswordEditText.text.toString()
+    val title = binding.titleEditText.text.toString()
+    val url = binding.urlEditText.text.toString()
+    val email = binding.emailEditText.text.toString()
+    val phone = binding.phoneEditText.text.toString()
+    val username = binding.usernameEditText.text.toString()
+    val passwordValue = binding.passwordEditText.text.toString()
 
     if (title.isEmpty()) {
       listener?.get()?.onPasswordSavingFailed(
@@ -141,12 +141,12 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
   }
 
   fun hasEditableChanges(): Boolean {
-    val title = binding.etTitleEditText.text.toString()
-    val url = binding.etURLEditText.text.toString()
-    val email = binding.etEmailIdEditText.text.toString()
-    val phone = binding.etPhoneEditText.text.toString()
-    val username = binding.etUsernameEditText.text.toString()
-    val passwordValue = binding.etPasswordEditText.text.toString()
+    val title = binding.titleEditText.text.toString()
+    val url = binding.urlEditText.text.toString()
+    val email = binding.emailEditText.text.toString()
+    val phone = binding.phoneEditText.text.toString()
+    val username = binding.usernameEditText.text.toString()
+    val passwordValue = binding.passwordEditText.text.toString()
 
     return if (passwordId == null) {
       !(title.isEmpty() && url.isEmpty() && email.isEmpty() && phone.isEmpty() && username.isEmpty() && passwordValue.isEmpty())
@@ -177,38 +177,38 @@ class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listene
   }
 
   private fun updateUiState() {
-    binding.etTitleEditText.isEnabled = true
-    binding.etURLEditText.isEnabled = true
-    binding.etEmailIdEditText.isEnabled = true
-    binding.etPhoneEditText.isEnabled = true
-    binding.etUsernameEditText.isEnabled = true
-    binding.etPasswordEditText.isEnabled = true
+    binding.titleEditText.isEnabled = true
+    binding.urlEditText.isEnabled = true
+    binding.emailEditText.isEnabled = true
+    binding.phoneEditText.isEnabled = true
+    binding.usernameEditText.isEnabled = true
+    binding.passwordEditText.isEnabled = true
 
   }
 
   private fun reloadData() {
     val password = manager.password
 
-    binding.etTitleEditText.setText(password?.title, TextView.BufferType.EDITABLE)
-    binding.etURLEditText.setText(password?.url, TextView.BufferType.EDITABLE)
-    binding.etEmailIdEditText.setText(password?.email, TextView.BufferType.EDITABLE)
-    binding.etPhoneEditText.setText(password?.phone, TextView.BufferType.EDITABLE)
-    binding.etUsernameEditText.setText(password?.username, TextView.BufferType.EDITABLE)
-    binding.etPasswordEditText.setText(password?.password, TextView.BufferType.EDITABLE)
+    binding.titleEditText.setText(password?.title, TextView.BufferType.EDITABLE)
+    binding.urlEditText.setText(password?.url, TextView.BufferType.EDITABLE)
+    binding.emailEditText.setText(password?.email, TextView.BufferType.EDITABLE)
+    binding.phoneEditText.setText(password?.phone, TextView.BufferType.EDITABLE)
+    binding.usernameEditText.setText(password?.username, TextView.BufferType.EDITABLE)
+    binding.passwordEditText.setText(password?.password, TextView.BufferType.EDITABLE)
   }
 
   override fun onClick(view: View?) {
     when (view) {
-      binding.bCopyButton -> { // Todo: Add copy functionality
+      binding.copyButton -> { // Todo: Add copy functionality
       }
-      binding.bRevealButton -> {
+      binding.revealPasswordButton -> {
         if (revealPassword) {
-          binding.etPasswordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
-          binding.bRevealButton.text = getString(R.string.password_editor_button_title_reveal_password)
+          binding.passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+          binding.revealPasswordButton.text = getString(R.string.password_editor_button_title_reveal_password)
           revealPassword = false
         } else {
-          binding.etPasswordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
-          binding.bRevealButton.text = getString(R.string.password_editor_button_title_hide_password)
+          binding.passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+          binding.revealPasswordButton.text = getString(R.string.password_editor_button_title_hide_password)
           revealPassword = true
         }
       }

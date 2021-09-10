@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.TextView
 import com.ankur.securenotes.R
 
-open class ListViewableTitleItemViewHolder(itemView: View) : ListViewableItemViewHolder(itemView), View.OnClickListener {
+open class TitleListItemViewHolder(itemView: View) : ListViewableItemViewHolder(itemView), View.OnClickListener {
 
-  private var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
+  var titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
 
   init {
     itemView.setOnClickListener(this)

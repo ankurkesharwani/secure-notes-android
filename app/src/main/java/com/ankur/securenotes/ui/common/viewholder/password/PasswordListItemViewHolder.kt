@@ -13,8 +13,8 @@ abstract class PasswordListItemViewHolder(itemView: View) : RecyclerView.ViewHol
     fun onPasswordItemClicked(password: PasswordEntity, viewHolder: RecyclerView.ViewHolder)
   }
 
-  open var titleTextView: TextView = itemView.findViewById(R.id.tvTitleTextView)
-  open var dateTextView: TextView = itemView.findViewById(R.id.tvDateTextView)
+  open var titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
+  open var dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
 
   open var listener: WeakReference<Listener>? = null
   var password: PasswordEntity? = null

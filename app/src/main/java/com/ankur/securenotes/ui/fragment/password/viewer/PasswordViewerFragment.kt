@@ -17,6 +17,8 @@ import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.ui.common.adapter.ListViewableRecyclerViewAdapter
 import com.ankur.securenotes.ui.common.adapter.PasswordListRecycleViewAdapter
+import com.ankur.securenotes.ui.common.adapter.PasswordViewerRecyclerViewAdapter
+import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewable
 import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragment
 import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragmentManager
 import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragmentManagerBuilder
@@ -81,7 +83,7 @@ class PasswordViewerFragment : Fragment(), SerialTaskExecutor.Listener {
   private fun setupRecyclerView() {
     val linearLayoutManager = LinearLayoutManager(activity)
     binding.recyclerView.layoutManager = linearLayoutManager
-    adapter = ListViewableRecyclerViewAdapter(null)
+    adapter = PasswordViewerRecyclerViewAdapter(null)
     binding.recyclerView.adapter = adapter
   }
 
@@ -108,8 +110,32 @@ class PasswordViewerFragment : Fragment(), SerialTaskExecutor.Listener {
 
   @SuppressLint("NotifyDataSetChanged")
   private fun reloadData() {
-    //adapter.updatePasswords(manager.passwords)
-    //adapter.notifyDataSetChanged()
+    binding.titleTextView.text = manager.password?.title
+
+    val listOfListViewable = mutableListOf<ListViewable>()
+
+    if (!manager.password?.url.isNullOrEmpty()) {
+      listOfListViewable.add(ListViewable("Url", manager.password?.url))
+    }
+
+    if (!manager.password?.username.isNullOrEmpty()) {
+      listOfListViewable.add(ListViewable("Username", manager.password?.username))
+    }
+
+    if (!manager.password?.email.isNullOrEmpty()) {
+      listOfListViewable.add(ListViewable("Email", manager.password?.email))
+    }
+
+    if (!manager.password?.phone.isNullOrEmpty()) {
+      listOfListViewable.add(ListViewable("Phone", manager.password?.phone))
+    }
+
+    if (!manager.password?.password.isNullOrEmpty()) {
+      listOfListViewable.add(ListViewable("Password", manager.password?.password))
+    }
+
+    adapter.updateItems(listOfListViewable)
+    adapter.notifyDataSetChanged()
   }
 
   override fun onTaskStarted(task: Task) {

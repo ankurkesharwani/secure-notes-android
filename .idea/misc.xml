@@ -14,15 +14,18 @@
         <entry key="app/src/main/res/layout/fragment_note_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_note_viewer.xml" value="0.1897644927536232" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1897644927536232" />
-        <entry key="app/src/main/res/layout/fragment_password_editor.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_password_list.xml" value="0.2708333333333333" />
-        <entry key="app/src/main/res/layout/fragment_password_viewer.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/layout/fragment_password_editor.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_password_list.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_password_viewer.xml" value="0.18" />
         <entry key="app/src/main/res/layout/list_item_key_value.xml" value="0.30364583333333334" />
         <entry key="app/src/main/res/layout/list_item_no_content.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/layout/list_item_note_no_body.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/layout/list_item_note_with_body.xml" value="0.2708333333333333" />
-        <entry key="app/src/main/res/layout/list_item_password_default.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_password_default.xml" value="0.15985130111524162" />
         <entry key="app/src/main/res/layout/list_item_password_info_default.xml" value="0.14907407407407408" />
+        <entry key="app/src/main/res/layout/list_item_password_section.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/list_item_password_secure_section.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/list_item_password_value_section.xml" value="0.4707646176911544" />
         <entry key="app/src/main/res/layout/list_item_title.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_item_title_with_body.xml" value="0.1519434628975265" />
         <entry key="app/src/main/res/layout/list_item_title_with_value.xml" value="0.13304721030042918" />
@@ -37,5 +40,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.18" />
+      </ProjectState>
+    </option>
   </component>
 </project>

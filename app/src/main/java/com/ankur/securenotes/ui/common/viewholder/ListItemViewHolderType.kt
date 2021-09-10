@@ -13,6 +13,10 @@ enum class ListItemViewHolderType {
   LIST_VIEWABLE_WITH_TITLE_WITH_BODY,
   LIST_VIEWABLE_WITH_TITLE_WITH_VALUE,
 
+  // Password section
+  PASSWORD_SECTION,
+  PASSWORD_SECURE_SECTION,
+
   // No content list item types
   DEFAULT_NO_CONTENT_LIST_ITEM
 }

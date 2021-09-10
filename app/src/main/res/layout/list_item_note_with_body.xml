@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tvTitleTextView"
+        android:id="@+id/titleTextView"
         style="@style/AppTheme.TextAppearance.Headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -14,12 +14,12 @@
         android:layout_marginEnd="8dp"
         android:text="Sample Note Title For Long Text"
         android:textColor="@color/primaryText"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/rightImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
     <TextView
-        android:id="@+id/tvDateTextView"
+        android:id="@+id/dateTextView"
         style="@style/AppTheme.TextAppearance.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,17 +32,17 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBodyTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyTextView" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/rightImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -52,7 +52,7 @@
         app:srcCompat="@drawable/ic_chevron_right_primary_text_24dp" />
 
     <TextView
-        android:id="@+id/tvBodyTextView"
+        android:id="@+id/bodyTextView"
         style="@style/AppTheme.TextAppearance.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,9 +61,9 @@
         android:layout_marginEnd="8dp"
         android:text="Simple note description for long text."
         android:textColor="@color/secondaryText"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/rightImageView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
