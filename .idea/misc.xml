@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_note_viewer.xml" value="0.1897644927536232" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1897644927536232" />
         <entry key="app/src/main/res/layout/fragment_password_editor.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_password_editor_alternate.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_password_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_password_viewer.xml" value="0.18" />
         <entry key="app/src/main/res/layout/list_item_key_value.xml" value="0.30364583333333334" />
