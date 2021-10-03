@@ -9,7 +9,7 @@ object DbConfig {
   const val DATABASE_NAME = "securenotes_db"
 
   const val MIGRATION_PREFIX = "V"
-  const val MIGRATION_PACKAGE = "com.ankur.securenotes.db.migrations"
+  const val MIGRATION_PACKAGE = "com.ankur.securenotes.db.migration"
 
   val migrations = arrayOf("V1_CreateTableNote", "V2_CreateTablePassword", "V3_CreateTableLabel")
 }
