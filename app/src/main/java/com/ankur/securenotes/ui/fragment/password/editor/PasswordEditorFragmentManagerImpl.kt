@@ -3,11 +3,11 @@ package com.ankur.securenotes.ui.fragment.password.editor
 import android.content.Context
 import com.ankur.securenotes.entity.PasswordEntity
 import com.ankur.securenotes.shared.Shared
-import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
-import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.task.CreatePasswordTask
 import com.ankur.securenotes.task.DeletePasswordTask
 import com.ankur.securenotes.task.UpdatePasswordTask
+import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
+import com.ankur.securenotes.taskexecuter.Task
 import java.lang.ref.WeakReference
 
 class PasswordEditorFragmentManagerImpl : PasswordEditorFragmentManager, SerialTaskExecutor.Listener {

@@ -1,12 +1,10 @@
 package com.ankur.securenotes.ui.common.viewholder.listviewable
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ankur.securenotes.R
 import java.lang.ref.WeakReference
 
-abstract class ListViewableItemViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+abstract class ListViewableItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
   interface Listener {
     fun onListViewableItemClicked(item: ListViewable, viewHolder: RecyclerView.ViewHolder)

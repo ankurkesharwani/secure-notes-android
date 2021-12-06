@@ -9,22 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ankur.securenotes.databinding.FragmentPasswordListBinding
 import com.ankur.securenotes.databinding.FragmentPasswordViewerBinding
 import com.ankur.securenotes.shared.Shared
 import com.ankur.securenotes.task.GetPasswordByIdTask
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.ui.common.adapter.ListViewableRecyclerViewAdapter
-import com.ankur.securenotes.ui.common.adapter.PasswordListRecycleViewAdapter
 import com.ankur.securenotes.ui.common.adapter.PasswordViewerRecyclerViewAdapter
 import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewable
 import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragment
-import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragmentManager
-import com.ankur.securenotes.ui.fragment.password.editor.PasswordEditorFragmentManagerBuilder
-import com.ankur.securenotes.ui.fragment.password.list.PasswordListFragment
-import com.ankur.securenotes.ui.fragment.password.list.PasswordListFragmentManager
-import com.ankur.securenotes.ui.fragment.password.list.PasswordListFragmentManagerBuilder
 
 class PasswordViewerFragment : Fragment(), SerialTaskExecutor.Listener {
 

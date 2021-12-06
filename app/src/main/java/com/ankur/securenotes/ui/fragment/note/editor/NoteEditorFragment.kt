@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import com.ankur.securenotes.databinding.FragmentNoteEditorBinding
 import com.ankur.securenotes.entity.NoteEntity
 import com.ankur.securenotes.shared.Shared
+import com.ankur.securenotes.task.GetNoteByIdTask
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
-import com.ankur.securenotes.task.GetNoteByIdTask
 import java.lang.ref.WeakReference
 
 class NoteEditorFragment : Fragment(), NoteEditorFragmentManager.Listener, SerialTaskExecutor.Listener {

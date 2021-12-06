@@ -3,11 +3,11 @@ package com.ankur.securenotes.ui.fragment.note.editor
 import android.content.Context
 import com.ankur.securenotes.entity.NoteEntity
 import com.ankur.securenotes.shared.Shared
-import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
-import com.ankur.securenotes.taskexecuter.Task
 import com.ankur.securenotes.task.CreateNoteTask
 import com.ankur.securenotes.task.DeleteNoteTask
 import com.ankur.securenotes.task.UpdateNoteTask
+import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
+import com.ankur.securenotes.taskexecuter.Task
 import java.lang.ref.WeakReference
 
 class NoteEditorFragmentManagerImpl : NoteEditorFragmentManager, SerialTaskExecutor.Listener {

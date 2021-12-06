@@ -3,9 +3,9 @@ package com.ankur.securenotes.ui.fragment.note.list
 import android.content.Context
 import com.ankur.securenotes.entity.NoteEntity
 import com.ankur.securenotes.shared.Shared
+import com.ankur.securenotes.task.GetAllNotesTask
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
-import com.ankur.securenotes.task.GetAllNotesTask
 import java.lang.ref.WeakReference
 
 class NoteListFragmentManagerImpl : NoteListFragmentManager, SerialTaskExecutor.Listener {

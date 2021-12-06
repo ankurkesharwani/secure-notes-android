@@ -14,9 +14,9 @@ import com.ankur.securenotes.R
 import com.ankur.securenotes.databinding.FragmentPasswordEditorBinding
 import com.ankur.securenotes.entity.PasswordEntity
 import com.ankur.securenotes.shared.Shared
+import com.ankur.securenotes.task.GetPasswordByIdTask
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
-import com.ankur.securenotes.task.GetPasswordByIdTask
 import java.lang.ref.WeakReference
 
 class PasswordEditorFragment : Fragment(), PasswordEditorFragmentManager.Listener, SerialTaskExecutor.Listener,

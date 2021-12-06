@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ankur.securenotes.entity.NoteEntity
 import com.ankur.securenotes.ui.common.viewholder.ListItemViewHolderType
 import com.ankur.securenotes.ui.common.viewholder.factory.NoContentListItemViewHolderFactory
-import com.ankur.securenotes.ui.common.viewholder.note.NoteListItemViewHolder
 import com.ankur.securenotes.ui.common.viewholder.factory.NoteListItemViewHolderFactory
+import com.ankur.securenotes.ui.common.viewholder.note.NoteListItemViewHolder
 
 class NoteListRecycleViewAdapter(var listener: NoteListItemViewHolder.Listener?) :
   RecyclerView.Adapter<RecyclerView.ViewHolder>() {

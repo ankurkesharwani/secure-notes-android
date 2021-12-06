@@ -7,9 +7,10 @@ import com.ankur.securenotes.ui.common.viewholder.factory.NoContentListItemViewH
 import com.ankur.securenotes.ui.common.viewholder.factory.PasswordSectionListItemViewHolderFactory
 import com.ankur.securenotes.ui.common.viewholder.listviewable.ListViewableItemViewHolder
 
-class PasswordViewerRecyclerViewAdapter(listener: ListViewableItemViewHolder.Listener?) : ListViewableRecyclerViewAdapter(
-  listener
-) {
+class PasswordViewerRecyclerViewAdapter(listener: ListViewableItemViewHolder.Listener?) :
+  ListViewableRecyclerViewAdapter(
+    listener
+  ) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     return if (hasItemsToShow) {
@@ -27,7 +28,8 @@ class PasswordViewerRecyclerViewAdapter(listener: ListViewableItemViewHolder.Lis
       if (position == itemCount - 1) {
         ListItemViewHolderType.PASSWORD_SECURE_SECTION.ordinal
       } else {
-        ListItemViewHolderType.PASSWORD_SECTION.ordinal }
+        ListItemViewHolderType.PASSWORD_SECTION.ordinal
+      }
     } else {
       ListItemViewHolderType.DEFAULT_NO_CONTENT_LIST_ITEM.ordinal
     }

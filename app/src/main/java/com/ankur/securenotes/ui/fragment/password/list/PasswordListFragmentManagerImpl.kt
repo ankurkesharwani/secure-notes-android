@@ -3,9 +3,9 @@ package com.ankur.securenotes.ui.fragment.password.list
 import android.content.Context
 import com.ankur.securenotes.entity.PasswordEntity
 import com.ankur.securenotes.shared.Shared
+import com.ankur.securenotes.task.GetAllPasswordsTask
 import com.ankur.securenotes.taskexecuter.SerialTaskExecutor
 import com.ankur.securenotes.taskexecuter.Task
-import com.ankur.securenotes.task.GetAllPasswordsTask
 import java.lang.ref.WeakReference
 
 class PasswordListFragmentManagerImpl : PasswordListFragmentManager, SerialTaskExecutor.Listener {

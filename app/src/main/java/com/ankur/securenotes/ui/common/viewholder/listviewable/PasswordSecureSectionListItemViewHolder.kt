@@ -19,18 +19,17 @@ class PasswordSecureSectionListItemViewHolder(itemView: View) : TitleWithValueLi
     bRevealPasswordButton.setOnClickListener(this)
   }
 
-  private fun copyPassword() {
-    // Todo: Add copy functionality
+  private fun copyPassword() { // Todo: Add copy functionality
   }
 
   private fun revealPassword() {
     if (revealPassword) {
       valueTextView.transformationMethod = PasswordTransformationMethod.getInstance()
-      bRevealPasswordButton.text = itemView.context.getString(R.string.password_editor_button_title_reveal_password);
+      bRevealPasswordButton.text = itemView.context.getString(R.string.password_editor_button_title_reveal_password)
       revealPassword = false
     } else {
       valueTextView.transformationMethod = HideReturnsTransformationMethod.getInstance()
-      bRevealPasswordButton.text = itemView.context.getString(R.string.password_editor_button_title_hide_password);
+      bRevealPasswordButton.text = itemView.context.getString(R.string.password_editor_button_title_hide_password)
       revealPassword = true
     }
   }

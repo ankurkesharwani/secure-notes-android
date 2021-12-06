@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ankur.securenotes.entity.PasswordEntity
 import com.ankur.securenotes.ui.common.viewholder.ListItemViewHolderType
 import com.ankur.securenotes.ui.common.viewholder.factory.NoContentListItemViewHolderFactory
-import com.ankur.securenotes.ui.common.viewholder.password.PasswordListItemViewHolder
 import com.ankur.securenotes.ui.common.viewholder.factory.PasswordListItemViewHolderFactory
+import com.ankur.securenotes.ui.common.viewholder.password.PasswordListItemViewHolder
 
 class PasswordListRecycleViewAdapter(var listener: PasswordListItemViewHolder.Listener?) :
   RecyclerView.Adapter<RecyclerView.ViewHolder>() {
