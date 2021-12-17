@@ -7,8 +7,8 @@ import java.util.*
 object PasswordDao {
   fun findOneById(id: String, db: SQLiteDatabase): PasswordEntity? {
     val query = """
-            SELECT * FROM "${PasswordEntity.TABLE_NAME}"
-            WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
+          SELECT * FROM "${PasswordEntity.TABLE_NAME}"
+          WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     val cursor = db.rawQuery(query, null)
@@ -24,7 +24,7 @@ object PasswordDao {
 
   fun findAll(db: SQLiteDatabase): List<PasswordEntity> {
     val query = """
-            SELECT * FROM "${PasswordEntity.TABLE_NAME}"
+          SELECT * FROM "${PasswordEntity.TABLE_NAME}"
         """.trimIndent()
 
     val passwords = arrayListOf<PasswordEntity>()
@@ -42,32 +42,32 @@ object PasswordDao {
     val id = UUID.randomUUID().toString()
     val current = Date()
     val query = """
-            INSERT INTO "${PasswordEntity.TABLE_NAME}"
-            (
-                "${PasswordEntity.COLUMN_ID}",
-                "${PasswordEntity.COLUMN_TITLE}",
-                "${PasswordEntity.COLUMN_URL}",
-                "${PasswordEntity.COLUMN_EMAIL_ID}",
-                "${PasswordEntity.COLUMN_PHONE_NO}",
-                "${PasswordEntity.COLUMN_USERNAME}",                
-                "${PasswordEntity.COLUMN_PASSWORD}",
-                "${PasswordEntity.COLUMN_ARCHIVED}",
-                "${PasswordEntity.COLUMN_DATE_CREATED}",
-                "${PasswordEntity.COLUMN_DATE_UPDATED}"
-            ) 
-            VALUES 
-            (
-                "$id",
-                "${password.title}",
-                "${password.url}",
-                "${password.email}",
-                "${password.phone}",
-                "${password.username}",
-                "${password.password}",
-                "${password.archived}",
-                "${current.time}",
-                "${current.time}"
-            )
+          INSERT INTO "${PasswordEntity.TABLE_NAME}"
+          (
+            "${PasswordEntity.COLUMN_ID}",
+            "${PasswordEntity.COLUMN_TITLE}",
+            "${PasswordEntity.COLUMN_URL}",
+            "${PasswordEntity.COLUMN_EMAIL_ID}",
+            "${PasswordEntity.COLUMN_PHONE_NO}",
+            "${PasswordEntity.COLUMN_USERNAME}",                
+            "${PasswordEntity.COLUMN_PASSWORD}",
+            "${PasswordEntity.COLUMN_ARCHIVED}",
+            "${PasswordEntity.COLUMN_DATE_CREATED}",
+            "${PasswordEntity.COLUMN_DATE_UPDATED}"
+          ) 
+          VALUES 
+          (
+            "$id",
+            "${password.title}",
+            "${password.url}",
+            "${password.email}",
+            "${password.phone}",
+            "${password.username}",
+            "${password.password}",
+            "${password.archived}",
+            "${current.time}",
+            "${current.time}"
+          )
         """.trimIndent()
 
     db.execSQL(query)
@@ -82,18 +82,18 @@ object PasswordDao {
 
     val current = Date()
     val query = """
-            UPDATE "${PasswordEntity.TABLE_NAME}" 
-            SET
-                "${PasswordEntity.COLUMN_TITLE}" = "${password.title}",
-                "${PasswordEntity.COLUMN_URL}" = "${password.url}",
-                "${PasswordEntity.COLUMN_EMAIL_ID}" = "${password.email}",
-                "${PasswordEntity.COLUMN_PHONE_NO}" = "${password.phone}",
-                "${PasswordEntity.COLUMN_USERNAME}" = "${password.username}",
-                "${PasswordEntity.COLUMN_PASSWORD}" = "${password.password}",
-                "${PasswordEntity.COLUMN_ARCHIVED}" = "${password.archived}",
-                "${PasswordEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
-            WHERE
-                "${PasswordEntity.COLUMN_ID}" = "${password.id}"
+          UPDATE "${PasswordEntity.TABLE_NAME}" 
+          SET
+            "${PasswordEntity.COLUMN_TITLE}" = "${password.title}",
+            "${PasswordEntity.COLUMN_URL}" = "${password.url}",
+            "${PasswordEntity.COLUMN_EMAIL_ID}" = "${password.email}",
+            "${PasswordEntity.COLUMN_PHONE_NO}" = "${password.phone}",
+            "${PasswordEntity.COLUMN_USERNAME}" = "${password.username}",
+            "${PasswordEntity.COLUMN_PASSWORD}" = "${password.password}",
+            "${PasswordEntity.COLUMN_ARCHIVED}" = "${password.archived}",
+            "${PasswordEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
+          WHERE
+            "${PasswordEntity.COLUMN_ID}" = "${password.id}"
         """.trimIndent()
 
     db.execSQL(query)
@@ -103,8 +103,8 @@ object PasswordDao {
 
   fun deleteById(id: String, db: SQLiteDatabase) {
     val query = """
-            DELETE FROM "${PasswordEntity.TABLE_NAME}"
-            WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
+          DELETE FROM "${PasswordEntity.TABLE_NAME}"
+          WHERE "${PasswordEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     db.execSQL(query)

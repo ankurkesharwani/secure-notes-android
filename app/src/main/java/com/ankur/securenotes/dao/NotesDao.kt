@@ -7,8 +7,8 @@ import java.util.*
 object NotesDao {
   fun findOneById(id: String, db: SQLiteDatabase): NoteEntity? {
     val query = """
-            SELECT * FROM "${NoteEntity.TABLE_NAME}"
-            WHERE "${NoteEntity.COLUMN_ID}" = "$id"
+          SELECT * FROM "${NoteEntity.TABLE_NAME}"
+          WHERE "${NoteEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     val cursor = db.rawQuery(query, null)
@@ -24,7 +24,7 @@ object NotesDao {
 
   fun findAll(db: SQLiteDatabase): List<NoteEntity> {
     val query = """
-            SELECT * FROM "${NoteEntity.TABLE_NAME}"
+        SELECT * FROM "${NoteEntity.TABLE_NAME}"
         """.trimIndent()
 
     val notes = arrayListOf<NoteEntity>()
@@ -42,24 +42,24 @@ object NotesDao {
     val id = UUID.randomUUID().toString()
     val current = Date()
     val query = """
-            INSERT INTO "${NoteEntity.TABLE_NAME}"
-            (
-                "${NoteEntity.COLUMN_ID}",
-                "${NoteEntity.COLUMN_TITLE}",
-                "${NoteEntity.COLUMN_BODY}",
-                "${NoteEntity.COLUMN_ARCHIVED}",
-                "${NoteEntity.COLUMN_DATE_CREATED}",
-                "${NoteEntity.COLUMN_DATE_UPDATED}"
-            ) 
-            VALUES 
-            (
-                "$id",
-                "${note.title}",
-                "${note.body}",
-                "${note.archived}",
-                "${current.time}",
-                "${current.time}"
-            )
+          INSERT INTO "${NoteEntity.TABLE_NAME}"
+          (
+            "${NoteEntity.COLUMN_ID}",
+            "${NoteEntity.COLUMN_TITLE}",
+            "${NoteEntity.COLUMN_BODY}",
+            "${NoteEntity.COLUMN_ARCHIVED}",
+            "${NoteEntity.COLUMN_DATE_CREATED}",
+            "${NoteEntity.COLUMN_DATE_UPDATED}"
+          ) 
+          VALUES 
+          (
+            "$id",
+            "${note.title}",
+            "${note.body}",
+            "${note.archived}",
+            "${current.time}",
+            "${current.time}"
+          )
         """.trimIndent()
 
     db.execSQL(query)
@@ -74,14 +74,14 @@ object NotesDao {
 
     val current = Date()
     val query = """
-            UPDATE "${NoteEntity.TABLE_NAME}" 
-            SET
-                "${NoteEntity.COLUMN_TITLE}" = "${note.title}",
-                "${NoteEntity.COLUMN_BODY}" = "${note.body}",
-                "${NoteEntity.COLUMN_ARCHIVED}" = "${note.archived}",
-                "${NoteEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
-            WHERE
-                "${NoteEntity.COLUMN_ID}" = "${note.id}"
+          UPDATE "${NoteEntity.TABLE_NAME}" 
+          SET
+            "${NoteEntity.COLUMN_TITLE}" = "${note.title}",
+            "${NoteEntity.COLUMN_BODY}" = "${note.body}",
+            "${NoteEntity.COLUMN_ARCHIVED}" = "${note.archived}",
+            "${NoteEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
+          WHERE
+            "${NoteEntity.COLUMN_ID}" = "${note.id}"
         """.trimIndent()
 
     db.execSQL(query)
@@ -91,8 +91,8 @@ object NotesDao {
 
   fun deleteById(id: String, db: SQLiteDatabase) {
     val query = """
-            DELETE FROM "${NoteEntity.TABLE_NAME}"
-            WHERE "${NoteEntity.COLUMN_ID}" = "$id"
+          DELETE FROM "${NoteEntity.TABLE_NAME}"
+          WHERE "${NoteEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     db.execSQL(query)

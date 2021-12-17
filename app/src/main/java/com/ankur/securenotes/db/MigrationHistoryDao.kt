@@ -6,8 +6,8 @@ import java.util.*
 class MigrationHistoryDao {
   fun findOneById(id: Int, db: SQLiteDatabase): MigrationHistoryEntity? {
     val query = """
-            SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
-            WHERE "${MigrationHistoryEntity.COLUMN_ID}" = "$id"
+          SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          WHERE "${MigrationHistoryEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     val cursor = db.rawQuery(query, null)
@@ -23,8 +23,8 @@ class MigrationHistoryDao {
 
   fun findOneByUUID(uuid: String, db: SQLiteDatabase): MigrationHistoryEntity? {
     val query = """
-            SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
-            WHERE "${MigrationHistoryEntity.COLUMN_UUID}" = "$uuid"
+          SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          WHERE "${MigrationHistoryEntity.COLUMN_UUID}" = "$uuid"
         """.trimIndent()
 
     val cursor = db.rawQuery(query, null)
@@ -40,7 +40,7 @@ class MigrationHistoryDao {
 
   fun findAll(db: SQLiteDatabase): List<MigrationHistoryEntity> {
     val query = """
-            SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          SELECT * FROM "${MigrationHistoryEntity.TABLE_NAME}"
         """.trimIndent()
 
     val notes = arrayListOf<MigrationHistoryEntity>()
@@ -58,20 +58,20 @@ class MigrationHistoryDao {
     val current = Date()
     val uuid = UUID.randomUUID().toString()
     val query = """
-            INSERT INTO "${MigrationHistoryEntity.TABLE_NAME}"
-            (
-                "${MigrationHistoryEntity.COLUMN_UUID}",
-                "${MigrationHistoryEntity.COLUMN_VERSION}",
-                "${MigrationHistoryEntity.COLUMN_DATE_CREATED}",
-                "${MigrationHistoryEntity.COLUMN_DATE_UPDATED}"
-            ) 
-            VALUES 
-            (
-                "$uuid",
-                "${history.version}",
-                "${current.time}",
-                "${current.time}"
-            )
+          INSERT INTO "${MigrationHistoryEntity.TABLE_NAME}"
+          (
+            "${MigrationHistoryEntity.COLUMN_UUID}",
+            "${MigrationHistoryEntity.COLUMN_VERSION}",
+            "${MigrationHistoryEntity.COLUMN_DATE_CREATED}",
+            "${MigrationHistoryEntity.COLUMN_DATE_UPDATED}"
+          ) 
+          VALUES 
+          (
+            "$uuid",
+            "${history.version}",
+            "${current.time}",
+            "${current.time}"
+          )
         """.trimIndent()
 
     db.execSQL(query)
@@ -86,12 +86,12 @@ class MigrationHistoryDao {
 
     val current = Date()
     val query = """
-            UPDATE "${MigrationHistoryEntity.TABLE_NAME}" 
-            SET
-                "${MigrationHistoryEntity.COLUMN_VERSION}" = "${history.version}",
-                "${MigrationHistoryEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
-            WHERE
-                "${MigrationHistoryEntity.COLUMN_ID}" = "${history.id}"
+          UPDATE "${MigrationHistoryEntity.TABLE_NAME}" 
+          SET
+            "${MigrationHistoryEntity.COLUMN_VERSION}" = "${history.version}",
+            "${MigrationHistoryEntity.COLUMN_DATE_UPDATED}" = "${current.time}"
+          WHERE
+            "${MigrationHistoryEntity.COLUMN_ID}" = "${history.id}"
         """.trimIndent()
 
     db.execSQL(query)
@@ -101,8 +101,8 @@ class MigrationHistoryDao {
 
   fun deleteById(id: Int, db: SQLiteDatabase) {
     val query = """
-            DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
-            WHERE "${MigrationHistoryEntity.COLUMN_ID}" = "$id"
+          DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          WHERE "${MigrationHistoryEntity.COLUMN_ID}" = "$id"
         """.trimIndent()
 
     db.execSQL(query)
@@ -110,8 +110,8 @@ class MigrationHistoryDao {
 
   fun deleteByUUID(uuid: String, db: SQLiteDatabase) {
     val query = """
-            DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
-            WHERE "${MigrationHistoryEntity.COLUMN_UUID}" = "$uuid"
+          DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          WHERE "${MigrationHistoryEntity.COLUMN_UUID}" = "$uuid"
         """.trimIndent()
 
     db.execSQL(query)
@@ -119,8 +119,8 @@ class MigrationHistoryDao {
 
   fun deleteWhereVersionIs(version: Int, db: SQLiteDatabase) {
     val query = """
-            DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
-            WHERE "${MigrationHistoryEntity.COLUMN_VERSION}" = "$version"
+          DELETE FROM "${MigrationHistoryEntity.TABLE_NAME}"
+          WHERE "${MigrationHistoryEntity.COLUMN_VERSION}" = "$version"
         """.trimIndent()
 
     db.execSQL(query)

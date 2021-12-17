@@ -28,17 +28,17 @@ class MigrationHistoryEntity(
     const val COLUMN_DATE_UPDATED = "updated_at"
 
     const val CREATE = """
-            CREATE TABLE $TABLE_NAME (
-                "$COLUMN_ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-                "$COLUMN_UUID" TEXT NOT NULL UNIQUE,
-	            "$COLUMN_VERSION" INTEGER NOT NULL UNIQUE,
-                "$COLUMN_DATE_CREATED" NUMERIC NOT NULL,
-                "$COLUMN_DATE_UPDATED" NUMERIC NOT NULL
-            );
+          CREATE TABLE $TABLE_NAME (
+            "$COLUMN_ID" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "$COLUMN_UUID" TEXT NOT NULL UNIQUE,
+	          "$COLUMN_VERSION" INTEGER NOT NULL UNIQUE,
+            "$COLUMN_DATE_CREATED" NUMERIC NOT NULL,
+            "$COLUMN_DATE_UPDATED" NUMERIC NOT NULL
+          );
         """
 
     const val DROP = """
-            DROP TABLE IF EXISTS $TABLE_NAME
+          DROP TABLE IF EXISTS $TABLE_NAME
         """
   }
 }
